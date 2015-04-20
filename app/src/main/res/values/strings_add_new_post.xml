@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="submit_post_button_text">SUBMIT POST</string>
+    <string name="action_submit_post_short">Submit</string>
+    <string name="hint_title_editText">Title</string>
+    <string name="hint_post_content_editText">Message</string>
+    <string name="hint_post_tags_editText">Tags (use “,” to separate)</string>
+    <string name="error_posting_data">There was an error in posting some data</string>
+    <string name="error_post_tag_required">Minimum one tag is required</string>
+
+</resources>

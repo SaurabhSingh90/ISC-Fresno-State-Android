@@ -1,0 +1,23 @@
+<resources>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Fresno State Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">SIGN IN</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email_login">Invalid email</string>
+    <string name="error_password_too_short_signIn">Password is too short</string>
+
+    <string name="email_not_verified_title">Email not verified!!!</string>
+    <string name="email_not_verified_message">"Please verify your email first"</string>
+    <string name="invalid_credentials_title">Invalid credentials</string>
+    <string name="invalid_credentials_message">Email/Password combination is not valid</string>
+    <string name="password_reset_link_sent">Password reset link sent to your email</string>
+    <string name="error_email_does_not_exist">Account does not exist</string>
+    <string name="send_verification_link">Send Verification Link</string>
+    <string name="ISC_heading">INDIAN STUDENT CLUB</string>
+    <string name="forgot_password_textView">Forgot Password</string>
+    <string name="signUp_textView">Sign Up</string>
+
+</resources>
