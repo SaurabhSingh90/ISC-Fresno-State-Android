@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="custom_button_red">#e3960606</color>
-    <color name="custom_text_orange">@android:color/holo_orange_dark</color>
     <color name="custom_navigation_drawer_red">#ff4b0404</color>
+
     <color name="custom_flag_saffron">#ffff8407</color>
     <color name="custom_flag_green">#ff3bc301</color>
+
+    <color name="custom_text_orange">@android:color/holo_orange_dark</color>
     <color name="custom_title_blue_color">#FF100D54</color>
     <color name="custom_author_name_red_color">#e3590303</color>
+
+    // SwipeRefresh colors
+    // SwipeRefresh colors
+    <color name="swipe_color_1">#ffffa7a5</color>
+    <color name="swipe_color_2">#ffff8b86</color>
+    <color name="swipe_color_3">#ffff4d48</color>
+    <color name="swipe_color_4">#ffff0703</color>
+
 </resources>

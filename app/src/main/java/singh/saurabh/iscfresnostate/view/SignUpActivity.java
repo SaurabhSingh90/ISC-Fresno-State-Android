@@ -8,7 +8,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -30,7 +29,6 @@ import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
 public class SignUpActivity extends Activity {
 
     private Context mContext = this;
-    public ContextThemeWrapper mContextThemeWrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
 
     @InjectView(R.id.firstName_editText)
     EditText mFirstName;
@@ -44,7 +42,7 @@ public class SignUpActivity extends Activity {
     EditText mConfirmPassword;
     @InjectView(R.id.sign_up_button)
     Button mSignUpButton;
-    @InjectView(R.id.sign_up_progressBar)
+    @InjectView(R.id.signup_progress)
     View mProgressView;
     @InjectView(R.id.sign_up_form)
     View mSignUpFormView;

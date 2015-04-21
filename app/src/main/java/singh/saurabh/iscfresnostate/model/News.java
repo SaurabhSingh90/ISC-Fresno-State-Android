@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -38,14 +37,12 @@ public class News {
     private static final String NEWS_DATE = "createdAt";
     private static final String NEWS_TAG = "tag";
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-
     // Progress Dialog
     private ProgressDialog ppDialog;
 
     public News(Activity context) {
         this.mContext = context;
-        mSwipeRefreshLayout = new SwipeRefreshLayout(mContext);
+        View view = View.inflate(mContext, R.layout.fragment_2_news, null);
     }
 
     public void startLoadNewsTask() {
@@ -72,19 +69,15 @@ public class News {
 
         String[] keys = {
                 NEWS_TITLE,
-                NEWS_AUTHOR,
-                NEWS_DATE,
-                NEWS_TAG
+                NEWS_DATE
         };
 
         int[] ids = {
-                R.id.title_single_list_item,
-                R.id.author_name_single_list_item,
-                R.id.date_single_list_item,
-                R.id.post_tags_textView_single_list_item
+                R.id.title_single_newslist_item,
+                R.id.date_single_newslist_item
         };
 
-        SimpleAdapter news_adapter = new SimpleAdapter(mContext, mNewsList, R.layout.single_list_item, keys, ids);
+        SimpleAdapter news_adapter = new SimpleAdapter(mContext, mNewsList, R.layout.single_newslist_item, keys, ids);
 
         if (mNewsList != null) {
             ListView newsList = (ListView)mContext.findViewById(R.id.news_listView);

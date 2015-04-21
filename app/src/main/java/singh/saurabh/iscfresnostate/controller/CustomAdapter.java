@@ -22,7 +22,7 @@ public class CustomAdapter extends ArrayAdapter<HashMap<String, String>> {
     private ArrayList<HashMap<String, String>> mList;
 
     public CustomAdapter(Context context, ArrayList<HashMap<String, String>> postList) {
-        super(context, R.layout.single_list_item, postList);
+        super(context, R.layout.single_postlist_item, postList);
         mContext = context;
         mList = postList;
     }
@@ -39,13 +39,13 @@ public class CustomAdapter extends ArrayAdapter<HashMap<String, String>> {
 
         if (convertView == null) {
             // brand new view
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.single_list_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.single_postlist_item, null);
             holder = new ViewHolder();
-            holder.title = (TextView) convertView.findViewById(R.id.title_single_list_item);
-            holder.firstName = (TextView) convertView.findViewById(R.id.author_name_single_list_item);
-            holder.published_date = (TextView) convertView.findViewById(R.id.date_single_list_item);
-            holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox_single_list_item);
-            holder.postTags = (TextView) convertView.findViewById(R.id.post_tags_textView_single_list_item);
+            holder.title = (TextView) convertView.findViewById(R.id.title_single_postlist_item);
+            holder.firstName = (TextView) convertView.findViewById(R.id.author_name_single_postlist_item);
+            holder.published_date = (TextView) convertView.findViewById(R.id.date_single_postlist_item);
+            holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox_single_postlist_item);
+            holder.postTags = (TextView) convertView.findViewById(R.id.post_tags_textView_single_postlist_item);
 
             convertView.setTag(holder);
         } else {

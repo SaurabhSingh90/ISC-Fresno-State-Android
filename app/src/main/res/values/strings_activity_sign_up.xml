@@ -12,7 +12,7 @@
     <string name="error_invalid_email_signUp">Invalid email</string>
     <string name="error_password_too_short_signUp">Password is too short</string>
     <string name="error_password_does_not_match">Password does not match</string>
-
+    <string name="signing_up_text">Signing up…</string>
     <string name="account_activation_link_sent">Account activation link sent to your email</string>
 
 </resources>

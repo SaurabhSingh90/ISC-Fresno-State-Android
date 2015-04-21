@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -37,8 +39,6 @@ public class MenuScreenActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    // Our created menu to use
-    private Menu mMenu;
 
     private static String TAG = MenuScreenActivity.class.getSimpleName();
     private Context mContext = this;
@@ -47,6 +47,7 @@ public class MenuScreenActivity extends ActionBarActivity
 
     private static DiscussionForum mDiscussionForum = null;
     private static News mNews = null;
+    private static SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,52 +138,56 @@ public class MenuScreenActivity extends ActionBarActivity
             // decide what to show in the action bar.
             if (SECTION_NUMBER == 1) {
                 getMenuInflater().inflate(R.menu.menu_discussion_forum, menu);
-
-                MenuItem searchItem = menu.findItem(R.id.action_search_discussion_forum);
-                SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-                searchView.setQueryHint("Name/Title/Tag");
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        // perform query here
-                        mDiscussionForum.searchPostTask(query);
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        if (newText.length() > 4) {
-                            mDiscussionForum.searchPostTask(newText);
-                            return true;
-                        } else {
-                            if (newText.length() == 0) {
-                                mDiscussionForum.startLoadCommentsTask();
-                                return true;
-                            }
-                            return false;
-                        }
-                    }
-                });
-
-                MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        mDiscussionForum.startLoadCommentsTask();
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        return true;
-                    }
-                });
+                searchViewTask(menu);
+            } else if (SECTION_NUMBER == 2) {
+                getMenuInflater().inflate(R.menu.menu_discussion_forum, menu);
             }
 
-            mMenu = menu;
             restoreActionBar();
             return true;
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void searchViewTask(Menu menu) {
+        MenuItem searchItem = menu.findItem(R.id.action_search_discussion_forum);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint("Name/Title/Tag");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+                mDiscussionForum.searchPostTask(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() > 3) {
+                    mDiscussionForum.searchPostTask(newText);
+                    return true;
+                } else {
+                    if (newText.length() == 0) {
+                        mDiscussionForum.startLoadCommentsTask();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        });
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                mDiscussionForum.startLoadCommentsTask();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+        });
     }
 
     @Override
@@ -194,6 +199,11 @@ public class MenuScreenActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_refresh) {
+            mDiscussionForum.startLoadCommentsTask();
             return true;
         }
 
@@ -259,11 +269,37 @@ public class MenuScreenActivity extends ActionBarActivity
                     SECTION_NUMBER = 1;
                     rootView = inflater.inflate(R.layout.fragment_1_discussion_forum, container, false);
                     mDiscussionForum.startLoadCommentsTask();
+
+                    mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.post_list_swipeRefreshLayout);
+                    mSwipeRefreshLayout.setColorScheme(
+                            R.color.swipe_color_1, R.color.swipe_color_2,
+                            R.color.swipe_color_3, R.color.swipe_color_4);
+                    mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            Log.d(TAG, "post refreshing");
+                            mSwipeRefreshLayout.setRefreshing(true);
+                            new RefreshNewsList().execute();
+                        }
+                    });
                     break;
                 case 2:
                     SECTION_NUMBER = 2;
                     rootView = inflater.inflate(R.layout.fragment_2_news, container, false);
                     mNews.startLoadNewsTask();
+
+                    mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.news_list_swipeRefreshLayout);
+                    mSwipeRefreshLayout.setColorScheme(
+                            R.color.swipe_color_1, R.color.swipe_color_2,
+                            R.color.swipe_color_3, R.color.swipe_color_4);
+                    mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            Log.d(TAG, "news refreshing");
+                            mSwipeRefreshLayout.setRefreshing(true);
+                            new RefreshNewsList().execute();
+                        }
+                    });
                     break;
                 case 3:
                     break;
@@ -282,5 +318,33 @@ public class MenuScreenActivity extends ActionBarActivity
     public void addNewPost(View v) {
         Intent i = new Intent(mContext, AddNewPost.class);
         startActivity(i);
+    }
+
+    public static class RefreshNewsList extends AsyncTask<Void, Void, Void> {
+
+        static final int TASK_DURATION = 3 * 1000; // 3 seconds
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Thread.sleep(TASK_DURATION);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (mSwipeRefreshLayout.isRefreshing()) {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+            if (SECTION_NUMBER == 1) {
+                mDiscussionForum.startLoadCommentsTask();
+            } else if (SECTION_NUMBER == 2) {
+                mNews.startLoadNewsTask();
+            }
+        }
     }
 }

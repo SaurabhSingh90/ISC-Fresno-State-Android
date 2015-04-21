@@ -149,7 +149,7 @@ public class LoginActivity extends Activity {
                 final String email = email_for_verification_link.getText().toString().trim();
 
                 final ProgressDialog sending_mail_dialog = new ProgressDialog(mContext);
-                sending_mail_dialog.setMessage("Sending mail...");
+                sending_mail_dialog.setMessage(getString(R.string.sending_mail_text));
                 sending_mail_dialog.setIndeterminate(true);
                 sending_mail_dialog.setCanceledOnTouchOutside(false);
                 sending_mail_dialog.show();
@@ -257,7 +257,7 @@ public class LoginActivity extends Activity {
                         mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.email_not_verified_title), getString(R.string.email_not_verified_message));
                     }
                 } else {
-                    invalidCredentialsErrorDialog();
+                    mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.invalid_credentials_title), getString(R.string.invalid_credentials_message));
                 }
             }
         });
@@ -271,18 +271,6 @@ public class LoginActivity extends Activity {
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
-    }
-
-    private void invalidCredentialsErrorDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContextThemeWrapper);
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(R.string.invalid_credentials_title)
-                .setMessage(R.string.invalid_credentials_message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                }).show();
     }
 
     /**

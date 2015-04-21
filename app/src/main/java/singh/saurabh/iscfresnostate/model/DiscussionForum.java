@@ -163,8 +163,10 @@ public class DiscussionForum {
     }
 
     public void searchPostTask(final String query) {
-        dialog.show();
+//        dialog.show();
         flag = false;
+
+        List<ParseQuery<ParseObject>> queries = new ArrayList<>();
 
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Post");
         query1.whereMatches("postTitle", query, "im");
@@ -172,20 +174,19 @@ public class DiscussionForum {
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Post");
         query2.whereMatches("firstName", query, "im");
 
-//        ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Post");
-//        query3.whereMatches("postTags", query, "im");
+        ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Post");
+        query3.whereEqualTo("postTags", query);
 
-        List<ParseQuery<ParseObject>> queries = new ArrayList<>();
         queries.add(query1);
         queries.add(query2);
-//        queries.add(query3);
+        queries.add(query3);
 
         ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
         mainQuery.orderByAscending("createdAt");
         mainQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                dialog.dismiss();
+//                dialog.dismiss();
                 if (parseObjects.size() > 0) {
                     if (e == null) {
                         fillPostList(parseObjects, flag);

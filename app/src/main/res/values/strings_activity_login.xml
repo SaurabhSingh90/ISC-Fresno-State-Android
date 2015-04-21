@@ -19,5 +19,6 @@
     <string name="ISC_heading">INDIAN STUDENT CLUB</string>
     <string name="forgot_password_textView">Forgot Password</string>
     <string name="signUp_textView">Sign Up</string>
+    <string name="sending_mail_text">Sending mail…</string>
 
 </resources>

@@ -13,14 +13,34 @@
         android:scaleType="fitXY"
         android:adjustViewBounds="true"/>
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/sign_up_progressBar"
-        android:visibility="gone"
+        android:id="@+id/signup_progress"
         android:layout_centerInParent="true"
-        android:layout_gravity="center"/>
+        android:gravity="center"
+        android:background="@drawable/box_gradient"
+        android:visibility="gone">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_up_progressBar"
+            android:layout_centerInParent="true"
+            />
+
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/signing_up_text"
+            android:typeface="serif"
+            android:textColor="@android:color/white"
+            android:id="@+id/textView"
+            android:textStyle="bold"/>
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
