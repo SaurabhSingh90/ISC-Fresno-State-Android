@@ -12,45 +12,75 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import singh.saurabh.iscfresnostate.R;
+import singh.saurabh.iscfresnostate.view.SinglePostDisplay;
 
 /**
  * Created by ${SAURBAH} on ${10/29/14}.
  */
 public class CustomAdapter extends ArrayAdapter<HashMap<String, String>> {
 
-    private Context mContext;
-    private ArrayList<HashMap<String, String>> mList;
+    private static Context mContext;
+    private static ArrayList<HashMap<String, String>> mList;
+    private static Boolean checkBoxVisibilityFlag = false;
+    public static Boolean[] mArrayForCheckMarks;
+    private SinglePostDisplay mSinglePostDisplay = new SinglePostDisplay();
 
-    public CustomAdapter(Context context, ArrayList<HashMap<String, String>> postList) {
+    public CustomAdapter(Context context, ArrayList<HashMap<String, String>> postList, Boolean flag) {
         super(context, R.layout.single_postlist_item, postList);
         mContext = context;
         mList = postList;
+        checkBoxVisibilityFlag = flag;
+        mArrayForCheckMarks = new Boolean[mList.size()];
+        for (int i = 0; i < mArrayForCheckMarks.length; i++)
+            mArrayForCheckMarks[i] = false;
     }
 
 
     private static class ViewHolder {
+        protected View postTagContainer;
         protected TextView firstName, title, published_date, postTags;
         protected CheckBox checkbox;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
 
         if (convertView == null) {
             // brand new view
             convertView = LayoutInflater.from(mContext).inflate(R.layout.single_postlist_item, null);
             holder = new ViewHolder();
-            holder.title = (TextView) convertView.findViewById(R.id.title_single_postlist_item);
-            holder.firstName = (TextView) convertView.findViewById(R.id.author_name_single_postlist_item);
-            holder.published_date = (TextView) convertView.findViewById(R.id.date_single_postlist_item);
-            holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox_single_postlist_item);
-            holder.postTags = (TextView) convertView.findViewById(R.id.post_tags_textView_single_postlist_item);
-
+            holder.title = (TextView) convertView.findViewById(R.id.title_single_list_item);
+            holder.firstName = (TextView) convertView.findViewById(R.id.author_name_single_list_item);
+            holder.published_date = (TextView) convertView.findViewById(R.id.date_single_list_item);
+            holder.postTags = (TextView) convertView.findViewById(R.id.tags_single_list_item);
+            holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox_single_list_item);
+            holder.postTagContainer = convertView.findViewById(R.id.tags_container);
+            holder.postTagContainer.setVisibility(View.VISIBLE);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        // item clicked for posts
+        if (checkBoxVisibilityFlag) {
+            holder.checkbox.setVisibility(View.VISIBLE);
+            holder.checkbox.setChecked(mArrayForCheckMarks[position]);
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!mArrayForCheckMarks[position])
+                        mArrayForCheckMarks[position] = true;
+                    else
+                        mArrayForCheckMarks[position] = false;
+                    holder.checkbox.setChecked(mArrayForCheckMarks[position]);
+                }
+            });
+        }
+        else
+            holder.checkbox.setVisibility(View.INVISIBLE);
+
         HashMap<String, String> listItem = mList.get(position);
 
         holder.firstName.setText(listItem.get("author"));
@@ -59,5 +89,15 @@ public class CustomAdapter extends ArrayAdapter<HashMap<String, String>> {
         holder.postTags.setText(listItem.get("tags"));
 
         return convertView;
+    }
+
+    public static void markAll() {
+        for (int i = 0; i < mArrayForCheckMarks.length; i++)
+            mArrayForCheckMarks[i] = true;
+    }
+
+    public static void unMarkAll() {
+        for (int i = 0; i < mArrayForCheckMarks.length; i++)
+            mArrayForCheckMarks[i] = false;
     }
 }

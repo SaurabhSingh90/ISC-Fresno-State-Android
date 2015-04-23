@@ -1,22 +1,17 @@
 package singh.saurabh.iscfresnostate.view;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.ContextThemeWrapper;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -30,11 +25,25 @@ import butterknife.InjectView;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
 
-public class AddNewPost extends Activity {
+public class AddNewPost extends ActionBarActivity {
 
     private static String TAG = AddNewPost.class.getSimpleName();
-    private Context mContext = this;
-    public ContextThemeWrapper mContextThemeWrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
+    private Activity mContext = this;
+    private static ParseUser mCurrentUser = new LoginActivity().mCurrentUser;
+    private static String firstName = mCurrentUser.getString("firstName");
+    private View focusView = null;
+    private String postChannel = "Post_";
+    private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
+    private ContextThemeWrapper mContextThemeWrapper;
+    private ProgressDialog dialog;
+    private MenuScreenActivity mMenuScreenActivity = new MenuScreenActivity();
+
+    // Parse Column Names
+    private String POST_USER = "user";
+    private String POST_TITLE = "postTitle";
+    private String POST_CONTENT = "postContent";
+    private String POST_FIRST_NAME = "firstName";
+    private String POST_TAGS = "postTags";
 
     @InjectView(R.id.title_editText)
     EditText mTitleEditext;
@@ -44,17 +53,6 @@ public class AddNewPost extends Activity {
     EditText mPostTagsEditText;
     @InjectView(R.id.submit_post_button)
     Button mSubmitPostButton;
-    @InjectView(R.id.add_new_post_container)
-    View mAddPostContainer;
-    @InjectView(R.id.addNewPost_progressBar)
-    View mProgressView;
-
-    private static ParseUser mCurrentUser = new LoginActivity().mCurrentUser;
-    private static String firstName = mCurrentUser.getString("firstName");
-    private View focusView = null;
-    private String postChannel = "Post_";
-
-    private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,19 +60,12 @@ public class AddNewPost extends Activity {
         setContentView(R.layout.activity_add_new_post);
         ButterKnife.inject(this);
         mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(this);
+        mContextThemeWrapper = mCustomNetworkErrorHandler.mContextThemeWrapper;
 
-        mPostTagsEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.action_add_post || id == EditorInfo.IME_NULL) {
-                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    mgr.hideSoftInputFromWindow(mPostTagsEditText.getWindowToken(), 0);
-                    startSubmitPostTask();
-                    return true;
-                }
-                return false;
-            }
-        });
+        dialog = new ProgressDialog(mContextThemeWrapper);
+        dialog.setMessage(getString(R.string.adding_post_text));
+        dialog.setIndeterminate(false);
+        dialog.setCancelable(true);
 
         mSubmitPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,31 +101,32 @@ public class AddNewPost extends Activity {
     }
 
     private void submitPost() {
-        showProgress(true);
+        dialog.show();
         String titleString = mTitleEditext.getText().toString().trim();
         String messageString = mPostContentEditText.getText().toString().trim();
         String tagsString = mPostTagsEditText.getText().toString().trim();
 
         // Make a new post
         final ParseObject post = new ParseObject("Post");
-        post.put("postTitle", titleString);
-        post.put("postContent", messageString);
+        post.put(POST_TITLE, titleString);
+        post.put(POST_CONTENT, messageString);
         String[] tagsArray = tagsString.split(",");
         for (String tag : tagsArray) {
             tag = tag.toLowerCase().trim();
-            post.add("postTags", tag);
+            post.add(POST_TAGS, tag);
         }
-        post.put("user", mCurrentUser);
-        post.put("firstName", firstName);
+        post.put(POST_USER, mCurrentUser);
+        post.put(POST_FIRST_NAME, firstName);
         post.saveEventually(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                showProgress(false);
-                if ( e == null ) {
+                dialog.dismiss();
+                if (e == null) {
                     postChannel = postChannel.concat(post.getObjectId());
                     ParsePush.subscribeInBackground(postChannel);
+                    mMenuScreenActivity.new RefreshNewsList().execute();
                     finish();
-                    Toast.makeText(mContext, "Post added successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getString(R.string.post_added_text), Toast.LENGTH_SHORT).show();
                 } else {
                     mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.error_posting_data));
                 }
@@ -156,47 +148,23 @@ public class AddNewPost extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mAddPostContainer.setVisibility(show ? View.GONE : View.VISIBLE);
-            mAddPostContainer.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mAddPostContainer.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mAddPostContainer.setVisibility(show ? View.GONE : View.VISIBLE);
+        if (id == R.id.action_sign_out) {
+            ProgressDialog dialog;
+            dialog = new ProgressDialog(mContextThemeWrapper);
+            dialog.setMessage(getString(R.string.signing_out_dialog_message));
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
+            ParseUser.logOut();
+            dialog.dismiss();
+            finish();
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 }

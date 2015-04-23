@@ -37,8 +37,8 @@ public class MessageList {
 
 			long duration = System.currentTimeMillis() - start;
 	    	Log.i("AndroidNews", "Parser duration=" + duration);
-	    	String xml = writeXml();
-	    	Log.i("AndroidNews", xml);
+//	    	String xml = writeXml();
+//	    	Log.i("AndroidNews", xml);
 
 	    	ArrayList<HashMap<String, String>> titles =
                     new ArrayList<HashMap<String, String>>(mMessages.size());
@@ -46,7 +46,8 @@ public class MessageList {
             String posted_on;
 
 	    	for (Message msg : mMessages){
-                HashMap<String, String> newsPost = new HashMap<String, String>();
+
+				HashMap<String, String> newsPost = new HashMap<String, String>();
 	    		newsPost.put("title", msg.getTitle());
                 posted_on = msg.getDate();
                 SimpleDateFormat sdf1 = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss zzzz", Locale.US);
@@ -61,6 +62,7 @@ public class MessageList {
 				posted_on = sdf.format(d1);
 
                 newsPost.put("createdAt", posted_on);
+				newsPost.put("description", msg.getDescription());
                 titles.add(newsPost);
 	    	}
             return titles;
@@ -92,7 +94,6 @@ public class MessageList {
 //				serializer.startTag("", "author");
 //				serializer.text(msg.getAuthor());
 //				serializer.endTag("", "author");
-
 				serializer.startTag("", "body");
 				serializer.text(msg.getDescription());
 				serializer.endTag("", "body");

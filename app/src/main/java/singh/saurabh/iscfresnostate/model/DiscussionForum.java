@@ -1,20 +1,28 @@
 package singh.saurabh.iscfresnostate.model;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.ContextThemeWrapper;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.parse.ParseUser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +35,8 @@ import java.util.Locale;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomAdapter;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
+import singh.saurabh.iscfresnostate.view.MenuScreenActivity;
+import singh.saurabh.iscfresnostate.view.SinglePostDisplay;
 
 /**
  * Created by ${SAURBAH} on ${10/29/14}.
@@ -35,23 +45,41 @@ public class DiscussionForum {
 
     private static String TAG = DiscussionForum.class.getSimpleName();
     private Activity mActivity;
-    private ProgressDialog dialog;
+    private ProgressDialog mProgressDialog;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
+    private MenuScreenActivity mMenuScreenActivity = new MenuScreenActivity();
+    private ArrayAdapter<HashMap<String, String>> postList_adapter = null;
+    private ArrayAdapter<HashMap<String, String>> deleteList_adapter = null;
+
+    // Flag to check visibility of checkBox
     private Boolean flag;
+
+    // Variables for delete post task
+    private ArrayList<HashMap<String, String>> mPostListForDelete = null;
+    private List<ParseObject> mArrOfPostObjectsToDelete;
+    private ActionMode mActionMode;
+    private int mDeletePostCounter = 0;
+    private Boolean mZeroPostToDelete = true;
+
+    // Parse Column Names
+    private String POST_TITLE = "postTitle";
+    private String POST_FIRST_NAME = "firstName";
+    private String POST_TAGS = "postTags";
 
     public DiscussionForum(Activity activity) {
         this.mActivity = activity;
         mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(mActivity);
+        ContextThemeWrapper contextThemeWrapper = mCustomNetworkErrorHandler.mContextThemeWrapper;
 
-        dialog = new ProgressDialog(mActivity);
-        dialog.setMessage("Loading posts...");
-        dialog.setIndeterminate(false);
-        dialog.setCancelable(true);
+        mProgressDialog = new ProgressDialog(contextThemeWrapper);
+        mProgressDialog.setMessage(mActivity.getString(R.string.loading_post_text));
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setCancelable(true);
     }
 
     public void startLoadCommentsTask() {
         if (mCustomNetworkErrorHandler.isNetworkAvailable()) {
-            dialog.show();
+            mProgressDialog.show();
             flag = false;
             // Find all posts
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
@@ -59,7 +87,7 @@ public class DiscussionForum {
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                    dialog.dismiss();
+                    mProgressDialog.dismiss();
                     if (e == null) {
                         fillPostList(parseObjects, flag);
                     } else {
@@ -78,7 +106,7 @@ public class DiscussionForum {
 * @param: list of parseObjects returned by search query
 */
     public void fillPostList(final List<ParseObject> parseObjects, boolean flag_for_checkbox) {
-        int length = parseObjects.size();
+        final int length = parseObjects.size();
 
         final ArrayList<HashMap<String, String>> postList;
 
@@ -86,21 +114,13 @@ public class DiscussionForum {
             postList = new ArrayList<>();
         else
             postList = null;
-
-        for (int i = length-1; i >= 0; i--) {
-            ParseObject obj = parseObjects.get(i);
-            String firstName = obj.get("firstName").toString();
-            String title = obj.get("postTitle").toString();
-
-            JSONArray tagsJSONArray = obj.getJSONArray("postTags");
-            String[] tags = new String[tagsJSONArray.length()];
-            for (int j = 0; j < tagsJSONArray.length(); j++) {
-                try {
-                    tags[j] = tagsJSONArray.getString(j);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+        ParseObject obj = null;
+        for (int i = length - 1; i >= 0; i--) {
+            obj = parseObjects.get(i);
+            String firstName = obj.get(POST_FIRST_NAME).toString();
+            String title = obj.get(POST_TITLE).toString();
+            String tags = "TAGS: ";
+            tags = tags.concat(obj.get(POST_TAGS).toString());
 
             Date createdAt = obj.getCreatedAt();
             String posted_on = createdAt.toString();
@@ -117,45 +137,28 @@ public class DiscussionForum {
             dataList.put("author", firstName);
             dataList.put("title", title);
             dataList.put("createdAt", posted_on);
-
-            String str = "TAGS: ";
-
-            if (tags.length > 1) {
-                for (String tag: tags) {
-                    str = str + tag + " || ";
-                }
-            } else
-                str = str + tags[0];
-
-            dataList.put("tags", str);
+            dataList.put("tags", tags);
 
             if (postList != null) {
                 postList.add(dataList);
             }
         }
-        ListView lv = (ListView) mActivity.findViewById(R.id.postList);
-        TextView empty_text = (TextView) mActivity.findViewById(R.id.empty_text_for_postList);
+        ListView lv = (ListView) mActivity.findViewById(android.R.id.list);
+        TextView empty_text = (TextView) mActivity.findViewById(android.R.id.empty);
 
         if (postList != null) {
-            empty_text.setVisibility(View.INVISIBLE);
-            ArrayAdapter<HashMap<String, String>> adapter = new CustomAdapter(mActivity, postList);
-            lv.setAdapter(adapter);
-//            mListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);                 // for multiple choice mode
-//            mListView.setSelector(R.drawable.bg_gradient);
-//            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view,
-//                                        int position, long id) {
-//                    if ((postList.size() - 1) - position >= 0) {
-//                        ParseObject obj = parseObjects.get((postList.size() - 1) - position);
-//                        String objectId = obj.getObjectId();
-//                        Intent i = new Intent(mActivity, SinglePostDisplay.class);
-//                        i.putExtra("objectId", objectId);
-//                        mActivity.startActivity(i);
-//                    }
-//                }
-//            });
+            postList_adapter = new CustomAdapter(mActivity, postList, flag_for_checkbox);
+            lv.setAdapter(postList_adapter);
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String objectId = parseObjects.get((length - 1) - position).getObjectId();
+                    Intent i = new Intent(mActivity, SinglePostDisplay.class);
+                    i.putExtra("objectId", objectId);
+                    mActivity.startActivity(i);
+                }
+            });
+
         } else {
             empty_text.setVisibility(View.VISIBLE);
             lv.setEmptyView(empty_text);
@@ -163,7 +166,6 @@ public class DiscussionForum {
     }
 
     public void searchPostTask(final String query) {
-//        dialog.show();
         flag = false;
 
         List<ParseQuery<ParseObject>> queries = new ArrayList<>();
@@ -186,7 +188,6 @@ public class DiscussionForum {
         mainQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-//                dialog.dismiss();
                 if (parseObjects.size() > 0) {
                     if (e == null) {
                         fillPostList(parseObjects, flag);
@@ -199,5 +200,192 @@ public class DiscussionForum {
                 }
             }
         });
+    }
+
+    public void deletePostTask() {
+        mProgressDialog.show();
+        flag = true;
+
+        // Find post(s) of current user only for deletion
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
+        query.whereEqualTo("user", currentUser);
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                mProgressDialog.dismiss();
+                if (parseObjects.size() > 0) {
+                    if (e == null) {
+                        mActionMode = mActivity.startActionMode(new ActionBarCallBack());
+                        mArrOfPostObjectsToDelete = parseObjects;
+                        updateList_for_delete(parseObjects, flag);
+                    } else {
+                        Toast.makeText(mActivity, "No post(s) to delete", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(mActivity, "No post(s) to delete", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+    }
+
+    public void updateList_for_delete(List<ParseObject> parseObjects, boolean flag_for_checkbox) {
+        int length = parseObjects.size();
+
+        if (length > 0)
+            mPostListForDelete = new ArrayList<>();
+        else
+            mPostListForDelete = null;
+
+        for (int i = 0; i < length; i++) {
+            ParseObject obj = parseObjects.get(i);
+            String firstName = obj.get(POST_FIRST_NAME).toString();
+            String title = obj.get(POST_TITLE).toString();
+            String tags = "TAGS: ";
+            tags = tags.concat(obj.get(POST_TAGS).toString());
+
+            Date createdAt = obj.getCreatedAt();
+            String posted_on = createdAt.toString();
+            SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzzz yyyy", Locale.US);
+            Date d1 = null;
+            try {
+                d1 = sdf1.parse(posted_on);
+            } catch (ParseException ee) {
+                ee.printStackTrace();
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy   h:mm a", Locale.US);
+            posted_on = sdf.format(d1);
+
+            HashMap<String, String> dataList = new HashMap<>();
+            dataList.put("author", firstName);
+            dataList.put("title", title);
+            dataList.put("createdAt", posted_on);
+            dataList.put("tags", tags);
+            mPostListForDelete.add(dataList);
+        }
+
+        ListView lv = (ListView) mActivity.findViewById(android.R.id.list);
+        if (mPostListForDelete != null) {
+            deleteList_adapter =
+                    new CustomAdapter(mActivity, mPostListForDelete, flag_for_checkbox);
+            lv.setAdapter(deleteList_adapter);
+        } else {
+            TextView empty_text = (TextView) mActivity.findViewById(android.R.id.empty);
+            lv.setEmptyView(empty_text);
+        }
+    }
+
+
+    class ActionBarCallBack implements ActionMode.Callback {
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
+            int id = item.getItemId();
+
+            if (id == R.id.delete_sign) {
+                mDeletePostCounter = 0;
+
+                final ProgressDialog dialog = new ProgressDialog(mActivity);
+                dialog.setMessage("Deleting posts...");
+                dialog.setIndeterminate(false);
+                dialog.setCancelable(true);
+
+                if (mPostListForDelete != null) {
+                    for(int i = 0; i < mPostListForDelete.size(); i++) {
+                        if (CustomAdapter.mArrayForCheckMarks[i]) {
+                            mZeroPostToDelete = false;
+                            break;
+                        } else
+                            mZeroPostToDelete = true;
+                    }
+
+                    if (mZeroPostToDelete)
+                        Toast.makeText(mActivity, "Select a post first", Toast.LENGTH_SHORT).show();
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mActivity,android.R.style.Theme_Holo_Dialog));
+                        builder.setIcon(android.R.drawable.ic_dialog_alert)
+                                .setTitle(mActivity.getString(R.string.delete_title_text))
+                                .setMessage(mActivity.getString(R.string.delete_message_text))
+                                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                    public void onClick(final DialogInterface d, int id) {
+                                        dialog.show();
+                                        final List<ParseObject> tempArr = new ArrayList<>(mPostListForDelete.size());
+                                        for (int i = 0; i < mPostListForDelete.size(); i++) {
+                                            if (CustomAdapter.mArrayForCheckMarks[i]) {
+                                                mZeroPostToDelete = false;
+                                                mDeletePostCounter++;
+                                                tempArr.add(mArrOfPostObjectsToDelete.get(i));
+                                            }
+                                        }
+                                        ParseObject.deleteAllInBackground(tempArr, new DeleteCallback() {
+                                            @Override
+                                            public void done(com.parse.ParseException e) {
+                                                dialog.dismiss();
+                                                if (e == null) {
+                                                    if (mDeletePostCounter > 1)
+                                                        Toast.makeText(mActivity, (mDeletePostCounter) + " posts deleted", Toast.LENGTH_SHORT).show();
+                                                    else
+                                                        Toast.makeText(mActivity, (mDeletePostCounter) + " post deleted", Toast.LENGTH_SHORT).show();
+                                                    mActionMode.finish();
+                                                } else {
+                                                    Toast.makeText(mActivity, R.string.some_error_occurred, Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                    }
+                                }).show();
+                    }
+                } else {
+                    Toast.makeText(mActivity, "No post to delete", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+
+            if (id == R.id.mark_all) {
+                ListView lv = (ListView)mActivity.findViewById(android.R.id.list);
+                deleteList_adapter = new CustomAdapter(mActivity, mPostListForDelete, true);
+
+                if (item.isChecked()) {
+                    item.setChecked(false);
+                    item.setIcon(android.R.drawable.checkbox_off_background);
+                    CustomAdapter.unMarkAll();
+                    lv.setAdapter(deleteList_adapter);
+                } else {
+                    item.setChecked(true);
+                    item.setIcon(android.R.drawable.checkbox_on_background);
+                    CustomAdapter.markAll();
+                    lv.setAdapter(deleteList_adapter);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.contextual_menu, menu);
+
+            return true;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            startLoadCommentsTask();
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            mode.setTitle(R.string.title_for_delete);
+            return false;
+        }
     }
 }

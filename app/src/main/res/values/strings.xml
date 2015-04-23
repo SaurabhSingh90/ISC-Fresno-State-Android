@@ -22,5 +22,14 @@
     <string name="error_field_required">This field is required</string>
     <string name="error_loading_data">There was an error in loading some data</string>
     <string name="signing_in_text">Signing in…</string>
+    <string name="title_activity_single_post_display">Single Post Display</string>
+    <string name="title_activity_single_news_post">News</string>
+    <string name="some_error_occurred">Err! Some error occurred</string>
+    <string name="title_for_delete">Select to delete</string>
+    <string name="mark_all">Mark all</string>
+    <string name="delete_post">Delete</string>
+    <string name="title_activity_edit_post">Edit Post</string>
+    <string name="delete_message_text">Once you hit delete there\'s no coming back.</string>
+    <string name="delete_title_text">Are you sure?</string>
 
 </resources>

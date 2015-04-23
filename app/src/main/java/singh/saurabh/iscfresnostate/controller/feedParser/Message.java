@@ -15,6 +15,15 @@ public class Message implements Comparable<Message> {
 	private Date date;
 	private String author;
 	private String tag;
+	private String content;
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content.trim();
+	}
 
 	public String getAuthor() {
 		return author;
@@ -82,7 +91,7 @@ public class Message implements Comparable<Message> {
 		copy.link = link;
 		copy.description = description;
 		copy.date = date;
-		copy.author = author;
+		copy.content = content;
 		return copy;
 	}
 	
@@ -101,8 +110,8 @@ public class Message implements Comparable<Message> {
 		sb.append("Description: ");
 		sb.append(description);
 		sb.append('\n');
-		sb.append("Author: ");
-		sb.append(author);
+		sb.append("content: ");
+		sb.append(content);
 		return sb.toString();
 	}
 

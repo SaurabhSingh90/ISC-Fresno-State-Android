@@ -33,16 +33,14 @@ public class News {
 
     //Tags for TextViews of listView
     private static final String NEWS_TITLE = "title";
-    private static final String NEWS_AUTHOR = "author";
+    private static final String NEWS_DESCRIPTION = "description";
     private static final String NEWS_DATE = "createdAt";
-    private static final String NEWS_TAG = "tag";
 
     // Progress Dialog
     private ProgressDialog ppDialog;
 
     public News(Activity context) {
         this.mContext = context;
-        View view = View.inflate(mContext, R.layout.fragment_2_news, null);
     }
 
     public void startLoadNewsTask() {
@@ -69,12 +67,14 @@ public class News {
 
         String[] keys = {
                 NEWS_TITLE,
-                NEWS_DATE
+                NEWS_DATE,
+                NEWS_DESCRIPTION
         };
 
         int[] ids = {
                 R.id.title_single_newslist_item,
-                R.id.date_single_newslist_item
+                R.id.date_single_newslist_item,
+                R.id.description_single_newslist_item
         };
 
         SimpleAdapter news_adapter = new SimpleAdapter(mContext, mNewsList, R.layout.single_newslist_item, keys, ids);

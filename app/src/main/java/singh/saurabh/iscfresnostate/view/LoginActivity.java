@@ -1,15 +1,11 @@
 package singh.saurabh.iscfresnostate.view;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -45,9 +41,12 @@ public class LoginActivity extends Activity {
 
     private static String TAG = LoginActivity.class.getSimpleName();
     private Context mContext = this;
-    public ContextThemeWrapper mContextThemeWrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
+    public ContextThemeWrapper mContextThemeWrapper;
+    private View reset_password_dialog_layout;
+    public ParseUser mCurrentUser = ParseUser.getCurrentUser();
+    private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
+    private ProgressDialog dialog;
 
-    // UI references.
     @InjectView(R.id.login_email)
     AutoCompleteTextView mEmailView;
     @InjectView(R.id.login_password)
@@ -58,17 +57,6 @@ public class LoginActivity extends Activity {
     TextView mSignUpTextView;
     @InjectView(R.id.forgot_password_textView)
     TextView mForgotPasswordTextView;
-    @InjectView(R.id.login_form)
-    View mLoginFormView;
-    @InjectView(R.id.login_progress)
-    View mProgressView;
-    @InjectView(R.id.ISC_titleView)
-    View mTitleView;
-
-    private View reset_password_dialog_layout;
-    public ParseUser mCurrentUser = ParseUser.getCurrentUser();
-
-    private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +64,12 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
         mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(this);
+        mContextThemeWrapper = mCustomNetworkErrorHandler.mContextThemeWrapper;
+
+        dialog = new ProgressDialog(mContextThemeWrapper);
+        dialog.setMessage(getString(R.string.signing_in_text));
+        dialog.setIndeterminate(false);
+        dialog.setCancelable(true);
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -240,11 +234,11 @@ public class LoginActivity extends Activity {
     }
 
     private void login_process(String email, String password) {
-        showProgress(true);
+        dialog.show();
         ParseUser.logInInBackground(email, password, new LogInCallback() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
-                showProgress(false);
+                dialog.dismiss();
                 if (parseUser != null) {
                     if (parseUser.getBoolean("emailVerified")) {
                         ParseInstallation pi = ParseInstallation.getCurrentInstallation();
@@ -271,52 +265,6 @@ public class LoginActivity extends Activity {
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mTitleView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mTitleView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mTitleView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mTitleView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
 }
 

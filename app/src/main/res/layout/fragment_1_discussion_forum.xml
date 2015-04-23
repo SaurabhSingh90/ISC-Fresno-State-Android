@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_post_empty_text"
-            android:id="@+id/empty_text_for_postList"
+            android:id="@android:id/empty"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#ff972020"
@@ -47,9 +47,10 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/postList"
+                android:id="@android:id/list"
                 android:layout_alignParentTop="true"
-                android:divider="@null"/>
+                android:divider="@null"
+                />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 

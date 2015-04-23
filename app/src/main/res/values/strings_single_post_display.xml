@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="post_not_available_text">Post is not available anymore</string>
+    <string name="loading_text">Loading…</string>
+    <string name="type_in_your_reply">Type in your reply</string>
+    <string name="reply_text">Submit</string>
+    <string name="edit_post_text">Edit</string>
+    <string name="edit_not_authorized">You are not authorized to edit this post</string>
+    <string name="delete_not_authorized">You are not authorized to delete this post</string>
+
+</resources>

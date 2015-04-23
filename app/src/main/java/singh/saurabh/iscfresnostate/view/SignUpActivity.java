@@ -1,13 +1,11 @@
 package singh.saurabh.iscfresnostate.view;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -29,6 +27,8 @@ import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
 public class SignUpActivity extends Activity {
 
     private Context mContext = this;
+    private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
+    private ProgressDialog dialog;
 
     @InjectView(R.id.firstName_editText)
     EditText mFirstName;
@@ -42,12 +42,6 @@ public class SignUpActivity extends Activity {
     EditText mConfirmPassword;
     @InjectView(R.id.sign_up_button)
     Button mSignUpButton;
-    @InjectView(R.id.signup_progress)
-    View mProgressView;
-    @InjectView(R.id.sign_up_form)
-    View mSignUpFormView;
-
-    private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +49,12 @@ public class SignUpActivity extends Activity {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.inject(this);
         mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(this);
+        ContextThemeWrapper contextThemeWrapper = mCustomNetworkErrorHandler.mContextThemeWrapper;
+
+        dialog = new ProgressDialog(contextThemeWrapper);
+        dialog.setMessage(getString(R.string.signing_up_text));
+        dialog.setIndeterminate(false);
+        dialog.setCancelable(true);
 
         mConfirmPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -158,7 +158,7 @@ public class SignUpActivity extends Activity {
             } else {
                 // Show a progress spinner, and kick off a background task to
                 // perform the user login attempt.
-                showProgress(true);
+                dialog.show();
                 ParseUser newUser = new ParseUser();
                 // Mandatory fields
                 newUser.setUsername(email);
@@ -172,7 +172,7 @@ public class SignUpActivity extends Activity {
                 newUser.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {
-                        showProgress(false);
+                        dialog.dismiss();
                         if (e == null) {
                             Toast.makeText(mContext, R.string.account_activation_link_sent, Toast.LENGTH_LONG).show();
                             finish();
@@ -195,41 +195,5 @@ public class SignUpActivity extends Activity {
 
     private boolean isPasswordValid(String password, String confirmPassword) {
         return (password.compareTo(confirmPassword) == 0);
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mSignUpFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mSignUpFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mSignUpFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mSignUpFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
 }

@@ -7,5 +7,7 @@
     <string name="hint_post_tags_editText">Tags (use “,” to separate)</string>
     <string name="error_posting_data">There was an error in posting some data</string>
     <string name="error_post_tag_required">Minimum one tag is required</string>
+    <string name="adding_post_text">Adding post…</string>
+    <string name="post_added_text">Post added successfully</string>
 
 </resources>

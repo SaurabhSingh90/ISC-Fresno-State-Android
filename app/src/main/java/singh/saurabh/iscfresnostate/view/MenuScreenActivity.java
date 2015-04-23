@@ -15,15 +15,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
 import singh.saurabh.iscfresnostate.R;
+import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
 import singh.saurabh.iscfresnostate.model.DiscussionForum;
 import singh.saurabh.iscfresnostate.model.News;
 
@@ -39,6 +42,7 @@ public class MenuScreenActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    public PlaceholderFragment mPlaceHolderFragment = new PlaceholderFragment();
 
     private static String TAG = MenuScreenActivity.class.getSimpleName();
     private Context mContext = this;
@@ -47,12 +51,20 @@ public class MenuScreenActivity extends ActionBarActivity
 
     private static DiscussionForum mDiscussionForum = null;
     private static News mNews = null;
-    private static SwipeRefreshLayout mSwipeRefreshLayout;
+    private static ContextThemeWrapper mContextThemeWrapper;
+    private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
+    public Boolean deleteTask = false;
+    private SwipeRefreshLayout mSwipeRefreshLayout = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_screen);
+
+        mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(this);
+        mContextThemeWrapper = mCustomNetworkErrorHandler.mContextThemeWrapper;
+
+        ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         mDiscussionForum = new DiscussionForum(this);
         mNews = new News(this);
@@ -71,13 +83,6 @@ public class MenuScreenActivity extends ActionBarActivity
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d("MENU_TAG", "onRestart ");
-        if (SECTION_NUMBER == 1) {
-            mDiscussionForum.startLoadCommentsTask();
-        } else if (SECTION_NUMBER == 2) {
-
-        }
-
     }
 
     @Override
@@ -88,8 +93,6 @@ public class MenuScreenActivity extends ActionBarActivity
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
-        } else {
-            Log.d("MENU_TAG", "onResume ");
         }
     }
 
@@ -104,7 +107,7 @@ public class MenuScreenActivity extends ActionBarActivity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, mPlaceHolderFragment.newInstance(position + 1))
                 .commit();
     }
 
@@ -197,7 +200,6 @@ public class MenuScreenActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -207,9 +209,15 @@ public class MenuScreenActivity extends ActionBarActivity
             return true;
         }
 
+        if (id == R.id.action_delete_post) {
+            deleteTask = true;
+            mDiscussionForum.deletePostTask();
+            return true;
+        }
+
         if (id == R.id.action_sign_out) {
             ProgressDialog dialog;
-            dialog = new ProgressDialog(mContext);
+            dialog = new ProgressDialog(mContextThemeWrapper);
             dialog.setMessage(getString(R.string.signing_out_dialog_message));
             dialog.setIndeterminate(false);
             dialog.setCancelable(true);
@@ -237,7 +245,7 @@ public class MenuScreenActivity extends ActionBarActivity
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -248,7 +256,7 @@ public class MenuScreenActivity extends ActionBarActivity
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
+        public PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -270,36 +278,39 @@ public class MenuScreenActivity extends ActionBarActivity
                     rootView = inflater.inflate(R.layout.fragment_1_discussion_forum, container, false);
                     mDiscussionForum.startLoadCommentsTask();
 
-                    mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.post_list_swipeRefreshLayout);
-                    mSwipeRefreshLayout.setColorScheme(
-                            R.color.swipe_color_1, R.color.swipe_color_2,
-                            R.color.swipe_color_3, R.color.swipe_color_4);
-                    mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                        @Override
-                        public void onRefresh() {
-                            Log.d(TAG, "post refreshing");
-                            mSwipeRefreshLayout.setRefreshing(true);
-                            new RefreshNewsList().execute();
-                        }
-                    });
+                    if (!deleteTask) {
+                        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.post_list_swipeRefreshLayout);
+                        mSwipeRefreshLayout.setColorScheme(
+                                R.color.swipe_color_1, R.color.swipe_color_2,
+                                R.color.swipe_color_3, R.color.swipe_color_4);
+                        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                Log.d(TAG, "post refreshing");
+                                mSwipeRefreshLayout.setRefreshing(true);
+                                new RefreshNewsList().execute();
+                            }
+                        });
+                    }
                     break;
                 case 2:
                     SECTION_NUMBER = 2;
                     rootView = inflater.inflate(R.layout.fragment_2_news, container, false);
                     mNews.startLoadNewsTask();
-
-                    mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.news_list_swipeRefreshLayout);
-                    mSwipeRefreshLayout.setColorScheme(
-                            R.color.swipe_color_1, R.color.swipe_color_2,
-                            R.color.swipe_color_3, R.color.swipe_color_4);
-                    mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                        @Override
-                        public void onRefresh() {
-                            Log.d(TAG, "news refreshing");
-                            mSwipeRefreshLayout.setRefreshing(true);
-                            new RefreshNewsList().execute();
-                        }
-                    });
+                    if (!deleteTask) {
+                        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.news_list_swipeRefreshLayout);
+                        mSwipeRefreshLayout.setColorScheme(
+                                R.color.swipe_color_1, R.color.swipe_color_2,
+                                R.color.swipe_color_3, R.color.swipe_color_4);
+                        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                Log.d(TAG, "news refreshing");
+                                mSwipeRefreshLayout.setRefreshing(true);
+                                new RefreshNewsList().execute();
+                            }
+                        });
+                    }
                     break;
                 case 3:
                     break;
@@ -320,16 +331,18 @@ public class MenuScreenActivity extends ActionBarActivity
         startActivity(i);
     }
 
-    public static class RefreshNewsList extends AsyncTask<Void, Void, Void> {
+    public class RefreshNewsList extends AsyncTask<Void, Void, Void> {
 
         static final int TASK_DURATION = 3 * 1000; // 3 seconds
 
         @Override
         protected Void doInBackground(Void... params) {
-            try {
-                Thread.sleep(TASK_DURATION);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing() && !deleteTask) {
+                try {
+                    Thread.sleep(TASK_DURATION);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             return null;
         }
@@ -337,12 +350,12 @@ public class MenuScreenActivity extends ActionBarActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if (mSwipeRefreshLayout.isRefreshing()) {
+            if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing()) {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-            if (SECTION_NUMBER == 1) {
+            if (SECTION_NUMBER == 1 && !deleteTask) {
                 mDiscussionForum.startLoadCommentsTask();
-            } else if (SECTION_NUMBER == 2) {
+            } else if (SECTION_NUMBER == 2 && !deleteTask) {
                 mNews.startLoadNewsTask();
             }
         }
