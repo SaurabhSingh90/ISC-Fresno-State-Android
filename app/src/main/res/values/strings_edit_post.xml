@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="editing_post_text">Editing post…</string>
+    <string name="post_updated_text">Post updated successfully</string>
+
+</resources>

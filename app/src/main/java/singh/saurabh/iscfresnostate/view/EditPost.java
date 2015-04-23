@@ -1,20 +1,12 @@
 package singh.saurabh.iscfresnostate.view;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,95 +16,102 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import singh.saurabh.iscfresnostate.R;
+import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
 
 public class EditPost extends ActionBarActivity {
 
     private Context mContext = this;
     private String objectId;
-    private String mTitle;
-    private String mMessage;
-    private TextView title, message;
-    private View mProgressView;
-    private View mEditPostContainer;
+    private String mTitle, mMessage, mTag;
     private View focusView = null;
+    private ProgressDialog mProgressDialog;
+    private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
+    private static ContextThemeWrapper mContextThemeWrapper;
+
+    // Parse Column Names
+    private String POST_TITLE = "postTitle";
+    private String POST_CONTENT = "postContent";
+    private String POST_TAGS = "postTags";
+
+    @InjectView(R.id.edit_Post_Title) TextView mTitleEditText;
+    @InjectView(R.id.edit_message) TextView mContentEditText;
+    @InjectView(R.id.edit_tag) TextView mTagEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_post);
+        ButterKnife.inject(this);
+        mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(this);
+        mContextThemeWrapper = mCustomNetworkErrorHandler.mContextThemeWrapper;
 
-        title = (EditText)findViewById(R.id.editPostTitle);
-        message = (EditText)findViewById(R.id.edit_message);
-
-        mProgressView = findViewById(R.id.editPost_progressBar);
-        mEditPostContainer = findViewById(R.id.editPostContainer);
+        mProgressDialog = new ProgressDialog(mContextThemeWrapper);
+        mProgressDialog.setMessage(getString(R.string.editing_post_text));
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setCancelable(false);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             objectId = extras.getString("objectId");
-            mTitle = extras.getString("title");
-            mMessage = extras.getString("message");
+            mTitle = extras.getString(POST_TITLE);
+            mMessage = extras.getString(POST_CONTENT);
+            mTag = extras.getString(POST_TAGS);
         }
 
-        title.setText(mTitle);
-        message.setText(mMessage);
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager manager = (android.net.ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkinfo = manager.getActiveNetworkInfo();
-
-        boolean isAvailable = false;
-        if (networkinfo != null && networkinfo.isConnected())
-            isAvailable = true;
-
-        return isAvailable;
+        mTitleEditText.setText(mTitle);
+        mContentEditText.setText(mMessage);
+        mTagEditText.setText(mTag);
     }
 
     public void SubmitEditPost(View v) {
-        if (isNetworkAvailable()) {
+        if (mCustomNetworkErrorHandler.isNetworkAvailable()) {
             // Resetting errors for both editText
-            title.setError(null);
-            message.setError(null);
+            mTitleEditText.setError(null);
+            mContentEditText.setError(null);
+            mTagEditText.setError(null);
 
-            if (title.length() == 0) {
-                title.setError(getString(R.string.error_field_required));
-                focusView = title;
-            } else if (message.length() == 0) {
-                message.setError(getString(R.string.error_field_required));
-                focusView = message;
-            } else {
-                postEditedComment();
+            if (mTitleEditText.length() == 0) {
+                mTitleEditText.setError(getString(R.string.error_field_required));
+                focusView = mTitleEditText;
             }
-            if (title.length() == 0 || message.length() == 0)
-                focusView.requestFocus();
-        } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext, android.R.style.Theme_Holo_Dialog));
-            builder.setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle(R.string.check_network)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
+            if (mContentEditText.length() == 0) {
+                mContentEditText.setError(getString(R.string.error_field_required));
+                if (focusView == null)
+                    focusView = mContentEditText;
+            }
+            if (mTagEditText.length() == 0) {
+                mTagEditText.setError(getString(R.string.error_field_required));
+                if (focusView == null)
+                    focusView = mTagEditText;
+            }
 
-                        }
-                    }).show();
+            if (mTitleEditText.length() == 0 || mContentEditText.length() == 0 || mTagEditText.length() == 0)
+                focusView.requestFocus();
+            else
+                postEditedComment();
+        } else {
+            mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.check_network));
         }
     }
 
     private void postEditedComment() {
-        showProgress(true);
+        mProgressDialog.show();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.getInBackground(objectId, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
+                mProgressDialog.dismiss();
                 if (e == null) {
-                    parseObject.put("title", title.getText().toString());
-                    parseObject.put("body", message.getText().toString());
+                    parseObject.put(POST_TITLE, mTitleEditText.getText().toString());
+                    parseObject.put(POST_CONTENT, mContentEditText.getText().toString());
                     parseObject.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
-                                Toast.makeText(mContext, "Post updated successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, getString(R.string.post_updated_text), Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(mContext, SinglePostDisplay.class);
                                 i.putExtra("objectId", objectId);
                                 startActivity(i);
@@ -121,74 +120,9 @@ public class EditPost extends ActionBarActivity {
                         }
                     });
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext, android.R.style.Theme_Holo_Dialog));
-                    builder.setIcon(android.R.drawable.ic_dialog_alert)
-                            .setTitle(R.string.error_posting_data)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-
-                                }
-                            }).show();
+                    mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.error_posting_data));
                 }
             }
         });
     }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mEditPostContainer.setVisibility(show ? View.GONE : View.VISIBLE);
-            mEditPostContainer.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mEditPostContainer.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mEditPostContainer.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_edit_post, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }

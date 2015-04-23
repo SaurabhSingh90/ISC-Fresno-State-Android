@@ -85,17 +85,21 @@ public class AddNewPost extends ActionBarActivity {
             if (mTitleEditext.length() == 0) {
                 mTitleEditext.setError(getString(R.string.error_field_required));
                 focusView = mTitleEditext;
-            } else if (mPostContentEditText.length() == 0) {
+            }
+            if (mPostContentEditText.length() == 0) {
                 mPostContentEditText.setError(getString(R.string.error_field_required));
-                focusView = mPostContentEditText;
-            } else if (mPostTagsEditText.length() == 0) {
+                if (focusView == null)
+                    focusView = mPostContentEditText;
+            }
+            if (mPostTagsEditText.length() == 0) {
                 mPostTagsEditText.setError(getString(R.string.error_post_tag_required));
-                focusView = mPostTagsEditText;
-            } else {
-                submitPost();
+                if (focusView == null)
+                    focusView = mPostTagsEditText;
             }
             if (mTitleEditext.length() == 0 || mPostContentEditText.length() == 0 || mPostTagsEditText.length() == 0)
                 focusView.requestFocus();
+            else
+                submitPost();
         } else
             mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.check_network));
     }
