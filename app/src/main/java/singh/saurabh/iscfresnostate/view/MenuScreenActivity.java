@@ -28,6 +28,7 @@ import com.parse.ParseUser;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
 import singh.saurabh.iscfresnostate.model.DiscussionForum;
+import singh.saurabh.iscfresnostate.model.Forms;
 import singh.saurabh.iscfresnostate.model.News;
 
 
@@ -49,11 +50,14 @@ public class MenuScreenActivity extends ActionBarActivity
 
     private static int SECTION_NUMBER = 0;
 
-    private static DiscussionForum mDiscussionForum = null;
-    private static News mNews = null;
     private static ContextThemeWrapper mContextThemeWrapper;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
     private SwipeRefreshLayout mSwipeRefreshLayout = null;
+
+    // Class objects for fragments
+    private static DiscussionForum mDiscussionForum = null;
+    private static News mNews = null;
+    private static Forms mForms = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,7 @@ public class MenuScreenActivity extends ActionBarActivity
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
+        // Initializing fragment class objects
         mDiscussionForum = new DiscussionForum(this);
         mNews = new News(this);
 
@@ -113,13 +118,13 @@ public class MenuScreenActivity extends ActionBarActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.title_section1).toUpperCase();
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.title_section2).toUpperCase();
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.title_section3).toUpperCase();
                 break;
         }
     }
@@ -143,6 +148,8 @@ public class MenuScreenActivity extends ActionBarActivity
                 searchViewInitializing(menu);
             } else if (SECTION_NUMBER == 2) {
                 getMenuInflater().inflate(R.menu.menu_news, menu);
+            } else if (SECTION_NUMBER == 3) {
+                getMenuInflater().inflate(R.menu.global, menu);
             }
 
             restoreActionBar();
@@ -165,7 +172,7 @@ public class MenuScreenActivity extends ActionBarActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() > 3) {
+                if (newText.length() > 2) {
                     mDiscussionForum.searchPostTask(newText);
                     return true;
                 } else {
@@ -311,6 +318,10 @@ public class MenuScreenActivity extends ActionBarActivity
                     }
                     break;
                 case 3:
+                    SECTION_NUMBER = 3;
+                    rootView = inflater.inflate(R.layout.fragment_3_forms, container, false);
+                    mForms = new Forms(getActivity(), rootView);
+                    mForms.startFormsFragment();
                     break;
             }
             return rootView;

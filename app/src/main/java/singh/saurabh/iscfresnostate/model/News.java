@@ -24,7 +24,7 @@ import singh.saurabh.iscfresnostate.controller.feedParser.MessageList;
  */
 public class News {
 
-    private Activity mContext;
+    private Activity mActivity;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
 
     // Variables for News Class
@@ -40,16 +40,16 @@ public class News {
     // Progress Dialog
     private ProgressDialog ppDialog;
 
-    public News(Activity context) {
-        this.mContext = context;
-        mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(mContext);
+    public News(Activity activity) {
+        this.mActivity = activity;
+        mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(mActivity);
     }
 
     public void startLoadNewsTask() {
         if (mCustomNetworkErrorHandler.isNetworkAvailable())
             new LoadNews().execute();
         else
-            mCustomNetworkErrorHandler.errorDialogDisplay(mContext.getString(R.string.error_oops), mContext.getString(R.string.check_network));
+            mCustomNetworkErrorHandler.errorDialogDisplay(mActivity.getString(R.string.error_oops), mActivity.getString(R.string.check_network));
     }
 
     /**
@@ -82,10 +82,10 @@ public class News {
                 R.id.description_single_newslist_item
         };
 
-        SimpleAdapter news_adapter = new SimpleAdapter(mContext, mNewsList, R.layout.single_newslist_item, keys, ids);
+        SimpleAdapter news_adapter = new SimpleAdapter(mActivity, mNewsList, R.layout.single_newslist_item, keys, ids);
 
         if (mNewsList != null) {
-            ListView newsList = (ListView)mContext.findViewById(R.id.news_listView);
+            ListView newsList = (ListView) mActivity.findViewById(R.id.news_listView);
             newsList.setAdapter(news_adapter);
 
             newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,13 +94,13 @@ public class News {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
                     Intent viewMessage = new Intent(Intent.ACTION_VIEW, Uri.parse(messages.get(position).getLink().toString()));
-                    mContext.startActivity(viewMessage);
+                    mActivity.startActivity(viewMessage);
                 }
             });
         }
         else {
-            new CustomNetworkErrorHandler(mContext)
-                    .errorDialogDisplay(mContext.getString(R.string.error_oops), mContext.getString(R.string.error_loading_data));
+            new CustomNetworkErrorHandler(mActivity)
+                    .errorDialogDisplay(mActivity.getString(R.string.error_oops), mActivity.getString(R.string.error_loading_data));
         }
     }
 
@@ -108,7 +108,7 @@ public class News {
 
         @Override
         protected void onPreExecute() {
-            ppDialog = new ProgressDialog(mContext);
+            ppDialog = new ProgressDialog(mActivity);
             ppDialog.setMessage("Loading News...");
             ppDialog.setIndeterminate(false);
             ppDialog.setCancelable(true);
@@ -126,8 +126,8 @@ public class News {
             if (result)
                 updateNewsList();
             else {
-                new CustomNetworkErrorHandler(mContext)
-                        .errorDialogDisplay(mContext.getString(R.string.error_oops), mContext.getString(R.string.error_loading_data));
+                new CustomNetworkErrorHandler(mActivity)
+                        .errorDialogDisplay(mActivity.getString(R.string.error_oops), mActivity.getString(R.string.error_loading_data));
             }
 
             super.onPostExecute(result);

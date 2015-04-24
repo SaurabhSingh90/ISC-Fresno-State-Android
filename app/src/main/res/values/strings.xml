@@ -3,7 +3,7 @@
 
     <string name="title_section1">Discussion Forum</string>
     <string name="title_section2">Top News</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section3">Forms</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -31,5 +31,6 @@
     <string name="title_activity_edit_post">Edit Post</string>
     <string name="delete_message_text">Once you hit delete there\'s no coming back.</string>
     <string name="delete_title_text">Are you sure?</string>
+    <string name="title_activity_form_view">Form View</string>
 
 </resources>

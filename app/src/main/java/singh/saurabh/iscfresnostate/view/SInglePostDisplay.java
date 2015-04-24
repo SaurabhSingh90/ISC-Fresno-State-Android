@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.ActionMode;
@@ -140,6 +141,12 @@ public class SinglePostDisplay extends ActionBarActivity {
         finish();
     }
 
+    public void restoreActionBar(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(title);
+    }
+
     public void loadPost() {
         mProgressDialog.show();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
@@ -166,6 +173,8 @@ public class SinglePostDisplay extends ActionBarActivity {
                     mDate.setText(posted_on);
                     mTag.setText("TAGS: " + parseObject.get(POST_TAGS).toString());
                     mContent.setText(parseObject.get(POST_CONTENT).toString());
+
+                    restoreActionBar(mTitle.getText().toString().toUpperCase());
                 } else {
                     mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.post_not_available_text));
                 }
