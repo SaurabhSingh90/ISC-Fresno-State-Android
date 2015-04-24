@@ -8,16 +8,16 @@ import butterknife.ButterKnife.Injector;
 public class LoginActivity$$ViewInjector<T extends singh.saurabh.iscfresnostate.view.LoginActivity> implements Injector<T> {
   @Override public void inject(final Finder finder, final T target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131361897, "field 'mEmailView'");
-    target.mEmailView = finder.castView(view, 2131361897, "field 'mEmailView'");
-    view = finder.findRequiredView(source, 2131361898, "field 'mPasswordView'");
-    target.mPasswordView = finder.castView(view, 2131361898, "field 'mPasswordView'");
-    view = finder.findRequiredView(source, 2131361900, "field 'mEmailSignInButton'");
-    target.mEmailSignInButton = finder.castView(view, 2131361900, "field 'mEmailSignInButton'");
-    view = finder.findRequiredView(source, 2131361902, "field 'mSignUpTextView'");
-    target.mSignUpTextView = finder.castView(view, 2131361902, "field 'mSignUpTextView'");
-    view = finder.findRequiredView(source, 2131361901, "field 'mForgotPasswordTextView'");
-    target.mForgotPasswordTextView = finder.castView(view, 2131361901, "field 'mForgotPasswordTextView'");
+    view = finder.findRequiredView(source, 2131361898, "field 'mEmailView'");
+    target.mEmailView = finder.castView(view, 2131361898, "field 'mEmailView'");
+    view = finder.findRequiredView(source, 2131361899, "field 'mPasswordView'");
+    target.mPasswordView = finder.castView(view, 2131361899, "field 'mPasswordView'");
+    view = finder.findRequiredView(source, 2131361901, "field 'mEmailSignInButton'");
+    target.mEmailSignInButton = finder.castView(view, 2131361901, "field 'mEmailSignInButton'");
+    view = finder.findRequiredView(source, 2131361903, "field 'mSignUpTextView'");
+    target.mSignUpTextView = finder.castView(view, 2131361903, "field 'mSignUpTextView'");
+    view = finder.findRequiredView(source, 2131361902, "field 'mForgotPasswordTextView'");
+    target.mForgotPasswordTextView = finder.castView(view, 2131361902, "field 'mForgotPasswordTextView'");
   }
 
   @Override public void reset(T target) {

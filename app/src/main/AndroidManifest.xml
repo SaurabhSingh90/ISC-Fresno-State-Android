@@ -58,8 +58,7 @@
         </activity>
         <activity
             android:name=".view.SinglePostDisplay"
-            android:label="--"
-            >
+            android:label="--" >
         </activity>
 
         <!-- Permissions required for parse.com notifications -->
@@ -103,6 +102,10 @@
         <activity
             android:name=".view.FormView"
             android:label="@string/title_activity_form_view" >
+        </activity>
+        <activity
+            android:name=".view.GalleryView"
+            android:label="@string/title_activity_gallery_view" >
         </activity>
     </application>
 

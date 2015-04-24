@@ -109,6 +109,10 @@
             android:name="singh.saurabh.iscfresnostate.view.FormView"
             android:label="@string/title_activity_form_view" >
         </activity>
+        <activity
+            android:name="singh.saurabh.iscfresnostate.view.GalleryView"
+            android:label="@string/title_activity_gallery_view" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

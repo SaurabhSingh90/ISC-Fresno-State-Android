@@ -8,18 +8,18 @@ import butterknife.ButterKnife.Injector;
 public class SignUpActivity$$ViewInjector<T extends singh.saurabh.iscfresnostate.view.SignUpActivity> implements Injector<T> {
   @Override public void inject(final Finder finder, final T target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131361908, "field 'mFirstName'");
-    target.mFirstName = finder.castView(view, 2131361908, "field 'mFirstName'");
-    view = finder.findRequiredView(source, 2131361909, "field 'mLastName'");
-    target.mLastName = finder.castView(view, 2131361909, "field 'mLastName'");
-    view = finder.findRequiredView(source, 2131361910, "field 'mEmail'");
-    target.mEmail = finder.castView(view, 2131361910, "field 'mEmail'");
-    view = finder.findRequiredView(source, 2131361911, "field 'mPassword'");
-    target.mPassword = finder.castView(view, 2131361911, "field 'mPassword'");
-    view = finder.findRequiredView(source, 2131361912, "field 'mConfirmPassword'");
-    target.mConfirmPassword = finder.castView(view, 2131361912, "field 'mConfirmPassword'");
-    view = finder.findRequiredView(source, 2131361914, "field 'mSignUpButton'");
-    target.mSignUpButton = finder.castView(view, 2131361914, "field 'mSignUpButton'");
+    view = finder.findRequiredView(source, 2131361909, "field 'mFirstName'");
+    target.mFirstName = finder.castView(view, 2131361909, "field 'mFirstName'");
+    view = finder.findRequiredView(source, 2131361910, "field 'mLastName'");
+    target.mLastName = finder.castView(view, 2131361910, "field 'mLastName'");
+    view = finder.findRequiredView(source, 2131361911, "field 'mEmail'");
+    target.mEmail = finder.castView(view, 2131361911, "field 'mEmail'");
+    view = finder.findRequiredView(source, 2131361912, "field 'mPassword'");
+    target.mPassword = finder.castView(view, 2131361912, "field 'mPassword'");
+    view = finder.findRequiredView(source, 2131361913, "field 'mConfirmPassword'");
+    target.mConfirmPassword = finder.castView(view, 2131361913, "field 'mConfirmPassword'");
+    view = finder.findRequiredView(source, 2131361915, "field 'mSignUpButton'");
+    target.mSignUpButton = finder.castView(view, 2131361915, "field 'mSignUpButton'");
   }
 
   @Override public void reset(T target) {

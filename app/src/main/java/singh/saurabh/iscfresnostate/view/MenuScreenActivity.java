@@ -33,6 +33,7 @@ import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
 import singh.saurabh.iscfresnostate.model.DiscussionForum;
 import singh.saurabh.iscfresnostate.model.Forms;
+import singh.saurabh.iscfresnostate.model.Gallery;
 import singh.saurabh.iscfresnostate.model.News;
 
 
@@ -59,14 +60,11 @@ public class MenuScreenActivity extends ActionBarActivity
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
     private SwipeRefreshLayout mSwipeRefreshLayout = null;
 
-    // Url's
-    private static String mCommitteeUrl = "http://www.iscfresnostate.com/committee/";
-
-
     // Class objects for fragments
     private static DiscussionForum mDiscussionForum = null;
     private static News mNews = null;
     private static Forms mForms = null;
+    private static Gallery mGallery = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -377,13 +375,14 @@ public class MenuScreenActivity extends ActionBarActivity
                     // Gallery
                     SECTION_NUMBER = 5;
                     rootView = inflater.inflate(R.layout.fragment_5_gallery, container, false);
+                    mGallery = new Gallery(getActivity(), rootView);
+                    mGallery.startGalleryFragment();
                     break;
 
                 case 6:
                     // Things you need
                     SECTION_NUMBER = 6;
                     rootView = inflater.inflate(R.layout.fragment_6_essentials, container, false);
-
                     break;
 
                 case 7:
@@ -397,6 +396,7 @@ public class MenuScreenActivity extends ActionBarActivity
                 case 8:
                     // About us
                     SECTION_NUMBER = 8;
+                    String mCommitteeUrl = "http://www.iscfresnostate.com/committee/";
                     final ProgressDialog dialog = new ProgressDialog(mContextThemeWrapper);
                     dialog.setMessage(getString(R.string.loading_text));
                     dialog.setIndeterminate(false);

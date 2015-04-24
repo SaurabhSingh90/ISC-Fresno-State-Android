@@ -366,6 +366,15 @@ available. Please contact the developer for assistance.</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="forgot_password_textView">Forgot Password</string>
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_gallery.xml -->
+    <eat-comment/>
+    <string name="gallery_1">International Culture Night 2014</string>
+    <string name="gallery_2">ISC KickStart Party 2014</string>
+    <string name="gallery_3">Diwali Dhamaka 2014</string>
+    <string name="gallery_4">Intl\' Education Week - ISC PhotoBooth</string>
+    <string name="gallery_5">Pegasus Career Development workshop</string>
+    <string name="gallery_6">ISC Elections Fall 2014</string>
+    <string name="gallery_7">Gandhi Jayanthi 2014</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="hello_world">Hello world!</string>
@@ -384,11 +393,9 @@ available. Please contact the developer for assistance.</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_fragment_1.xml -->
     <eat-comment/>
     <string name="loading_post_text">Loading posts…</string>
-    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_single_post_display.xml -->
-    <eat-comment/>
-    <string name="loading_text">Loading…</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="loading_text">Loading…</string>
     <string name="mark_all">Mark all</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -404,6 +411,9 @@ available. Please contact the developer for assistance.</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_forms.xml -->
     <eat-comment/>
     <string name="pick_up">PICK-UP</string>
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="please_wait">Please wait…</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_add_new_post.xml -->
     <eat-comment/>
     <string name="post_added_text">Post added successfully</string>
@@ -452,6 +462,7 @@ available. Please contact the developer for assistance.</string>
     <string name="title_activity_add_new_post">Add New Post</string>
     <string name="title_activity_edit_post">Edit Post</string>
     <string name="title_activity_form_view">Form View</string>
+    <string name="title_activity_gallery_view">Gallery View</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="title_activity_login">Sign in</string>
