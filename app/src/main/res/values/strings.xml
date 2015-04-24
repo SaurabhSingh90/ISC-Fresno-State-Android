@@ -3,7 +3,14 @@
 
     <string name="title_section1">Discussion Forum</string>
     <string name="title_section2">Top News</string>
-    <string name="title_section3">Forms</string>
+    <string name="title_section3">Buy/Sell</string>
+    <string name="title_section4">Job Postings</string>
+    <string name="title_section5">Gallery</string>
+    <string name="title_section6">Things you need</string>
+    <string name="title_section7">Forms</string>
+    <string name="title_section8">About us</string>
+    <string name="title_section9">FAQs</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

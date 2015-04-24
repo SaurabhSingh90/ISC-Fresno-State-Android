@@ -31,4 +31,9 @@ dependencies {
 
     // Butter-Knife Dependency
     compile 'com.jakewharton:butterknife:6.1.0'
+
+//    // Mail dependencies
+//    compile files('libs/activation.jar')
+//    compile files('libs/additionnal.jar')
+//    compile files('libs/mail.jar')
 }

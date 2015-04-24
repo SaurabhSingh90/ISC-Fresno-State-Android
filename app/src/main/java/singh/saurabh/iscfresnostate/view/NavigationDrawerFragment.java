@@ -106,6 +106,12 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section1).toUpperCase(),
                         getString(R.string.title_section2).toUpperCase(),
                         getString(R.string.title_section3).toUpperCase(),
+                        getString(R.string.title_section4).toUpperCase(),
+                        getString(R.string.title_section5).toUpperCase(),
+                        getString(R.string.title_section6).toUpperCase(),
+                        getString(R.string.title_section7).toUpperCase(),
+                        getString(R.string.title_section8).toUpperCase(),
+                        getString(R.string.title_section9).toUpperCase(),
                 }));
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);

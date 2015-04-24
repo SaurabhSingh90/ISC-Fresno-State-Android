@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -21,6 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
@@ -47,12 +51,17 @@ public class MenuScreenActivity extends ActionBarActivity
 
     private static String TAG = MenuScreenActivity.class.getSimpleName();
     private Context mContext = this;
+    private ActionMode mActionMode;
 
     private static int SECTION_NUMBER = 0;
 
     private static ContextThemeWrapper mContextThemeWrapper;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
     private SwipeRefreshLayout mSwipeRefreshLayout = null;
+
+    // Url's
+    private static String mCommitteeUrl = "http://www.iscfresnostate.com/committee/";
+
 
     // Class objects for fragments
     private static DiscussionForum mDiscussionForum = null;
@@ -126,6 +135,24 @@ public class MenuScreenActivity extends ActionBarActivity
             case 3:
                 mTitle = getString(R.string.title_section3).toUpperCase();
                 break;
+            case 4:
+                mTitle = getString(R.string.title_section4).toUpperCase();
+                break;
+            case 5:
+                mTitle = getString(R.string.title_section5).toUpperCase();
+                break;
+            case 6:
+                mTitle = getString(R.string.title_section6).toUpperCase();
+                break;
+            case 7:
+                mTitle = getString(R.string.title_section7).toUpperCase();
+                break;
+            case 8:
+                mTitle = getString(R.string.title_section8).toUpperCase();
+                break;
+            case 9:
+                mTitle = getString(R.string.title_section9).toUpperCase();
+                break;
         }
     }
 
@@ -149,6 +176,18 @@ public class MenuScreenActivity extends ActionBarActivity
             } else if (SECTION_NUMBER == 2) {
                 getMenuInflater().inflate(R.menu.menu_news, menu);
             } else if (SECTION_NUMBER == 3) {
+                getMenuInflater().inflate(R.menu.global, menu);
+            } else if (SECTION_NUMBER == 4) {
+                getMenuInflater().inflate(R.menu.global, menu);
+            } else if (SECTION_NUMBER == 5) {
+                getMenuInflater().inflate(R.menu.global, menu);
+            } else if (SECTION_NUMBER == 6) {
+                getMenuInflater().inflate(R.menu.global, menu);
+            } else if (SECTION_NUMBER == 7) {
+                getMenuInflater().inflate(R.menu.global, menu);
+            } else if (SECTION_NUMBER == 8) {
+                getMenuInflater().inflate(R.menu.global, menu);
+            } else if (SECTION_NUMBER == 9) {
                 getMenuInflater().inflate(R.menu.global, menu);
             }
 
@@ -206,9 +245,9 @@ public class MenuScreenActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         if (id == R.id.action_refresh) {
             mDiscussionForum.startLoadCommentsTask();
@@ -216,6 +255,7 @@ public class MenuScreenActivity extends ActionBarActivity
         }
 
         if (id == R.id.action_delete_post) {
+            mActionMode = startSupportActionMode(mDiscussionForum.ActionBarCallBack());
             mDiscussionForum.deleteTask = true;
             mDiscussionForum.deletePostTask();
             return true;
@@ -279,6 +319,7 @@ public class MenuScreenActivity extends ActionBarActivity
             View rootView = null;
             switch (i) {
                 case 1:
+                    // Discussion Forum
                     SECTION_NUMBER = 1;
                     rootView = inflater.inflate(R.layout.fragment_1_discussion_forum, container, false);
                     mDiscussionForum.startLoadCommentsTask();
@@ -298,7 +339,9 @@ public class MenuScreenActivity extends ActionBarActivity
                         });
                     }
                     break;
+
                 case 2:
+                    // Top News
                     SECTION_NUMBER = 2;
                     rootView = inflater.inflate(R.layout.fragment_2_news, container, false);
                     mNews.startLoadNewsTask();
@@ -317,11 +360,74 @@ public class MenuScreenActivity extends ActionBarActivity
                         });
                     }
                     break;
+
                 case 3:
+                    // Buy/Sell
                     SECTION_NUMBER = 3;
-                    rootView = inflater.inflate(R.layout.fragment_3_forms, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_3_buy_sell, container, false);
+                    break;
+
+                case 4:
+                    // Job Posting
+                    SECTION_NUMBER = 4;
+                    rootView = inflater.inflate(R.layout.fragment_4_job_postings, container, false);
+                    break;
+
+                case 5:
+                    // Gallery
+                    SECTION_NUMBER = 5;
+                    rootView = inflater.inflate(R.layout.fragment_5_gallery, container, false);
+                    break;
+
+                case 6:
+                    // Things you need
+                    SECTION_NUMBER = 6;
+                    rootView = inflater.inflate(R.layout.fragment_6_essentials, container, false);
+
+                    break;
+
+                case 7:
+                    // Forms
+                    SECTION_NUMBER = 7;
+                    rootView = inflater.inflate(R.layout.fragment_7_forms, container, false);
                     mForms = new Forms(getActivity(), rootView);
                     mForms.startFormsFragment();
+                    break;
+
+                case 8:
+                    // About us
+                    SECTION_NUMBER = 8;
+                    final ProgressDialog dialog = new ProgressDialog(mContextThemeWrapper);
+                    dialog.setMessage(getString(R.string.loading_text));
+                    dialog.setIndeterminate(false);
+                    dialog.setCancelable(false);
+                    rootView = inflater.inflate(R.layout.fragment_8_committee, container, false);
+                    WebView mFormWebView = (WebView) rootView.findViewById(R.id.committee_webView);
+                    if (mCustomNetworkErrorHandler.isNetworkAvailable()) {
+                        dialog.show();
+                        mFormWebView.setWebChromeClient(new WebChromeClient() {
+                            public void onProgressChanged(WebView view, int progress) {
+                                setProgress(progress * 100);
+                                if(progress == 100) {
+                                    if (dialog.isShowing())
+                                        dialog.dismiss();
+                                }
+                            }
+                        });
+                        mFormWebView.setWebViewClient(new WebViewClient() {
+                            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                                mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.error_loading_data));
+                            }
+                        });
+                        mFormWebView.loadUrl(mCommitteeUrl);
+                    } else
+                        mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.check_network));
+                    break;
+
+                case 9:
+                    // FAQs
+                    SECTION_NUMBER = 9;
+                    rootView = inflater.inflate(R.layout.fragment_9_faq, container, false);
                     break;
             }
             return rootView;
@@ -346,7 +452,6 @@ public class MenuScreenActivity extends ActionBarActivity
 
         @Override
         protected Void doInBackground(Void... params) {
-            Log.d(TAG, mDiscussionForum.deleteTask + "..");
             if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing() && !mDiscussionForum.deleteTask) {
                 try {
                     Thread.sleep(TASK_DURATION);

@@ -1,11 +1,7 @@
 package singh.saurabh.iscfresnostate.controller.feedParser;
 
 import android.util.Log;
-import android.util.Xml;
 
-import org.xmlpull.v1.XmlSerializer;
-
-import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,18 +21,18 @@ public class MessageList {
 
 	private ArrayList<HashMap<String, String>> loadFeed(ParserType type){
     	try{
-    		Log.i("AndroidNews", "ParserType=" + type.name());
+//    		Log.i("AndroidNews", "ParserType=" + type.name());
 
 	    	FeedParser parser = FeedParserFactory.getParser(type);
 
-	    	long start = System.currentTimeMillis();
+//	    	long start = System.currentTimeMillis();
 
 			assert parser != null;
 			mMessages = parser.parse();
-			Log.i("AndroidNews", mMessages.toString());
-
-			long duration = System.currentTimeMillis() - start;
-	    	Log.i("AndroidNews", "Parser duration=" + duration);
+//			Log.i("AndroidNews", mMessages.toString());
+//
+//			long duration = System.currentTimeMillis() - start;
+//	    	Log.i("AndroidNews", "Parser duration=" + duration);
 //	    	String xml = writeXml();
 //	    	Log.i("AndroidNews", xml);
 
@@ -73,37 +69,37 @@ public class MessageList {
         return null;
     }
     
-	private String writeXml(){
-		XmlSerializer serializer = Xml.newSerializer();
-		StringWriter writer = new StringWriter();
-		try {
-			serializer.setOutput(writer);
-			serializer.startDocument("UTF-8", true);
-			serializer.startTag("", "messages");
-			serializer.attribute("", "number", String.valueOf(mMessages.size()));
-			for (Message msg: mMessages){
-				serializer.startTag("", "message");
-				serializer.attribute("", "date", msg.getDate());
-				serializer.startTag("", "title");
-				serializer.text(msg.getTitle());
-				serializer.endTag("", "title");
-				serializer.startTag("", "url");
-				serializer.text(msg.getLink().toExternalForm());
-				serializer.endTag("", "url");
-
-//				serializer.startTag("", "author");
-//				serializer.text(msg.getAuthor());
-//				serializer.endTag("", "author");
-				serializer.startTag("", "body");
-				serializer.text(msg.getDescription());
-				serializer.endTag("", "body");
-				serializer.endTag("", "message");
-			}
-			serializer.endTag("", "messages");
-			serializer.endDocument();
-			return writer.toString();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		} 
-	}
+//	private String writeXml(){
+//		XmlSerializer serializer = Xml.newSerializer();
+//		StringWriter writer = new StringWriter();
+//		try {
+//			serializer.setOutput(writer);
+//			serializer.startDocument("UTF-8", true);
+//			serializer.startTag("", "messages");
+//			serializer.attribute("", "number", String.valueOf(mMessages.size()));
+//			for (Message msg: mMessages){
+//				serializer.startTag("", "message");
+//				serializer.attribute("", "date", msg.getDate());
+//				serializer.startTag("", "title");
+//				serializer.text(msg.getTitle());
+//				serializer.endTag("", "title");
+//				serializer.startTag("", "url");
+//				serializer.text(msg.getLink().toExternalForm());
+//				serializer.endTag("", "url");
+//
+////				serializer.startTag("", "author");
+////				serializer.text(msg.getAuthor());
+////				serializer.endTag("", "author");
+//				serializer.startTag("", "body");
+//				serializer.text(msg.getDescription());
+//				serializer.endTag("", "body");
+//				serializer.endTag("", "message");
+//			}
+//			serializer.endTag("", "messages");
+//			serializer.endDocument();
+//			return writer.toString();
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
+//	}
 }

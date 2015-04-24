@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -628,7 +628,7 @@ public class SinglePostDisplay extends ActionBarActivity {
                         @Override
                         public void onClick(View v) {
                             if (mActionMode == null)
-                                mActionMode = startActionMode(new ActionBarCallBack());
+                                mActionMode = startSupportActionMode(new ActionBarCallBack());
 
                             if (!mArrayForCheckMarks[position])
                                 mArrayForCheckMarks[position] = true;

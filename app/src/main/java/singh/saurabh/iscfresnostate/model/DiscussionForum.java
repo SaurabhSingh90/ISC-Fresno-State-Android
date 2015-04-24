@@ -3,10 +3,11 @@ package singh.saurabh.iscfresnostate.model;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.view.ActionMode;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,6 +45,8 @@ public class DiscussionForum {
 
     private static String TAG = DiscussionForum.class.getSimpleName();
     private Activity mActivity;
+    private static Context mContext;
+    private SinglePostDisplay mSinglePostDisplay = new SinglePostDisplay();
     private ProgressDialog mProgressDialog;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
     private ArrayAdapter<HashMap<String, String>> postList_adapter = null;
@@ -272,7 +275,6 @@ public class DiscussionForum {
             dataList.put("tags", tags);
             mPostListForDelete.add(dataList);
         }
-        mActionMode = mActivity.startActionMode(new ActionBarCallBack());
 
         ListView lv = (ListView) mActivity.findViewById(android.R.id.list);
         if (mPostListForDelete != null) {
@@ -282,6 +284,10 @@ public class DiscussionForum {
             TextView empty_text = (TextView) mActivity.findViewById(android.R.id.empty);
             lv.setEmptyView(empty_text);
         }
+    }
+
+    public ActionMode.Callback ActionBarCallBack() {
+        return new ActionBarCallBack();
     }
 
 
