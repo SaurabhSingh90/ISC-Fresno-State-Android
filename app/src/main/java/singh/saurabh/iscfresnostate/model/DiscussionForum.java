@@ -35,7 +35,6 @@ import java.util.Locale;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomAdapter;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
-import singh.saurabh.iscfresnostate.view.MenuScreenActivity;
 import singh.saurabh.iscfresnostate.view.SinglePostDisplay;
 
 /**
@@ -47,7 +46,6 @@ public class DiscussionForum {
     private Activity mActivity;
     private ProgressDialog mProgressDialog;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
-    private MenuScreenActivity mMenuScreenActivity = new MenuScreenActivity();
     private ArrayAdapter<HashMap<String, String>> postList_adapter = null;
     private ArrayAdapter<HashMap<String, String>> deleteList_adapter = null;
 
@@ -60,6 +58,7 @@ public class DiscussionForum {
     private ActionMode mActionMode;
     private int mDeletePostCounter = 0;
     private Boolean mZeroPostToDelete = true;
+    public Boolean deleteTask = false;
 
     // Parse Column Names
     private String POST_TITLE = "postTitle";
@@ -166,69 +165,77 @@ public class DiscussionForum {
     }
 
     public void searchPostTask(final String query) {
-        flag = false;
+        if (mCustomNetworkErrorHandler.isNetworkAvailable()) {
+            flag = false;
 
-        List<ParseQuery<ParseObject>> queries = new ArrayList<>();
+            List<ParseQuery<ParseObject>> queries = new ArrayList<>();
 
-        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Post");
-        query1.whereMatches("postTitle", query, "im");
+            ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Post");
+            query1.whereMatches("postTitle", query, "im");
 
-        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Post");
-        query2.whereMatches("firstName", query, "im");
+            ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Post");
+            query2.whereMatches("firstName", query, "im");
 
-        ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Post");
-        query3.whereEqualTo("postTags", query);
+            ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Post");
+            query3.whereEqualTo("postTags", query);
 
-        queries.add(query1);
-        queries.add(query2);
-        queries.add(query3);
+            queries.add(query1);
+            queries.add(query2);
+            queries.add(query3);
 
-        ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-        mainQuery.orderByAscending("createdAt");
-        mainQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                if (parseObjects.size() > 0) {
-                    if (e == null) {
-                        fillPostList(parseObjects, flag);
+            ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+            mainQuery.orderByAscending("createdAt");
+            mainQuery.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                    if (parseObjects.size() > 0) {
+                        if (e == null) {
+                            fillPostList(parseObjects, flag);
+                        } else {
+                            Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     } else {
-                        Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+                        fillPostList(parseObjects, flag);
+                        Toast.makeText(mActivity, "No results found!!", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    fillPostList(parseObjects, flag);
-                    Toast.makeText(mActivity, "No results found!!", Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+            });
+        } else
+            mCustomNetworkErrorHandler.errorDialogDisplay(mActivity.getString(R.string.error_oops), mActivity.getString(R.string.check_network));
     }
 
     public void deletePostTask() {
-        mProgressDialog.show();
-        flag = true;
-
-        // Find post(s) of current user only for deletion
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
-        query.whereEqualTo("user", currentUser);
-        query.orderByDescending("createdAt");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                mProgressDialog.dismiss();
-                if (parseObjects.size() > 0) {
-                    if (e == null) {
-                        mActionMode = mActivity.startActionMode(new ActionBarCallBack());
-                        mArrOfPostObjectsToDelete = parseObjects;
-                        updateList_for_delete(parseObjects, flag);
+        deleteTask = true;
+        if (mCustomNetworkErrorHandler.isNetworkAvailable()) {
+            mProgressDialog.show();
+            flag = true;
+            // Find post(s) of current user only for deletion
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
+            query.whereEqualTo("user", currentUser);
+            query.orderByDescending("createdAt");
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                    mProgressDialog.dismiss();
+                    if (parseObjects.size() > 0) {
+                        if (e == null) {
+                            mArrOfPostObjectsToDelete = parseObjects;
+                            updateList_for_delete(parseObjects, flag);
+                        } else {
+                            Toast.makeText(mActivity, "No post(s) to delete", Toast.LENGTH_LONG).show();
+                        }
                     } else {
                         Toast.makeText(mActivity, "No post(s) to delete", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toast.makeText(mActivity, "No post(s) to delete", Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+            });
 
+
+        } else {
+            Log.d(TAG, "No network");
+            mCustomNetworkErrorHandler.errorDialogDisplay(mActivity.getString(R.string.error_oops), mActivity.getString(R.string.check_network));
+        }
     }
 
     public void updateList_for_delete(List<ParseObject> parseObjects, boolean flag_for_checkbox) {
@@ -265,11 +272,11 @@ public class DiscussionForum {
             dataList.put("tags", tags);
             mPostListForDelete.add(dataList);
         }
+        mActionMode = mActivity.startActionMode(new ActionBarCallBack());
 
         ListView lv = (ListView) mActivity.findViewById(android.R.id.list);
         if (mPostListForDelete != null) {
-            deleteList_adapter =
-                    new CustomAdapter(mActivity, mPostListForDelete, flag_for_checkbox);
+            deleteList_adapter = new CustomAdapter(mActivity, mPostListForDelete, flag_for_checkbox);
             lv.setAdapter(deleteList_adapter);
         } else {
             TextView empty_text = (TextView) mActivity.findViewById(android.R.id.empty);
@@ -373,12 +380,13 @@ public class DiscussionForum {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.contextual_menu, menu);
-
+            
             return true;
         }
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
+            deleteTask = false;
             startLoadCommentsTask();
         }
 

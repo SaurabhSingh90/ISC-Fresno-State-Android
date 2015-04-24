@@ -53,7 +53,6 @@ public class MenuScreenActivity extends ActionBarActivity
     private static News mNews = null;
     private static ContextThemeWrapper mContextThemeWrapper;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
-    public Boolean deleteTask = false;
     private SwipeRefreshLayout mSwipeRefreshLayout = null;
 
     @Override
@@ -141,9 +140,9 @@ public class MenuScreenActivity extends ActionBarActivity
             // decide what to show in the action bar.
             if (SECTION_NUMBER == 1) {
                 getMenuInflater().inflate(R.menu.menu_discussion_forum, menu);
-                searchViewTask(menu);
+                searchViewInitializing(menu);
             } else if (SECTION_NUMBER == 2) {
-                getMenuInflater().inflate(R.menu.menu_discussion_forum, menu);
+                getMenuInflater().inflate(R.menu.menu_news, menu);
             }
 
             restoreActionBar();
@@ -152,7 +151,7 @@ public class MenuScreenActivity extends ActionBarActivity
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void searchViewTask(Menu menu) {
+    private void searchViewInitializing(Menu menu) {
         MenuItem searchItem = menu.findItem(R.id.action_search_discussion_forum);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint("Name/Title/Tag");
@@ -210,7 +209,7 @@ public class MenuScreenActivity extends ActionBarActivity
         }
 
         if (id == R.id.action_delete_post) {
-            deleteTask = true;
+            mDiscussionForum.deleteTask = true;
             mDiscussionForum.deletePostTask();
             return true;
         }
@@ -227,7 +226,6 @@ public class MenuScreenActivity extends ActionBarActivity
             finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -278,7 +276,7 @@ public class MenuScreenActivity extends ActionBarActivity
                     rootView = inflater.inflate(R.layout.fragment_1_discussion_forum, container, false);
                     mDiscussionForum.startLoadCommentsTask();
 
-                    if (!deleteTask) {
+                    if (!mDiscussionForum.deleteTask) {
                         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.post_list_swipeRefreshLayout);
                         mSwipeRefreshLayout.setColorScheme(
                                 R.color.swipe_color_1, R.color.swipe_color_2,
@@ -297,7 +295,7 @@ public class MenuScreenActivity extends ActionBarActivity
                     SECTION_NUMBER = 2;
                     rootView = inflater.inflate(R.layout.fragment_2_news, container, false);
                     mNews.startLoadNewsTask();
-                    if (!deleteTask) {
+                    if (!mDiscussionForum.deleteTask) {
                         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.news_list_swipeRefreshLayout);
                         mSwipeRefreshLayout.setColorScheme(
                                 R.color.swipe_color_1, R.color.swipe_color_2,
@@ -337,7 +335,8 @@ public class MenuScreenActivity extends ActionBarActivity
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing() && !deleteTask) {
+            Log.d(TAG, mDiscussionForum.deleteTask + "..");
+            if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing() && !mDiscussionForum.deleteTask) {
                 try {
                     Thread.sleep(TASK_DURATION);
                 } catch (InterruptedException e) {
@@ -353,9 +352,9 @@ public class MenuScreenActivity extends ActionBarActivity
             if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing()) {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-            if (SECTION_NUMBER == 1 && !deleteTask) {
+            if (SECTION_NUMBER == 1 && !mDiscussionForum.deleteTask) {
                 mDiscussionForum.startLoadCommentsTask();
-            } else if (SECTION_NUMBER == 2 && !deleteTask) {
+            } else if (SECTION_NUMBER == 2 && !mDiscussionForum.deleteTask) {
                 mNews.startLoadNewsTask();
             }
         }

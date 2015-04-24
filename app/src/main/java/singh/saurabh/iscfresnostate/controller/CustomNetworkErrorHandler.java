@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.view.ContextThemeWrapper;
 
+import singh.saurabh.iscfresnostate.R;
+
 /**
  * Created by ${SAURBAH} on ${10/29/14}.
  */
@@ -23,7 +25,7 @@ public class CustomNetworkErrorHandler extends AlertDialog {
 
     public void errorDialogDisplay(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContextThemeWrapper);
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        builder.setIcon(R.mipmap.ic_action_error)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {

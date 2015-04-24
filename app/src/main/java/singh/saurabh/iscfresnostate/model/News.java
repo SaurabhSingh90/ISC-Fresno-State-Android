@@ -25,6 +25,7 @@ import singh.saurabh.iscfresnostate.controller.feedParser.MessageList;
 public class News {
 
     private Activity mContext;
+    private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
 
     // Variables for News Class
     private List<Message> messages;
@@ -41,10 +42,14 @@ public class News {
 
     public News(Activity context) {
         this.mContext = context;
+        mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(mContext);
     }
 
     public void startLoadNewsTask() {
-        new LoadNews().execute();
+        if (mCustomNetworkErrorHandler.isNetworkAvailable())
+            new LoadNews().execute();
+        else
+            mCustomNetworkErrorHandler.errorDialogDisplay(mContext.getString(R.string.error_oops), mContext.getString(R.string.check_network));
     }
 
     /**

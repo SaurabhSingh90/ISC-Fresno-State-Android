@@ -13,7 +13,7 @@
         android:id="@+id/delete_sign"
         android:orderInCategory="101"
         android:title="@string/delete_post"
-        android:icon="@android:drawable/ic_menu_delete">
+        android:icon="@mipmap/ic_action_delete">
     </item>
 
 </menu>

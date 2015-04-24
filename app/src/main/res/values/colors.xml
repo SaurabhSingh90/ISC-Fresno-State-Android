@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="custom_button_red">#e3960606</color>
-    <color name="custom_navigation_drawer_red">#ff4b0404</color>
 
     <color name="custom_flag_saffron">#ffff8407</color>
     <color name="custom_flag_green">#ff3bc301</color>

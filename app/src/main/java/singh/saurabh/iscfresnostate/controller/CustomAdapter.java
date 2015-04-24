@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import singh.saurabh.iscfresnostate.R;
-import singh.saurabh.iscfresnostate.view.SinglePostDisplay;
 
 /**
  * Created by ${SAURBAH} on ${10/29/14}.
@@ -23,7 +22,6 @@ public class CustomAdapter extends ArrayAdapter<HashMap<String, String>> {
     private static ArrayList<HashMap<String, String>> mList;
     private static Boolean checkBoxVisibilityFlag = false;
     public static Boolean[] mArrayForCheckMarks;
-    private SinglePostDisplay mSinglePostDisplay = new SinglePostDisplay();
 
     public CustomAdapter(Context context, ArrayList<HashMap<String, String>> postList, Boolean flag) {
         super(context, R.layout.single_postlist_item, postList);
