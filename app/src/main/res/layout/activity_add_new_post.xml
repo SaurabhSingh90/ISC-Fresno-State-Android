@@ -1,80 +1,73 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="singh.saurabh.iscfresnostate.view.AddNewPost"
-                android:background="@drawable/list_bg">
-
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNewPost_progressBar"
-        android:visibility="gone"
-        android:layout_centerInParent="true"/>
+    android:background="@drawable/list_bg"
+    tools:context="singh.saurabh.iscfresnostate.view.AddNewPost">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_gradient">
+        android:background="@drawable/bg_gradient"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/add_new_post_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:background="@drawable/box_gradient"
             android:layout_margin="10dp"
-            android:id="@+id/add_new_post_container">
+            android:background="@drawable/box_gradient"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/title_editText"
-                android:layout_marginBottom="10dp"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/darker_gray"
-                android:hint="@string/hint_title_editText"
-                android:typeface="serif"
-                android:singleLine="true"/>
-
-            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:ems="10"
-                android:id="@+id/postContent_editText"
                 android:layout_marginBottom="10dp"
+                android:hint="@string/hint_title_editText"
+                android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/darker_gray"
+                android:typeface="serif"/>
+
+            <EditText
+                android:id="@+id/postContent_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:ems="10"
                 android:hint="@string/hint_post_content_editText"
-                android:typeface="serif" />
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/darker_gray"
+                android:typeface="serif"/>
 
             <EditText
                 android:id="@+id/post_tags_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeActionLabel="@string/action_submit_post_short"
-                android:imeActionId="@+id/action_add_post"
-                android:imeOptions="actionDone"
                 android:layout_marginBottom="10dp"
+                android:hint="@string/hint_post_tags_editText"
+                android:imeActionId="@+id/action_add_post"
+                android:imeActionLabel="@string/action_submit_post_short"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/darker_gray"
-                android:hint="@string/hint_post_tags_editText"
-                android:typeface="serif"
-                android:singleLine="true"/>
+                android:typeface="serif"/>
 
             <Button
+                android:id="@+id/submit_post_button"
+                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/custom_button_red"
                 android:text="@string/submit_post_button_text"
-                android:id="@+id/submit_post_button"
-                android:textStyle="bold"
-                style="?android:textAppearanceSmall"
-                android:typeface="serif"
                 android:textColor="@android:color/white"
-                android:background="@color/custom_button_red" />
+                android:textStyle="bold"
+                android:typeface="serif"/>
         </LinearLayout>
     </LinearLayout>
 

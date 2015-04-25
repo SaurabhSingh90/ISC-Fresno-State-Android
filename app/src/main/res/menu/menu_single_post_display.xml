@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="singh.saurabh.iscfresnostate.view.SinglePostDisplay">
+      tools:context="singh.saurabh.iscfresnostate.view.PostDescription">
 
     <item
         android:id="@+id/action_edit_post"

@@ -44,5 +44,6 @@
     // Progress bar strings
     <string name="loading_text">Loading…</string>
     <string name="please_wait">Please wait…</string>
+    <string name="title_activity_add_new_job_post">Add New Job Post</string>
 
 </resources>

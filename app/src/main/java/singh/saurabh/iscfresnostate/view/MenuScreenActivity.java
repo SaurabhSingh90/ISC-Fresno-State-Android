@@ -34,6 +34,7 @@ import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
 import singh.saurabh.iscfresnostate.model.DiscussionForum;
 import singh.saurabh.iscfresnostate.model.Forms;
 import singh.saurabh.iscfresnostate.model.Gallery;
+import singh.saurabh.iscfresnostate.model.JobPost;
 import singh.saurabh.iscfresnostate.model.News;
 
 
@@ -63,6 +64,7 @@ public class MenuScreenActivity extends ActionBarActivity
     // Class objects for fragments
     private static DiscussionForum mDiscussionForum = null;
     private static News mNews = null;
+    private static JobPost mJobPost = null;
     private static Forms mForms = null;
     private static Gallery mGallery = null;
 
@@ -203,18 +205,27 @@ public class MenuScreenActivity extends ActionBarActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // perform query here
-                mDiscussionForum.searchPostTask(query);
+                if (SECTION_NUMBER == 1)
+                    mDiscussionForum.searchPostTask(query);
+                else if (SECTION_NUMBER == 4)
+                    mJobPost.searchJobPostTask(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() > 2) {
-                    mDiscussionForum.searchPostTask(newText);
+                    if (SECTION_NUMBER == 1)
+                        mDiscussionForum.searchPostTask(newText);
+                    else if (SECTION_NUMBER == 4)
+                        mJobPost.searchJobPostTask(newText);
                     return true;
                 } else {
                     if (newText.length() == 0) {
-                        mDiscussionForum.startLoadCommentsTask();
+                        if (SECTION_NUMBER == 1)
+                            mDiscussionForum.startLoadCommentsTask();
+                        else if (SECTION_NUMBER == 4)
+                            mJobPost.startJobPostTask();
                         return true;
                     }
                     return false;
@@ -225,7 +236,10 @@ public class MenuScreenActivity extends ActionBarActivity
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                mDiscussionForum.startLoadCommentsTask();
+                if (SECTION_NUMBER == 1)
+                    mDiscussionForum.startLoadCommentsTask();
+                else if (SECTION_NUMBER == 4)
+                    mJobPost.startJobPostTask();
                 return true;
             }
 
@@ -310,6 +324,7 @@ public class MenuScreenActivity extends ActionBarActivity
         public PlaceholderFragment() {
         }
 
+        @SuppressWarnings("deprecation")
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -369,6 +384,22 @@ public class MenuScreenActivity extends ActionBarActivity
                     // Job Posting
                     SECTION_NUMBER = 4;
                     rootView = inflater.inflate(R.layout.fragment_4_job_postings, container, false);
+                    mJobPost = new JobPost(getActivity());
+                    mJobPost.startJobPostTask();
+                    if (!mDiscussionForum.deleteTask) {
+                        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.job_posting_swipeRefreshLayout);
+                        mSwipeRefreshLayout.setColorScheme(
+                                R.color.swipe_color_1, R.color.swipe_color_2,
+                                R.color.swipe_color_3, R.color.swipe_color_4);
+                        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                Log.d(TAG, "post refreshing");
+                                mSwipeRefreshLayout.setRefreshing(true);
+                                new RefreshNewsList().execute();
+                            }
+                        });
+                    }
                     break;
 
                 case 5:
@@ -441,11 +472,6 @@ public class MenuScreenActivity extends ActionBarActivity
         }
     }
 
-    public void addNewPost(View v) {
-        Intent i = new Intent(mContext, AddNewPost.class);
-        startActivity(i);
-    }
-
     public class RefreshNewsList extends AsyncTask<Void, Void, Void> {
 
         static final int TASK_DURATION = 3 * 1000; // 3 seconds
@@ -472,7 +498,19 @@ public class MenuScreenActivity extends ActionBarActivity
                 mDiscussionForum.startLoadCommentsTask();
             } else if (SECTION_NUMBER == 2 && !mDiscussionForum.deleteTask) {
                 mNews.startLoadNewsTask();
+            } else if (SECTION_NUMBER == 4 && !mDiscussionForum.deleteTask) {
+                mJobPost.startJobPostTask();
             }
         }
+    }
+
+    public void addNewPost(View v) {
+        Intent i = new Intent(mContext, AddNewPost.class);
+        startActivity(i);
+    }
+
+    public void addNewJobPost(View v) {
+        Intent i = new Intent(mContext, AddNewJobPost.class);
+        startActivity(i);
     }
 }

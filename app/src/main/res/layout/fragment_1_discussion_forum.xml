@@ -18,8 +18,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/discussion_forum_container"
-        >
+        android:id="@+id/discussion_forum_container">
 
         <TextView
             android:layout_width="match_parent"
@@ -85,7 +84,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:onClick="addNewPost"
-                style="?android:textAppearanceMedium" />
+                style="?android:textAppearanceMedium"
+                android:typeface="serif"/>
         </LinearLayout>
     </RelativeLayout>
 

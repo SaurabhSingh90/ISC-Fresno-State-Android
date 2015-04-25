@@ -15,15 +15,6 @@ public class Gallery {
 
     private Activity mActivity;
     private View mView;
-    private String FORM_LINK = "form_link";
-    private String FORM_TITLE = "form_title";
-    private String URL_1 = "http://www.iscfresnostate.com/icn-2014/";
-    private String URL_2 = "http://www.iscfresnostate.com/isc-kickstart-2014/";
-    private String URL_3 = "http://www.iscfresnostate.com/diwali-dhamaka-2014/";
-    private String URL_4 = "http://www.iscfresnostate.com/education-week-isc-photobooth/";
-    private String URL_5 = "http://www.iscfresnostate.com/career-development-workshop/";
-    private String URL_6 = "http://www.iscfresnostate.com/isc-elections-fall-2014/";
-    private String URL_7 = "http://www.iscfresnostate.com/gandhi-jayanthi-2014/";
 
     public Gallery (Activity activity, View view) {
         this.mActivity = activity;
@@ -37,8 +28,8 @@ public class Gallery {
         textView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(FORM_LINK, URL_1);
-                intent.putExtra(FORM_TITLE, mActivity.getString(R.string.gallery_1));
+                intent.putExtra(ParseKeys.PAGE_LINK, ParseKeys.URL_ICN_2014);
+                intent.putExtra(ParseKeys.PAGE_TITLE, mActivity.getString(R.string.gallery_1));
                 mActivity.startActivity(intent);
             }
         });
@@ -46,8 +37,8 @@ public class Gallery {
         textView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(FORM_LINK, URL_2);
-                intent.putExtra(FORM_TITLE, mActivity.getString(R.string.gallery_2));
+                intent.putExtra(ParseKeys.PAGE_LINK, ParseKeys.URL_ISC_KICKSTART_2014);
+                intent.putExtra(ParseKeys.PAGE_TITLE, mActivity.getString(R.string.gallery_2));
                 mActivity.startActivity(intent);
             }
         });
@@ -55,8 +46,8 @@ public class Gallery {
         textView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(FORM_LINK, URL_3);
-                intent.putExtra(FORM_TITLE, mActivity.getString(R.string.gallery_3));
+                intent.putExtra(ParseKeys.PAGE_LINK, ParseKeys.URL_DIWALI_DHAMAKA);
+                intent.putExtra(ParseKeys.PAGE_TITLE, mActivity.getString(R.string.gallery_3));
                 mActivity.startActivity(intent);
             }
         });
@@ -64,8 +55,8 @@ public class Gallery {
         textView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(FORM_LINK, URL_4);
-                intent.putExtra(FORM_TITLE, mActivity.getString(R.string.gallery_4));
+                intent.putExtra(ParseKeys.PAGE_LINK, ParseKeys.URL_EDUCATION_WEEK_ISC_PHOTOGRAPHY);
+                intent.putExtra(ParseKeys.PAGE_TITLE, mActivity.getString(R.string.gallery_4));
                 mActivity.startActivity(intent);
             }
         });
@@ -73,8 +64,8 @@ public class Gallery {
         textView5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(FORM_LINK, URL_5);
-                intent.putExtra(FORM_TITLE, mActivity.getString(R.string.gallery_5));
+                intent.putExtra(ParseKeys.PAGE_LINK, ParseKeys.URL_CARRER_DEVELOPMENT_WORKSHOP);
+                intent.putExtra(ParseKeys.PAGE_TITLE, mActivity.getString(R.string.gallery_5));
                 mActivity.startActivity(intent);
             }
         });
@@ -82,8 +73,8 @@ public class Gallery {
         textView6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(FORM_LINK, URL_6);
-                intent.putExtra(FORM_TITLE, mActivity.getString(R.string.gallery_6));
+                intent.putExtra(ParseKeys.PAGE_LINK, ParseKeys.URL_ISC_ELECTION_FALL_2014);
+                intent.putExtra(ParseKeys.PAGE_TITLE, mActivity.getString(R.string.gallery_6));
                 mActivity.startActivity(intent);
             }
         });
@@ -91,8 +82,8 @@ public class Gallery {
         textView7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(FORM_LINK, URL_7);
-                intent.putExtra(FORM_TITLE, mActivity.getString(R.string.gallery_7));
+                intent.putExtra(ParseKeys.PAGE_LINK, ParseKeys.URL_GANDHI_JAYANTI_2014);
+                intent.putExtra(ParseKeys.PAGE_TITLE, mActivity.getString(R.string.gallery_7));
                 mActivity.startActivity(intent);
             }
         });

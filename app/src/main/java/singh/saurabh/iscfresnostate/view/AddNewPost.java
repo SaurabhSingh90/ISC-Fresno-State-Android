@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
+import singh.saurabh.iscfresnostate.model.ParseKeys;
 
 public class AddNewPost extends ActionBarActivity {
 
@@ -37,13 +38,6 @@ public class AddNewPost extends ActionBarActivity {
     private ContextThemeWrapper mContextThemeWrapper;
     private ProgressDialog dialog;
     private MenuScreenActivity mMenuScreenActivity = new MenuScreenActivity();
-
-    // Parse Column Names
-    private String POST_USER = "user";
-    private String POST_TITLE = "postTitle";
-    private String POST_CONTENT = "postContent";
-    private String POST_FIRST_NAME = "firstName";
-    private String POST_TAGS = "postTags";
 
     @InjectView(R.id.title_editText)
     EditText mTitleEditext;
@@ -112,15 +106,15 @@ public class AddNewPost extends ActionBarActivity {
 
         // Make a new post
         final ParseObject post = new ParseObject("Post");
-        post.put(POST_TITLE, titleString);
-        post.put(POST_CONTENT, messageString);
+        post.put(ParseKeys.POST_TITLE, titleString);
+        post.put(ParseKeys.POST_CONTENT, messageString);
         String[] tagsArray = tagsString.split(",");
         for (String tag : tagsArray) {
             tag = tag.toLowerCase().trim();
-            post.add(POST_TAGS, tag);
+            post.add(ParseKeys.POST_TAGS, tag);
         }
-        post.put(POST_USER, mCurrentUser);
-        post.put(POST_FIRST_NAME, firstName);
+        post.put(ParseKeys.POST_USER, mCurrentUser);
+        post.put(ParseKeys.POST_FIRST_NAME, firstName);
         post.saveEventually(new SaveCallback() {
             @Override
             public void done(ParseException e) {

@@ -34,9 +34,9 @@ import java.util.List;
 import java.util.Locale;
 
 import singh.saurabh.iscfresnostate.R;
-import singh.saurabh.iscfresnostate.controller.CustomAdapter;
+import singh.saurabh.iscfresnostate.controller.CustomAdapters.DiscussionPostAdapter;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
-import singh.saurabh.iscfresnostate.view.SinglePostDisplay;
+import singh.saurabh.iscfresnostate.view.PostDescription;
 
 /**
  * Created by ${SAURBAH} on ${10/29/14}.
@@ -46,7 +46,7 @@ public class DiscussionForum {
     private static String TAG = DiscussionForum.class.getSimpleName();
     private Activity mActivity;
     private static Context mContext;
-    private SinglePostDisplay mSinglePostDisplay = new SinglePostDisplay();
+    private PostDescription mPostDescription = new PostDescription();
     private ProgressDialog mProgressDialog;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
     private ArrayAdapter<HashMap<String, String>> postList_adapter = null;
@@ -62,11 +62,6 @@ public class DiscussionForum {
     private int mDeletePostCounter = 0;
     private Boolean mZeroPostToDelete = true;
     public Boolean deleteTask = false;
-
-    // Parse Column Names
-    private String POST_TITLE = "postTitle";
-    private String POST_FIRST_NAME = "firstName";
-    private String POST_TAGS = "postTags";
 
     public DiscussionForum(Activity activity) {
         this.mActivity = activity;
@@ -84,8 +79,8 @@ public class DiscussionForum {
             mProgressDialog.show();
             flag = false;
             // Find all posts
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
-            query.orderByAscending("createdAt");
+            ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseKeys.POST_CLASS);
+            query.orderByDescending("createdAt");
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
@@ -117,12 +112,12 @@ public class DiscussionForum {
         else
             postList = null;
         ParseObject obj = null;
-        for (int i = length - 1; i >= 0; i--) {
+        for (int i = 0; i < length; i++) {
             obj = parseObjects.get(i);
-            String firstName = obj.get(POST_FIRST_NAME).toString();
-            String title = obj.get(POST_TITLE).toString();
+            String firstName = obj.get(ParseKeys.POST_FIRST_NAME).toString();
+            String title = obj.get(ParseKeys.POST_TITLE).toString();
             String tags = "TAGS: ";
-            tags = tags.concat(obj.get(POST_TAGS).toString());
+            tags = tags.concat(obj.get(ParseKeys.POST_TAGS).toString());
 
             Date createdAt = obj.getCreatedAt();
             String posted_on = createdAt.toString();
@@ -149,14 +144,16 @@ public class DiscussionForum {
         TextView empty_text = (TextView) mActivity.findViewById(android.R.id.empty);
 
         if (postList != null) {
-            postList_adapter = new CustomAdapter(mActivity, postList, flag_for_checkbox);
+            postList_adapter = new DiscussionPostAdapter(mActivity, postList, flag_for_checkbox);
             lv.setAdapter(postList_adapter);
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String objectId = parseObjects.get((length - 1) - position).getObjectId();
-                    Intent i = new Intent(mActivity, SinglePostDisplay.class);
-                    i.putExtra("objectId", objectId);
+                    String objectId = parseObjects.get(position).getObjectId();
+                    String title = parseObjects.get(position).getString(ParseKeys.POST_TITLE);
+                    Intent i = new Intent(mActivity, PostDescription.class);
+                    i.putExtra(ParseKeys.TITLE, title);
+                    i.putExtra(ParseKeys.OBJECTID, objectId);
                     mActivity.startActivity(i);
                 }
             });
@@ -173,13 +170,13 @@ public class DiscussionForum {
 
             List<ParseQuery<ParseObject>> queries = new ArrayList<>();
 
-            ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Post");
+            ParseQuery<ParseObject> query1 = ParseQuery.getQuery(ParseKeys.POST_CLASS);
             query1.whereMatches("postTitle", query, "im");
 
-            ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Post");
+            ParseQuery<ParseObject> query2 = ParseQuery.getQuery(ParseKeys.POST_CLASS);
             query2.whereMatches("firstName", query, "im");
 
-            ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Post");
+            ParseQuery<ParseObject> query3 = ParseQuery.getQuery(ParseKeys.POST_CLASS);
             query3.whereEqualTo("postTags", query);
 
             queries.add(query1);
@@ -214,7 +211,7 @@ public class DiscussionForum {
             flag = true;
             // Find post(s) of current user only for deletion
             ParseUser currentUser = ParseUser.getCurrentUser();
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
+            ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseKeys.POST_CLASS);
             query.whereEqualTo("user", currentUser);
             query.orderByDescending("createdAt");
             query.findInBackground(new FindCallback<ParseObject>() {
@@ -251,10 +248,10 @@ public class DiscussionForum {
 
         for (int i = 0; i < length; i++) {
             ParseObject obj = parseObjects.get(i);
-            String firstName = obj.get(POST_FIRST_NAME).toString();
-            String title = obj.get(POST_TITLE).toString();
+            String firstName = obj.get(ParseKeys.POST_FIRST_NAME).toString();
+            String title = obj.get(ParseKeys.POST_TITLE).toString();
             String tags = "TAGS: ";
-            tags = tags.concat(obj.get(POST_TAGS).toString());
+            tags = tags.concat(obj.get(ParseKeys.POST_TAGS).toString());
 
             Date createdAt = obj.getCreatedAt();
             String posted_on = createdAt.toString();
@@ -278,7 +275,7 @@ public class DiscussionForum {
 
         ListView lv = (ListView) mActivity.findViewById(android.R.id.list);
         if (mPostListForDelete != null) {
-            deleteList_adapter = new CustomAdapter(mActivity, mPostListForDelete, flag_for_checkbox);
+            deleteList_adapter = new DiscussionPostAdapter(mActivity, mPostListForDelete, flag_for_checkbox);
             lv.setAdapter(deleteList_adapter);
         } else {
             TextView empty_text = (TextView) mActivity.findViewById(android.R.id.empty);
@@ -308,7 +305,7 @@ public class DiscussionForum {
 
                 if (mPostListForDelete != null) {
                     for(int i = 0; i < mPostListForDelete.size(); i++) {
-                        if (CustomAdapter.mArrayForCheckMarks[i]) {
+                        if (DiscussionPostAdapter.mArrayForCheckMarks[i]) {
                             mZeroPostToDelete = false;
                             break;
                         } else
@@ -327,7 +324,7 @@ public class DiscussionForum {
                                         dialog.show();
                                         final List<ParseObject> tempArr = new ArrayList<>(mPostListForDelete.size());
                                         for (int i = 0; i < mPostListForDelete.size(); i++) {
-                                            if (CustomAdapter.mArrayForCheckMarks[i]) {
+                                            if (DiscussionPostAdapter.mArrayForCheckMarks[i]) {
                                                 mZeroPostToDelete = false;
                                                 mDeletePostCounter++;
                                                 tempArr.add(mArrOfPostObjectsToDelete.get(i));
@@ -364,17 +361,17 @@ public class DiscussionForum {
 
             if (id == R.id.mark_all) {
                 ListView lv = (ListView)mActivity.findViewById(android.R.id.list);
-                deleteList_adapter = new CustomAdapter(mActivity, mPostListForDelete, true);
+                deleteList_adapter = new DiscussionPostAdapter(mActivity, mPostListForDelete, true);
 
                 if (item.isChecked()) {
                     item.setChecked(false);
                     item.setIcon(android.R.drawable.checkbox_off_background);
-                    CustomAdapter.unMarkAll();
+                    DiscussionPostAdapter.unMarkAll();
                     lv.setAdapter(deleteList_adapter);
                 } else {
                     item.setChecked(true);
                     item.setIcon(android.R.drawable.checkbox_on_background);
-                    CustomAdapter.markAll();
+                    DiscussionPostAdapter.markAll();
                     lv.setAdapter(deleteList_adapter);
                 }
                 return true;

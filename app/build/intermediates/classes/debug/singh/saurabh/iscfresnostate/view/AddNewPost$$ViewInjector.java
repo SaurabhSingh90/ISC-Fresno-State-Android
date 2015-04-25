@@ -8,14 +8,14 @@ import butterknife.ButterKnife.Injector;
 public class AddNewPost$$ViewInjector<T extends singh.saurabh.iscfresnostate.view.AddNewPost> implements Injector<T> {
   @Override public void inject(final Finder finder, final T target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131361878, "field 'mTitleEditext'");
-    target.mTitleEditext = finder.castView(view, 2131361878, "field 'mTitleEditext'");
-    view = finder.findRequiredView(source, 2131361879, "field 'mPostContentEditText'");
-    target.mPostContentEditText = finder.castView(view, 2131361879, "field 'mPostContentEditText'");
-    view = finder.findRequiredView(source, 2131361880, "field 'mPostTagsEditText'");
-    target.mPostTagsEditText = finder.castView(view, 2131361880, "field 'mPostTagsEditText'");
-    view = finder.findRequiredView(source, 2131361882, "field 'mSubmitPostButton'");
-    target.mSubmitPostButton = finder.castView(view, 2131361882, "field 'mSubmitPostButton'");
+    view = finder.findRequiredView(source, 2131361884, "field 'mTitleEditext'");
+    target.mTitleEditext = finder.castView(view, 2131361884, "field 'mTitleEditext'");
+    view = finder.findRequiredView(source, 2131361885, "field 'mPostContentEditText'");
+    target.mPostContentEditText = finder.castView(view, 2131361885, "field 'mPostContentEditText'");
+    view = finder.findRequiredView(source, 2131361886, "field 'mPostTagsEditText'");
+    target.mPostTagsEditText = finder.castView(view, 2131361886, "field 'mPostTagsEditText'");
+    view = finder.findRequiredView(source, 2131361887, "field 'mSubmitPostButton'");
+    target.mSubmitPostButton = finder.castView(view, 2131361887, "field 'mSubmitPostButton'");
   }
 
   @Override public void reset(T target) {

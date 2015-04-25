@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
+import singh.saurabh.iscfresnostate.model.ParseKeys;
 
 public class FormView extends ActionBarActivity {
 
@@ -49,8 +50,8 @@ public class FormView extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mUrl = extras.getString("form_link");
-            mTitle = extras.getString("form_title");
+            mUrl = extras.getString(ParseKeys.PAGE_LINK);
+            mTitle = extras.getString(ParseKeys.PAGE_TITLE);
         }
         restoreActionBar(mTitle);
         loadUrl();

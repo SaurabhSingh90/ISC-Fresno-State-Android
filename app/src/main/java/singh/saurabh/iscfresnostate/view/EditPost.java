@@ -112,7 +112,7 @@ public class EditPost extends ActionBarActivity {
                         public void done(ParseException e) {
                             if (e == null) {
                                 Toast.makeText(mContext, getString(R.string.post_updated_text), Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(mContext, SinglePostDisplay.class);
+                                Intent i = new Intent(mContext, PostDescription.class);
                                 i.putExtra("objectId", objectId);
                                 startActivity(i);
                                 finish();

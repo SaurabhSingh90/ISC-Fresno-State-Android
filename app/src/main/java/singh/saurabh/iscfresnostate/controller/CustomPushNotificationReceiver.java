@@ -5,8 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -17,8 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import singh.saurabh.iscfresnostate.R;
-import singh.saurabh.iscfresnostate.view.MenuScreenActivity;
-import singh.saurabh.iscfresnostate.view.SinglePostDisplay;
+import singh.saurabh.iscfresnostate.view.PostDescription;
 
 /**
  * Created by ${SAURBAH} on ${10/29/14}.
@@ -84,7 +81,7 @@ public class CustomPushNotificationReceiver extends ParsePushBroadcastReceiver {
         // this is the activity that we will send the user
         Log.d(TAG, objectId + "..");
 
-        resultIntent = new Intent(context, SinglePostDisplay.class);
+        resultIntent = new Intent(context, PostDescription.class);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         resultIntent.putExtra("objectId", objectId);
