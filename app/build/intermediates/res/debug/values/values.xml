@@ -245,6 +245,11 @@
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_log_out">Sign out</string>
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_job_post.xml -->
+    <eat-comment/>
+    <string name="action_notify_me">Notify Me</string>
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_activity_login.xml -->
@@ -387,10 +392,11 @@ available. Please contact the developer for assistance.</string>
     <eat-comment/>
     <string name="invalid_credentials_message">Email/Password combination is not valid</string>
     <string name="invalid_credentials_title">Invalid credentials</string>
-    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_add_new_job_post.xml -->
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_job_post.xml -->
     <eat-comment/>
     <string name="job_description">Job Description</string>
     <string name="job_location">Job Location</string>
+    <string name="job_posted">Job Posted Successfully</string>
     <string name="job_title">Job Title</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_activity_sign_up.xml -->
     <eat-comment/>
@@ -410,6 +416,12 @@ available. Please contact the developer for assistance.</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_fragment_1.xml -->
     <eat-comment/>
     <string name="no_post_empty_text">No Post available</string>
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_job_post.xml -->
+    <eat-comment/>
+    <string name="notify_me_alert_message">Notify me alerts you for new job postings</string>
+    <string name="notify_me_alert_title">Notify me</string>
+    <string name="notify_me_subscribe_button_text">Subscribe</string>
+    <string name="notify_me_unsubscribe_button_text">Un-Subscribe</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="password_reset_link_sent">Password reset link sent to your email</string>
@@ -422,7 +434,7 @@ available. Please contact the developer for assistance.</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_add_new_post.xml -->
     <eat-comment/>
     <string name="post_added_text">Post added successfully</string>
-    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_add_new_job_post.xml -->
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_job_post.xml -->
     <eat-comment/>
     <string name="post_job">Post Job</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_single_post_display.xml -->
@@ -495,6 +507,10 @@ available. Please contact the developer for assistance.</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_single_post_display.xml -->
     <eat-comment/>
     <string name="type_in_your_reply">Type in your reply</string>
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_job_post.xml -->
+    <eat-comment/>
+    <string name="unsubscribe_alert_message">You won\'t be able to get anymore job posting notifications. Are you sure?</string>
+    <string name="unsubscribe_alert_title">Un-Subscribe</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.0.0/res/values/wallet_strings.xml -->
     <eat-comment/>
     <string name="wallet_buy_button_place_holder" translation_description="Text on a button that allows a user to make a payment with Google Wallet [CHAR LIMIT=30]">Buy with Google</string>

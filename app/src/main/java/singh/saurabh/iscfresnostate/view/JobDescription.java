@@ -11,14 +11,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.parse.GetCallback;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
@@ -65,14 +64,10 @@ public class JobDescription extends ActionBarActivity {
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setCancelable(false);
 
-        String title = "--";
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             objectId = extras.getString(ParseKeys.OBJECTID);
-            title = extras.getString(ParseKeys.TITLE);
         }
-        restoreActionBar(title.toUpperCase());
         loadJobPost();
     }
 
@@ -109,10 +104,12 @@ public class JobDescription extends ActionBarActivity {
                     SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy", Locale.US);
                     posted_on = sdf.format(d1);
 
+                    restoreActionBar(parseObject.get(ParseKeys.JOBPOST_TITLE).toString().toUpperCase().toUpperCase());
+
                     mTitle.setText(parseObject.get(ParseKeys.JOBPOST_TITLE).toString().toUpperCase());
                     mLocation.setText(parseObject.get(ParseKeys.JOBPOST_LOCATION).toString());
-                    mFirstName.setText("Posted By: "+parseObject.get(ParseKeys.JOBPOST_FIRST_NAME).toString());
-                    mDate.setText("on: "+posted_on);
+                    mFirstName.setText("Posted By: " + parseObject.get(ParseKeys.JOBPOST_FIRST_NAME).toString());
+                    mDate.setText("on: " + posted_on);
                     mTag.setText("TAGS: " + parseObject.get(ParseKeys.JOBPOST_TAGS).toString());
                     mContent.setText(parseObject.get(ParseKeys.JOBPOST_CONTENT).toString());
 
@@ -123,19 +120,10 @@ public class JobDescription extends ActionBarActivity {
         });
     }
 
-    private void sendNotification(String channel, String name) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("channel", channel);
-        map.put("firstName", name);
-        map.put("objectId", objectId);
-        ParseCloud.callFunctionInBackground("pushNotification", map);
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_job_description, menu);
+        getMenuInflater().inflate(R.menu.global, menu);
         return true;
     }
 
@@ -147,10 +135,18 @@ public class JobDescription extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_sign_out) {
+            ProgressDialog dialog;
+            dialog = new ProgressDialog(mContextThemeWrapper);
+            dialog.setMessage(getString(R.string.signing_out_dialog_message));
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+            dialog.show();
+            ParseUser.logOut();
+            dialog.dismiss();
+            finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

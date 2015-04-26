@@ -150,9 +150,7 @@ public class DiscussionForum {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String objectId = parseObjects.get(position).getObjectId();
-                    String title = parseObjects.get(position).getString(ParseKeys.POST_TITLE);
                     Intent i = new Intent(mActivity, PostDescription.class);
-                    i.putExtra(ParseKeys.TITLE, title);
                     i.putExtra(ParseKeys.OBJECTID, objectId);
                     mActivity.startActivity(i);
                 }
@@ -164,7 +162,7 @@ public class DiscussionForum {
         }
     }
 
-    public void searchPostTask(final String query) {
+    public void searchPostTask(final String query, final Boolean showToast) {
         if (mCustomNetworkErrorHandler.isNetworkAvailable()) {
             flag = false;
 
@@ -184,7 +182,7 @@ public class DiscussionForum {
             queries.add(query3);
 
             ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-            mainQuery.orderByAscending("createdAt");
+            mainQuery.orderByDescending("createdAt");
             mainQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
@@ -196,7 +194,8 @@ public class DiscussionForum {
                         }
                     } else {
                         fillPostList(parseObjects, flag);
-                        Toast.makeText(mActivity, "No results found!!", Toast.LENGTH_LONG).show();
+                        if (showToast)
+                            Toast.makeText(mActivity, "No match found!!", Toast.LENGTH_LONG).show();
                     }
                 }
             });

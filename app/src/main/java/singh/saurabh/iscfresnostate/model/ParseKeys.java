@@ -11,6 +11,7 @@ public class ParseKeys {
 
     public static String OBJECTID = "objectId";
     public static String TITLE = "title";
+    public static String JOB_POSTING_CHANNEL = "JobPost_Channel";
 
     // Parse Discussion Post Column Names
     public static String POST_CLASS = "Post";

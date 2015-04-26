@@ -1,8 +1,10 @@
 package singh.saurabh.iscfresnostate.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,7 +29,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.parse.ParseAnalytics;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
@@ -36,10 +43,11 @@ import singh.saurabh.iscfresnostate.model.Forms;
 import singh.saurabh.iscfresnostate.model.Gallery;
 import singh.saurabh.iscfresnostate.model.JobPost;
 import singh.saurabh.iscfresnostate.model.News;
+import singh.saurabh.iscfresnostate.model.ParseKeys;
 
 
 public class MenuScreenActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, SearchView.OnQueryTextListener  {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks  {
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -54,6 +62,8 @@ public class MenuScreenActivity extends ActionBarActivity
     private static String TAG = MenuScreenActivity.class.getSimpleName();
     private Context mContext = this;
     private ActionMode mActionMode;
+    private ParseInstallation pi = null;
+    private ParseUser currentUser = null;
 
     private static int SECTION_NUMBER = 0;
 
@@ -75,6 +85,10 @@ public class MenuScreenActivity extends ActionBarActivity
 
         mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(this);
         mContextThemeWrapper = mCustomNetworkErrorHandler.mContextThemeWrapper;
+
+        currentUser = ParseUser.getCurrentUser();
+        pi = ParseInstallation.getCurrentInstallation();
+        pi.put("firstName", currentUser.get("firstName").toString());
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
@@ -171,24 +185,38 @@ public class MenuScreenActivity extends ActionBarActivity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             if (SECTION_NUMBER == 1) {
-                getMenuInflater().inflate(R.menu.menu_discussion_forum, menu);
+                getMenuInflater().inflate(R.menu.menu_fragment_1, menu);
                 searchViewInitializing(menu);
             } else if (SECTION_NUMBER == 2) {
-                getMenuInflater().inflate(R.menu.menu_news, menu);
+                getMenuInflater().inflate(R.menu.menu_fragment_2, menu);
             } else if (SECTION_NUMBER == 3) {
-                getMenuInflater().inflate(R.menu.global, menu);
+                getMenuInflater().inflate(R.menu.menu_fragment_3, menu);
             } else if (SECTION_NUMBER == 4) {
-                getMenuInflater().inflate(R.menu.global, menu);
+                getMenuInflater().inflate(R.menu.menu_fragment_4, menu);
+                searchViewInitializing(menu);
+                MenuItem menuItem = menu.getItem(1);
+                JSONArray channels = pi.getJSONArray("channels");
+                for (int i = 0; i < channels.length(); i++) {
+                    try {
+                        if (channels.getString(i).equals(ParseKeys.JOB_POSTING_CHANNEL)) {
+                            menuItem.setIcon(R.mipmap.ic_action_important_marked);
+                            menuItem.setChecked(true);
+                            break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             } else if (SECTION_NUMBER == 5) {
-                getMenuInflater().inflate(R.menu.global, menu);
+                getMenuInflater().inflate(R.menu.menu_fragment_5, menu);
             } else if (SECTION_NUMBER == 6) {
-                getMenuInflater().inflate(R.menu.global, menu);
+                getMenuInflater().inflate(R.menu.menu_fragment_6, menu);
             } else if (SECTION_NUMBER == 7) {
-                getMenuInflater().inflate(R.menu.global, menu);
+                getMenuInflater().inflate(R.menu.menu_fragment_7, menu);
             } else if (SECTION_NUMBER == 8) {
-                getMenuInflater().inflate(R.menu.global, menu);
+                getMenuInflater().inflate(R.menu.menu_fragment_8, menu);
             } else if (SECTION_NUMBER == 9) {
-                getMenuInflater().inflate(R.menu.global, menu);
+                getMenuInflater().inflate(R.menu.menu_fragment_9, menu);
             }
 
             restoreActionBar();
@@ -198,17 +226,17 @@ public class MenuScreenActivity extends ActionBarActivity
     }
 
     private void searchViewInitializing(Menu menu) {
-        MenuItem searchItem = menu.findItem(R.id.action_search_discussion_forum);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setQueryHint("Name/Title/Tag");
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint("Title/Name/Tag");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // perform query here
                 if (SECTION_NUMBER == 1)
-                    mDiscussionForum.searchPostTask(query);
+                    mDiscussionForum.searchPostTask(query, true);
                 else if (SECTION_NUMBER == 4)
-                    mJobPost.searchJobPostTask(query);
+                    mJobPost.searchJobPostTask(query, true);
                 return true;
             }
 
@@ -216,9 +244,10 @@ public class MenuScreenActivity extends ActionBarActivity
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() > 2) {
                     if (SECTION_NUMBER == 1)
-                        mDiscussionForum.searchPostTask(newText);
-                    else if (SECTION_NUMBER == 4)
-                        mJobPost.searchJobPostTask(newText);
+                        mDiscussionForum.searchPostTask(newText, false);
+                    else if (SECTION_NUMBER == 4) {
+                        mJobPost.searchJobPostTask(newText, false);
+                    }
                     return true;
                 } else {
                     if (newText.length() == 0) {
@@ -251,7 +280,7 @@ public class MenuScreenActivity extends ActionBarActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -262,7 +291,7 @@ public class MenuScreenActivity extends ActionBarActivity
 //        }
 
         if (id == R.id.action_refresh) {
-            mDiscussionForum.startLoadCommentsTask();
+            new RefreshNewsList().execute();
             return true;
         }
 
@@ -270,6 +299,50 @@ public class MenuScreenActivity extends ActionBarActivity
             mActionMode = startSupportActionMode(mDiscussionForum.ActionBarCallBack());
             mDiscussionForum.deleteTask = true;
             mDiscussionForum.deletePostTask();
+            return true;
+        }
+
+        if (id == R.id.action_notify) {
+
+            if (item.isChecked()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContextThemeWrapper);
+                builder.setIcon(android.R.drawable.ic_menu_info_details)
+                        .setTitle(getString(R.string.unsubscribe_alert_title))
+                        .setMessage(getString(singh.saurabh.iscfresnostate.R.string.unsubscribe_alert_message))
+                        .setPositiveButton(getString(R.string.notify_me_unsubscribe_button_text), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                item.setChecked(false);
+                                item.setIcon(R.mipmap.ic_action_important_unmarked);
+                                ParsePush.unsubscribeInBackground(ParseKeys.JOB_POSTING_CHANNEL);
+                                pi.saveEventually();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContextThemeWrapper);
+                builder.setIcon(android.R.drawable.ic_menu_info_details)
+                        .setTitle(getString(R.string.notify_me_alert_title))
+                        .setMessage(getString(R.string.notify_me_alert_message))
+                        .setPositiveButton(getString(R.string.notify_me_subscribe_button_text), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                item.setChecked(true);
+                                item.setIcon(R.mipmap.ic_action_important_marked);
+                                ParsePush.subscribeInBackground(ParseKeys.JOB_POSTING_CHANNEL);
+                                pi.saveEventually();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
+            }
             return true;
         }
 
@@ -286,17 +359,6 @@ public class MenuScreenActivity extends ActionBarActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String s) {
-        mDiscussionForum.searchPostTask(s);
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String s) {
-        return false;
     }
 
     /**

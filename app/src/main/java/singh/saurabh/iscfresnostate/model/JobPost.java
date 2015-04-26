@@ -2,7 +2,6 @@ package singh.saurabh.iscfresnostate.model;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -28,7 +27,6 @@ import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomAdapters.JobPostAdapter;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
 import singh.saurabh.iscfresnostate.view.JobDescription;
-import singh.saurabh.iscfresnostate.view.PostDescription;
 
 /**
  * Created by ${SAURBAH} on ${10/29/14}.
@@ -37,14 +35,8 @@ public class JobPost {
 
     private static String TAG = DiscussionForum.class.getSimpleName();
     private Activity mActivity;
-    private static Context mContext;
-    private PostDescription mPostDescription = new PostDescription();
     private ProgressDialog mProgressDialog;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
-    private ArrayAdapter<HashMap<String, String>> mJobPostListAdapter = null;
-
-    // Flag to check visibility of checkBox
-    private Boolean flag;
 
     public JobPost (Activity activity) {
         this.mActivity = activity;
@@ -60,7 +52,6 @@ public class JobPost {
     public void startJobPostTask() {
         if (mCustomNetworkErrorHandler.isNetworkAvailable()) {
             mProgressDialog.show();
-            flag = false;
             // Find all posts
             ParseQuery<ParseObject> query = ParseQuery.getQuery("JobPost");
             query.orderByDescending("createdAt");
@@ -69,7 +60,7 @@ public class JobPost {
                 public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
                     mProgressDialog.dismiss();
                     if (e == null) {
-                        updateJobPostList(parseObjects, flag);
+                        updateJobPostList(parseObjects);
                     } else {
                         Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -84,7 +75,7 @@ public class JobPost {
 * Function to update list with post returned by query
 * @param: list of parseObjects returned by search query
 */
-    public void updateJobPostList (final List<ParseObject> parseObjects, boolean flag_for_checkbox) {
+    public void updateJobPostList (final List<ParseObject> parseObjects) {
         final int length = parseObjects.size();
 
         final ArrayList<HashMap<String, String>> postList;
@@ -128,16 +119,14 @@ public class JobPost {
         TextView empty_text = (TextView) mActivity.findViewById(android.R.id.empty);
 
         if (postList != null) {
-            mJobPostListAdapter = new JobPostAdapter(mActivity, postList);
-            lv.setAdapter(mJobPostListAdapter);
+            ArrayAdapter<HashMap<String, String>> jobPostListAdapter = new JobPostAdapter(mActivity, postList);
+            lv.setAdapter(jobPostListAdapter);
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String objectId = parseObjects.get(position).getObjectId();
-                    String title = parseObjects.get(position).getString(ParseKeys.JOBPOST_TITLE);
                     Intent i = new Intent(mActivity, JobDescription.class);
                     i.putExtra(ParseKeys.OBJECTID, objectId);
-                    i.putExtra(ParseKeys.TITLE, title);
                     mActivity.startActivity(i);
                 }
             });
@@ -148,39 +137,39 @@ public class JobPost {
         }
     }
 
-    public void searchJobPostTask(final String query) {
+    public void searchJobPostTask(final String query, final Boolean showToast) {
         if (mCustomNetworkErrorHandler.isNetworkAvailable()) {
-            flag = false;
 
             List<ParseQuery<ParseObject>> queries = new ArrayList<>();
 
             ParseQuery<ParseObject> query1 = ParseQuery.getQuery(ParseKeys.JOBPOST_CLASS);
-            query1.whereMatches("postTitle", query, "im");
+            query1.whereMatches(ParseKeys.JOBPOST_TITLE, query, "im");
 
             ParseQuery<ParseObject> query2 = ParseQuery.getQuery(ParseKeys.JOBPOST_CLASS);
-            query2.whereMatches("firstName", query, "im");
+            query2.whereMatches(ParseKeys.JOBPOST_FIRST_NAME, query, "im");
 
             ParseQuery<ParseObject> query3 = ParseQuery.getQuery(ParseKeys.JOBPOST_CLASS);
-            query3.whereEqualTo("postTags", query);
+            query3.whereEqualTo(ParseKeys.JOBPOST_TAGS, query);
 
             queries.add(query1);
             queries.add(query2);
             queries.add(query3);
 
             ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-            mainQuery.orderByAscending("createdAt");
+            mainQuery.orderByDescending("createdAt");
             mainQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
                     if (parseObjects.size() > 0) {
                         if (e == null) {
-                            updateJobPostList(parseObjects, flag);
+                            updateJobPostList(parseObjects);
                         } else {
                             Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        updateJobPostList(parseObjects, flag);
-                        Toast.makeText(mActivity, "No results found!!", Toast.LENGTH_LONG).show();
+                        updateJobPostList(parseObjects);
+                        if (showToast)
+                            Toast.makeText(mActivity, "No job post found!!", Toast.LENGTH_LONG).show();
                     }
                 }
             });

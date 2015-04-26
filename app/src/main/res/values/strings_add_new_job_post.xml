@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="job_title">Job Title</string>
-    <string name="job_location">Job Location</string>
-    <string name="job_description">Job Description</string>
-    <string name="post_job">Post Job</string>
-</resources>

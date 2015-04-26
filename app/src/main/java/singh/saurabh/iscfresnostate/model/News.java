@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,6 +27,7 @@ public class News {
 
     private Activity mActivity;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
+    private static ContextThemeWrapper mContextThemeWrapper;
 
     // Variables for News Class
     private List<Message> messages;
@@ -43,6 +45,7 @@ public class News {
     public News(Activity activity) {
         this.mActivity = activity;
         mCustomNetworkErrorHandler = new CustomNetworkErrorHandler(mActivity);
+        mContextThemeWrapper = mCustomNetworkErrorHandler.mContextThemeWrapper;
     }
 
     public void startLoadNewsTask() {
@@ -108,7 +111,7 @@ public class News {
 
         @Override
         protected void onPreExecute() {
-            ppDialog = new ProgressDialog(mActivity);
+            ppDialog = new ProgressDialog(mContextThemeWrapper);
             ppDialog.setMessage("Loading News...");
             ppDialog.setIndeterminate(false);
             ppDialog.setCancelable(true);

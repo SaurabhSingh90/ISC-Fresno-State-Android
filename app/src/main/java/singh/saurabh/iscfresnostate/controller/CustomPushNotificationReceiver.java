@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -15,6 +17,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import singh.saurabh.iscfresnostate.R;
+import singh.saurabh.iscfresnostate.view.JobDescription;
+import singh.saurabh.iscfresnostate.view.MenuScreenActivity;
 import singh.saurabh.iscfresnostate.view.PostDescription;
 
 /**
@@ -22,23 +26,19 @@ import singh.saurabh.iscfresnostate.view.PostDescription;
  */
 public class CustomPushNotificationReceiver extends ParsePushBroadcastReceiver {
 
-    protected static String objectId;
-    public static int numMessages = 1;
+    private static int numMessages = 1;
     private static int NOTIFICATION_ID = 1;
-    private static Context mContext;
-    private static Intent mIntent;
     private static final String TAG = CustomPushNotificationReceiver.class.getSimpleName();
+    private static NotificationCompat.Builder mBuilder;
+    private static Intent resultIntent;
 
-    NotificationCompat.Builder mBuilder;
-    Intent resultIntent;
-
-    String alert; // This is the message string that send from push console
+    private static String mObjectID;
+    private static String mAlert; // This is the message string that is sent from push console
+    private static String mSection = "0";
 
     @Override
     protected void onPushReceive(Context context, Intent intent) {
         super.onPushReceive(context, intent);
-        mContext = context;
-        mIntent = intent;
         Log.d(TAG, "onPushReceive");
 
         try {
@@ -46,21 +46,22 @@ public class CustomPushNotificationReceiver extends ParsePushBroadcastReceiver {
                 Log.d(TAG, "Receiver intent null");
             else {
                 JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
-                objectId = json.getString("objectId");
-                alert = json.getString("alert");
+                mObjectID = json.getString("objectId");
+                mAlert = json.getString("alert");
+                mSection = json.getString("section");
             }
         } catch (JSONException e) {
             Log.d(TAG, "JSONException: " + e.getMessage());
         }
 
-//        Uri notifySound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri notifySound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setSmallIcon(R.drawable.push_icon);
         mBuilder.setContentTitle(context.getString(R.string.app_name));
-        mBuilder.setContentText(alert);
-        mBuilder.setTicker(alert);
+        mBuilder.setContentText(mAlert);
+        mBuilder.setTicker(mAlert);
 //        mBuilder.setNumber(numMessages);
-//        mBuilder.setSound(notifySound);
+        mBuilder.setSound(notifySound);
         mBuilder.setAutoCancel(true);
 
         PendingIntent resultPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent("com.parse.push.intent.OPEN"), 0x8000000);
@@ -76,15 +77,18 @@ public class CustomPushNotificationReceiver extends ParsePushBroadcastReceiver {
     @Override
     protected void onPushOpen(Context context, Intent intent) {
 //        super.onPushOpen(context, intent);
-        ParseAnalytics.trackAppOpened(mIntent);
+        ParseAnalytics.trackAppOpened(intent);
 
-        // this is the activity that we will send the user
-        Log.d(TAG, objectId + "..");
+        if (mSection.equals("1"))
+            resultIntent = new Intent(context, PostDescription.class);
+        else if (mSection.equals("4"))
+            resultIntent = new Intent(context, JobDescription.class);
+        else
+            resultIntent = new Intent(context, MenuScreenActivity.class);
 
-        resultIntent = new Intent(context, PostDescription.class);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        resultIntent.putExtra("objectId", objectId);
+        resultIntent.putExtra("objectId", mObjectID);
         context.startActivity(resultIntent);
     }
 

@@ -3,8 +3,8 @@ package singh.saurabh.iscfresnostate.view;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,11 +14,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
-import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,10 +33,10 @@ public class AddNewJobPost extends ActionBarActivity {
 
     private static String TAG = AddNewPost.class.getSimpleName();
     private Activity mContext = this;
-    private static ParseUser mCurrentUser = new LoginActivity().mCurrentUser;
+    private String objectId;
+    private static ParseUser mCurrentUser = ParseUser.getCurrentUser();
     private static String firstName = mCurrentUser.getString("firstName");
     private View focusView = null;
-    private String postChannel = "Post_";
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
     private ContextThemeWrapper mContextThemeWrapper;
     private ProgressDialog dialog;
@@ -130,16 +133,28 @@ public class AddNewJobPost extends ActionBarActivity {
             public void done(ParseException e) {
                 dialog.dismiss();
                 if (e == null) {
-                    postChannel = postChannel.concat(post.getObjectId());
-                    ParsePush.subscribeInBackground(postChannel);
+                    objectId = post.getObjectId();
+                    ParseInstallation pi = ParseInstallation.getCurrentInstallation();
+                    pi.saveEventually();
+                    String piObjectId = pi.getObjectId();
+                    sendJobNotificationWithQuery(firstName, piObjectId);
                     mMenuScreenActivity.new RefreshNewsList().execute();
                     finish();
-                    Toast.makeText(mContext, getString(R.string.post_added_text), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getString(R.string.job_posted), Toast.LENGTH_SHORT).show();
                 } else {
                     mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.error_posting_data));
                 }
             }
         });
+    }
+
+    private void sendJobNotificationWithQuery(String name, String piObjectId) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("channel", ParseKeys.JOB_POSTING_CHANNEL);
+        map.put("firstName", name);
+        map.put("piObjectId", piObjectId);
+        map.put("objectId", objectId);
+        ParseCloud.callFunctionInBackground("jobPostPushNotification", map);
     }
 
     @Override

@@ -117,9 +117,7 @@ public class PostDescription extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             objectId = extras.getString(ParseKeys.OBJECTID);
-            title = extras.getString(ParseKeys.TITLE);
         }
-        restoreActionBar(title.toUpperCase());
 
         postChannel = "Post_" + objectId;
         replyChannel = "Reply_" + objectId;
@@ -169,6 +167,8 @@ public class PostDescription extends ActionBarActivity {
                     }
                     SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy   h:mm a", Locale.US);
                     posted_on = sdf.format(d1);
+
+                    restoreActionBar(parseObject.get(ParseKeys.POST_TITLE).toString().toUpperCase());
 
                     mTitle.setText(parseObject.get(ParseKeys.POST_TITLE).toString());
                     mFirstName.setText(parseObject.get(ParseKeys.POST_FIRST_NAME).toString());
@@ -353,7 +353,7 @@ public class PostDescription extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_single_post_display, menu);
+        getMenuInflater().inflate(R.menu.menu_post_description, menu);
         return true;
     }
 
