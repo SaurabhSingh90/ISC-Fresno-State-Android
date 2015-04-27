@@ -25,14 +25,14 @@
             android:layout_height="wrap_content"
             android:text="@string/no_post_empty_text"
             android:id="@android:id/empty"
-            android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#ff972020"
             android:gravity="center"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
             android:visibility="gone"
-            android:typeface="serif"/>
+            android:typeface="serif"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/post_list_swipeRefreshLayout"
@@ -83,7 +83,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-                android:onClick="addNewPost"
+                android:onClick="addNewDiscussionPost"
                 style="?android:textAppearanceMedium"
                 android:typeface="serif"/>
         </LinearLayout>

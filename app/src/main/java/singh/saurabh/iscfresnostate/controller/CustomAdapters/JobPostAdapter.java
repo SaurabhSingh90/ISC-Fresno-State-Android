@@ -21,7 +21,7 @@ public class JobPostAdapter extends ArrayAdapter<HashMap<String, String>> {
     private static ArrayList<HashMap<String, String>> mList;
 
     public JobPostAdapter (Context context, ArrayList<HashMap<String, String>> postList) {
-        super(context, R.layout.single_postlist_item, postList);
+        super(context, R.layout.single_joblist_item, postList);
         mContext = context;
         mList = postList;
     }

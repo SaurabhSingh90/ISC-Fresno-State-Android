@@ -38,6 +38,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,6 +66,7 @@ public class PostDescription extends ActionBarActivity {
     private ProgressDialog mProgressDialog;
     public ActionMode mActionMode;
     private ArrayAdapter<HashMap<String, String>> mReplyListArrayAdapter;
+    private String[] mTagsArray;
 
     // Channels for notification system
     private String postChannel;
@@ -111,8 +115,6 @@ public class PostDescription extends ActionBarActivity {
         mProgressDialog.setMessage(getString(R.string.loading_text));
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setCancelable(false);
-
-        String title = "--";
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -175,6 +177,16 @@ public class PostDescription extends ActionBarActivity {
                     mDate.setText(posted_on);
                     mTag.setText("TAGS: " + parseObject.get(ParseKeys.POST_TAGS).toString());
                     mContent.setText(parseObject.get(ParseKeys.POST_CONTENT).toString());
+
+                    JSONArray jsonArray = parseObject.getJSONArray(ParseKeys.POST_TAGS);
+                    mTagsArray = new String[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        try {
+                            mTagsArray[i] = jsonArray.getString(i);
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
                 } else {
                     mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.post_not_available_text));
                 }
@@ -370,12 +382,12 @@ public class PostDescription extends ActionBarActivity {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
                     if (e == null) {
-                        if (parseObject.getParseObject("user").getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
+                        if (parseObject.getParseObject(ParseKeys.POST_USER).getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
                             Intent i = new Intent(mContext, EditPost.class);
                             i.putExtra(ParseKeys.OBJECTID, objectId);
                             i.putExtra(ParseKeys.POST_TITLE, mTitle.getText().toString());
                             i.putExtra(ParseKeys.POST_CONTENT, mContent.getText().toString());
-                            i.putExtra(ParseKeys.POST_TAGS, mTag.getText().toString());
+                            i.putExtra(ParseKeys.POST_TAGS, mTagsArray);
                             finish();
                             startActivity(i);
                         } else {
@@ -593,7 +605,6 @@ public class PostDescription extends ActionBarActivity {
 
 
         private class ViewHolder {
-            protected View postTagContainer;
             protected TextView firstName, title, published_date, postTags;
             protected CheckBox checkbox;
         }
@@ -611,7 +622,6 @@ public class PostDescription extends ActionBarActivity {
                 holder.published_date = (TextView) convertView.findViewById(R.id.date_single_list_item);
                 holder.postTags = (TextView) convertView.findViewById(R.id.tags_single_list_item);
                 holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox_single_list_item);
-                holder.postTagContainer = convertView.findViewById(R.id.tags_container);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();

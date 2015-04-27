@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/custom_button_red"
                 android:onClick="SubmitEditPost"
-                android:text="@string/submit_post_button_text"
+                android:text="@string/update_post"
                 android:textColor="@android:color/background_light"
                 android:typeface="serif"
                 style="?android:textAppearanceSmall"

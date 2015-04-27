@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_buy_sell.xml -->
+    <eat-comment/>
+    <string-array name="camera_choices">
+        <item>Take Picture</item>
+        <item>Choose Picture</item>
+    </string-array>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
@@ -242,6 +248,9 @@
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_activity_sign_up.xml -->
     <eat-comment/>
     <string name="account_activation_link_sent">Account activation link sent to your email</string>
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_buy_sell.xml -->
+    <eat-comment/>
+    <string name="action_camera">Camera</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_log_out">Sign out</string>
@@ -415,7 +424,7 @@ available. Please contact the developer for assistance.</string>
     <string name="new_student_accommodation">NEW STUDENT TEMPORARY ACCOMMODATION</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_fragment_1.xml -->
     <eat-comment/>
-    <string name="no_post_empty_text">No Post available</string>
+    <string name="no_post_empty_text">No Post Available</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_job_post.xml -->
     <eat-comment/>
     <string name="notify_me_alert_message">Notify me alerts you for new job postings</string>
@@ -479,8 +488,10 @@ available. Please contact the developer for assistance.</string>
     <string name="submit_post_button_text">SUBMIT POST</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="title_activity_add_new_buy_sell_post">Add New Buy/Sell Post</string>
     <string name="title_activity_add_new_job_post">Add New Job Post</string>
     <string name="title_activity_add_new_post">Add New Post</string>
+    <string name="title_activity_edit_job_post">Edit Job Post</string>
     <string name="title_activity_edit_post">Edit Post</string>
     <string name="title_activity_form_view">Form View</string>
     <string name="title_activity_gallery_view">Gallery View</string>
@@ -511,6 +522,10 @@ available. Please contact the developer for assistance.</string>
     <eat-comment/>
     <string name="unsubscribe_alert_message">You won\'t be able to get anymore job posting notifications. Are you sure?</string>
     <string name="unsubscribe_alert_title">Un-Subscribe</string>
+    <string name="update_job">Update Post</string>
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_add_new_post.xml -->
+    <eat-comment/>
+    <string name="update_post">Update Post</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.0.0/res/values/wallet_strings.xml -->
     <eat-comment/>
     <string name="wallet_buy_button_place_holder" translation_description="Text on a button that allows a user to make a payment with Google Wallet [CHAR LIMIT=30]">Buy with Google</string>

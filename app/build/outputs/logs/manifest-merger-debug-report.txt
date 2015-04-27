@@ -302,6 +302,18 @@ ADDED from AndroidManifest.xml:116:9
 		ADDED from AndroidManifest.xml:118:13
 	android:name
 		ADDED from AndroidManifest.xml:117:13
+activity#singh.saurabh.iscfresnostate.view.EditJobPost
+ADDED from AndroidManifest.xml:120:9
+	android:label
+		ADDED from AndroidManifest.xml:122:13
+	android:name
+		ADDED from AndroidManifest.xml:121:13
+activity#singh.saurabh.iscfresnostate.view.AddNewBuySellPost
+ADDED from AndroidManifest.xml:124:9
+	android:label
+		ADDED from AndroidManifest.xml:126:13
+	android:name
+		ADDED from AndroidManifest.xml:125:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:22.0.0:20:5

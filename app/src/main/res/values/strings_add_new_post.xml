@@ -9,5 +9,6 @@
     <string name="error_post_tag_required">Minimum one tag is required</string>
     <string name="adding_post_text">Adding post…</string>
     <string name="post_added_text">Post added successfully</string>
+    <string name="update_post">Update Post</string>
 
 </resources>

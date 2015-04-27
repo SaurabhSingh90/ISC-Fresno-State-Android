@@ -120,7 +120,7 @@ public class DiscussionForum {
             tags = tags.concat(obj.get(ParseKeys.POST_TAGS).toString());
 
             Date createdAt = obj.getCreatedAt();
-            String posted_on = createdAt.toString();
+            String posted_on = "Posted: "+createdAt.toString();
             SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzzz yyyy", Locale.US);
             Date d1 = null;
             try {
@@ -130,6 +130,23 @@ public class DiscussionForum {
             }
             SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy   h:mm a", Locale.US);
             posted_on = sdf.format(d1);
+
+//            Date createdAt = obj.getCreatedAt();    //date 1
+//            Date systemDate = new Date();           //date 2
+//            long one_day_in_milliseconds = 1000 * 86400;     // 24 hrs in milliseconds
+//
+//            long time_duration = systemDate.getTime() - createdAt.getTime();
+//            long time_difference_in_days = time_duration/one_day_in_milliseconds;
+//
+//            String posted_on = "Posted: ";
+//            Log.d(TAG, time_duration + "..");
+//            if (time_difference_in_days == 0)
+//                posted_on = posted_on.concat(" Today");
+//            else if (time_difference_in_days == 1)
+//                posted_on = posted_on.concat(" Yesterday");
+//            else
+//                posted_on = posted_on.concat(time_difference_in_days + " days ago");
+
             HashMap<String, String> dataList = new HashMap<>();
             dataList.put("author", firstName);
             dataList.put("title", title);
@@ -169,13 +186,13 @@ public class DiscussionForum {
             List<ParseQuery<ParseObject>> queries = new ArrayList<>();
 
             ParseQuery<ParseObject> query1 = ParseQuery.getQuery(ParseKeys.POST_CLASS);
-            query1.whereMatches("postTitle", query, "im");
+            query1.whereMatches(ParseKeys.POST_TITLE, query, "im");
 
             ParseQuery<ParseObject> query2 = ParseQuery.getQuery(ParseKeys.POST_CLASS);
-            query2.whereMatches("firstName", query, "im");
+            query2.whereMatches(ParseKeys.POST_FIRST_NAME, query, "im");
 
             ParseQuery<ParseObject> query3 = ParseQuery.getQuery(ParseKeys.POST_CLASS);
-            query3.whereEqualTo("postTags", query);
+            query3.whereEqualTo(ParseKeys.POST_TAGS, query);
 
             queries.add(query1);
             queries.add(query2);

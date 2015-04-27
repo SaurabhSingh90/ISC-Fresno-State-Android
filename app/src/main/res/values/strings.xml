@@ -45,5 +45,7 @@
     <string name="loading_text">Loading…</string>
     <string name="please_wait">Please wait…</string>
     <string name="title_activity_add_new_job_post">Add New Job Post</string>
+    <string name="title_activity_edit_job_post">Edit Job Post</string>
+    <string name="title_activity_add_new_buy_sell_post">Add New Buy/Sell Post</string>
 
 </resources>

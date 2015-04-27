@@ -8,16 +8,16 @@ import butterknife.ButterKnife.Injector;
 public class PostDescription$$ViewInjector<T extends singh.saurabh.iscfresnostate.view.PostDescription> implements Injector<T> {
   @Override public void inject(final Finder finder, final T target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131361920, "field 'mTitle'");
-    target.mTitle = finder.castView(view, 2131361920, "field 'mTitle'");
-    view = finder.findRequiredView(source, 2131361921, "field 'mFirstName'");
-    target.mFirstName = finder.castView(view, 2131361921, "field 'mFirstName'");
-    view = finder.findRequiredView(source, 2131361922, "field 'mDate'");
-    target.mDate = finder.castView(view, 2131361922, "field 'mDate'");
-    view = finder.findRequiredView(source, 2131361923, "field 'mTag'");
-    target.mTag = finder.castView(view, 2131361923, "field 'mTag'");
-    view = finder.findRequiredView(source, 2131361924, "field 'mListView'");
-    target.mListView = finder.castView(view, 2131361924, "field 'mListView'");
+    view = finder.findRequiredView(source, 2131427462, "field 'mTitle'");
+    target.mTitle = finder.castView(view, 2131427462, "field 'mTitle'");
+    view = finder.findRequiredView(source, 2131427463, "field 'mFirstName'");
+    target.mFirstName = finder.castView(view, 2131427463, "field 'mFirstName'");
+    view = finder.findRequiredView(source, 2131427464, "field 'mDate'");
+    target.mDate = finder.castView(view, 2131427464, "field 'mDate'");
+    view = finder.findRequiredView(source, 2131427465, "field 'mTag'");
+    target.mTag = finder.castView(view, 2131427465, "field 'mTag'");
+    view = finder.findRequiredView(source, 2131427466, "field 'mListView'");
+    target.mListView = finder.castView(view, 2131427466, "field 'mListView'");
   }
 
   @Override public void reset(T target) {

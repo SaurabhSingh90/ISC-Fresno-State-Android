@@ -29,8 +29,20 @@ public class ParseKeys {
     public static String JOBPOST_TAGS = "jobPostTags";
     public static String JOBPOST_CONTENT = "jobPostContent";
 
+    // Parse Buy Sell Column names
+    public static String BUY_SELL_CLASS = "buySell";
+    public static String BUY_SELL_TITLE_IMAGE = "titleImage";
+    public static String BUY_SELL_TITLE = "jobPostTitle";
+    public static String BUY_SELL_LOCATION = "jobPostLocation";
+    public static String BUY_SELL_FIRST_NAME = "firstName";
+    public static String BUY_SELL_TAGS = "jobPostTags";
+    public static String BUY_SELL_CONTENT = "jobPostContent";
+
     public static String PAGE_LINK = "page_link";
     public static String PAGE_TITLE = "page_title";
+
+    // URLs
+    public static String URL_COMMITTEE = "http://www.iscfresnostate.com/committee/";
 
     // Gallery URLs
     public static String URL_ICN_2014 = "http://www.iscfresnostate.com/icn-2014/";
