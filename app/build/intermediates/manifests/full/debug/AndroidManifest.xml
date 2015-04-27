@@ -64,7 +64,7 @@
         </activity>
         <activity
             android:name="singh.saurabh.iscfresnostate.view.PostDescription"
-            android:label="--" >
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="singh.saurabh.iscfresnostate.view.EditPost"
@@ -81,7 +81,7 @@
         </activity>
         <activity
             android:name="singh.saurabh.iscfresnostate.view.JobDescription"
-            android:label="--" >
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="singh.saurabh.iscfresnostate.view.AddNewJobPost"
@@ -123,6 +123,15 @@
             android:name="com.parse.push.notification_icon"
             android:resource="@drawable/push_icon" />
         <!-- End parse.com requirements -->
+        <activity
+            android:name="singh.saurabh.iscfresnostate.view.EditJobPost"
+            android:label="@string/title_activity_edit_job_post" >
+        </activity>
+        <activity
+            android:name="singh.saurabh.iscfresnostate.view.AddNewBuySellPost"
+            android:label="@string/title_activity_add_new_buy_sell_post" >
+        </activity>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

@@ -111,7 +111,7 @@ public class AddNewPost extends ActionBarActivity {
         String[] tagsArray = tagsString.split(",");
         for (String tag : tagsArray) {
             tag = tag.toLowerCase().trim();
-            post.add(ParseKeys.POST_TAGS, tag);
+            post.addUnique(ParseKeys.POST_TAGS, tag);
         }
         post.put(ParseKeys.POST_USER, mCurrentUser);
         post.put(ParseKeys.POST_FIRST_NAME, firstName);

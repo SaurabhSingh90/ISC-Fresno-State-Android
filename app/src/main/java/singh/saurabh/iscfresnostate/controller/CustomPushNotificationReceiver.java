@@ -28,6 +28,8 @@ public class CustomPushNotificationReceiver extends ParsePushBroadcastReceiver {
 
     private static int numMessages = 1;
     private static int NOTIFICATION_ID = 1;
+    private static Intent mIntent;
+    private static Context mContext;
     private static final String TAG = CustomPushNotificationReceiver.class.getSimpleName();
     private static NotificationCompat.Builder mBuilder;
     private static Intent resultIntent;
@@ -39,6 +41,8 @@ public class CustomPushNotificationReceiver extends ParsePushBroadcastReceiver {
     @Override
     protected void onPushReceive(Context context, Intent intent) {
         super.onPushReceive(context, intent);
+        mContext = context;
+        mIntent = intent;
         Log.d(TAG, "onPushReceive");
 
         try {

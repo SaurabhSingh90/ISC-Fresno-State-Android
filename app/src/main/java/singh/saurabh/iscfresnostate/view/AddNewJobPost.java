@@ -42,13 +42,13 @@ public class AddNewJobPost extends ActionBarActivity {
     private ProgressDialog dialog;
     private MenuScreenActivity mMenuScreenActivity = new MenuScreenActivity();
 
-    @InjectView(R.id.job_title_editText)
+    @InjectView(R.id.edit_JobPost_Title)
     EditText mTitleEditText;
-    @InjectView(R.id.job_location_editText)
+    @InjectView(R.id.edit_JobPost_Location)
     EditText mLocationEditText;
-    @InjectView(R.id.job_postContent_editText)
+    @InjectView(R.id.edit_JobPost_Content)
     EditText mPostContentEditText;
-    @InjectView(R.id.job_post_tags_editText)
+    @InjectView(R.id.edit_JobPost_Tags)
     EditText mPostTagsEditText;
     @InjectView(R.id.submit_job_post_button)
     Button mSubmitPostButton;
@@ -124,7 +124,7 @@ public class AddNewJobPost extends ActionBarActivity {
         String[] tagsArray = tagsString.split(",");
         for (String tag : tagsArray) {
             tag = tag.toLowerCase().trim();
-            post.add(ParseKeys.JOBPOST_TAGS, tag);
+            post.addUnique(ParseKeys.JOBPOST_TAGS, tag);
         }
         post.put(ParseKeys.POST_USER, mCurrentUser);
         post.put(ParseKeys.JOBPOST_FIRST_NAME, firstName);

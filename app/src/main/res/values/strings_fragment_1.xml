@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_post">Add Post</string>
-    <string name="no_post_empty_text">No Post available</string>
+    <string name="no_post_empty_text">No Post Available</string>
     <string name="loading_post_text">Loading posts…</string>
     <string name="delete_post_text">Delete post(s)</string>
 

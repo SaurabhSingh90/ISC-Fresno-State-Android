@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/box_gradient">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/buy_sell_list_item_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:id="@+id/buy_sell_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/custom_title_blue_color"
+                android:textIsSelectable="false"
+                android:textStyle="bold|normal"
+                android:typeface="serif"/>
+
+            <TextView
+                android:id="@+id/buy_sell_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/custom_author_name_red_color"
+                android:textIsSelectable="false"
+                android:textStyle="bold|normal"
+                android:typeface="serif"/>
+
+            <TextView
+                android:id="@+id/buy_sell_posted_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold|normal"
+                android:typeface="serif">
+            </TextView>
+
+            <TextView
+                android:id="@+id/buy_sell_posted_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold|normal"
+                android:typeface="serif"/>
+
+            <TextView
+                android:id="@+id/buy_sell_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold|normal"
+                android:typeface="serif"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

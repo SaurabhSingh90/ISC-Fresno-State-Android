@@ -12,4 +12,5 @@
     <string name="notify_me_unsubscribe_button_text">Un-Subscribe</string>
     <string name="unsubscribe_alert_message">You won\'t be able to get anymore job posting notifications. Are you sure?</string>
     <string name="job_posted">Job Posted Successfully</string>
+    <string name="update_job">Update Post</string>
 </resources>

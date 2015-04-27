@@ -22,7 +22,7 @@
             android:padding="10dp">
 
             <EditText
-                android:id="@+id/job_title_editText"
+                android:id="@+id/edit_JobPost_Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -33,7 +33,7 @@
                 android:typeface="serif"/>
 
             <EditText
-                android:id="@+id/job_location_editText"
+                android:id="@+id/edit_JobPost_Location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -45,7 +45,7 @@
                 android:inputType="textCapWords"/>
 
             <EditText
-                android:id="@+id/job_postContent_editText"
+                android:id="@+id/edit_JobPost_Content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -57,7 +57,7 @@
                 android:typeface="serif"/>
 
             <EditText
-                android:id="@+id/job_post_tags_editText"
+                android:id="@+id/edit_JobPost_Tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"

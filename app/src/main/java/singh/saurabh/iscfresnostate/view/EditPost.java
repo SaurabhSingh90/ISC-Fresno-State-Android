@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
@@ -20,25 +20,25 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
+import singh.saurabh.iscfresnostate.model.ParseKeys;
 
 public class EditPost extends ActionBarActivity {
 
     private Context mContext = this;
     private String objectId;
-    private String mTitle, mMessage, mTag;
+    private String mTitle, mMessage;
+    private String[] mTagsArray;
     private View focusView = null;
     private ProgressDialog mProgressDialog;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
     private static ContextThemeWrapper mContextThemeWrapper;
 
-    // Parse Column Names
-    private String POST_TITLE = "postTitle";
-    private String POST_CONTENT = "postContent";
-    private String POST_TAGS = "postTags";
-
-    @InjectView(R.id.edit_Post_Title) TextView mTitleEditText;
-    @InjectView(R.id.edit_message) TextView mContentEditText;
-    @InjectView(R.id.edit_tag) TextView mTagEditText;
+    @InjectView(R.id.edit_Post_Title)
+    EditText mTitleEditText;
+    @InjectView(R.id.edit_message)
+    EditText mContentEditText;
+    @InjectView(R.id.edit_tag)
+    EditText mTagEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +55,18 @@ public class EditPost extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            objectId = extras.getString("objectId");
-            mTitle = extras.getString(POST_TITLE);
-            mMessage = extras.getString(POST_CONTENT);
-            mTag = extras.getString(POST_TAGS);
+            objectId = extras.getString(ParseKeys.OBJECTID);
+            mTitle = extras.getString(ParseKeys.POST_TITLE);
+            mMessage = extras.getString(ParseKeys.POST_CONTENT);
+            mTagsArray = extras.getStringArray(ParseKeys.POST_TAGS);
         }
 
         mTitleEditText.setText(mTitle);
         mContentEditText.setText(mMessage);
-        mTagEditText.setText(mTag);
+        String str = "";
+        for (String string: mTagsArray)
+            str = str.concat(" "+string+",");
+        mTagEditText.setText(str);
     }
 
     public void SubmitEditPost(View v) {
@@ -99,21 +102,27 @@ public class EditPost extends ActionBarActivity {
 
     private void postEditedComment() {
         mProgressDialog.show();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseKeys.POST_CLASS);
         query.getInBackground(objectId, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 mProgressDialog.dismiss();
                 if (e == null) {
-                    parseObject.put(POST_TITLE, mTitleEditText.getText().toString());
-                    parseObject.put(POST_CONTENT, mContentEditText.getText().toString());
+                    parseObject.put(ParseKeys.POST_TITLE, mTitleEditText.getText().toString());
+                    parseObject.put(ParseKeys.POST_CONTENT, mContentEditText.getText().toString());
+                    String tagsString = mTagEditText.getText().toString().trim();
+                    String[] tagsArray = tagsString.split(",");
+                    for (String tag : tagsArray) {
+                        tag = tag.toLowerCase().trim();
+                        parseObject.addUnique(ParseKeys.POST_TAGS, tag);
+                    }
                     parseObject.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
                                 Toast.makeText(mContext, getString(R.string.post_updated_text), Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(mContext, PostDescription.class);
-                                i.putExtra("objectId", objectId);
+                                i.putExtra(ParseKeys.OBJECTID, objectId);
                                 startActivity(i);
                                 finish();
                             }

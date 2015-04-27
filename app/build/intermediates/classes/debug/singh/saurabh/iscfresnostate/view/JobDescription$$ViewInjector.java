@@ -8,18 +8,18 @@ import butterknife.ButterKnife.Injector;
 public class JobDescription$$ViewInjector<T extends singh.saurabh.iscfresnostate.view.JobDescription> implements Injector<T> {
   @Override public void inject(final Finder finder, final T target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131361896, "field 'mTitle'");
-    target.mTitle = finder.castView(view, 2131361896, "field 'mTitle'");
-    view = finder.findRequiredView(source, 2131361897, "field 'mLocation'");
-    target.mLocation = finder.castView(view, 2131361897, "field 'mLocation'");
-    view = finder.findRequiredView(source, 2131361898, "field 'mFirstName'");
-    target.mFirstName = finder.castView(view, 2131361898, "field 'mFirstName'");
-    view = finder.findRequiredView(source, 2131361899, "field 'mDate'");
-    target.mDate = finder.castView(view, 2131361899, "field 'mDate'");
-    view = finder.findRequiredView(source, 2131361900, "field 'mTag'");
-    target.mTag = finder.castView(view, 2131361900, "field 'mTag'");
-    view = finder.findRequiredView(source, 2131361903, "field 'mContent'");
-    target.mContent = finder.castView(view, 2131361903, "field 'mContent'");
+    view = finder.findRequiredView(source, 2131427438, "field 'mTitle'");
+    target.mTitle = finder.castView(view, 2131427438, "field 'mTitle'");
+    view = finder.findRequiredView(source, 2131427439, "field 'mLocation'");
+    target.mLocation = finder.castView(view, 2131427439, "field 'mLocation'");
+    view = finder.findRequiredView(source, 2131427440, "field 'mFirstName'");
+    target.mFirstName = finder.castView(view, 2131427440, "field 'mFirstName'");
+    view = finder.findRequiredView(source, 2131427441, "field 'mDate'");
+    target.mDate = finder.castView(view, 2131427441, "field 'mDate'");
+    view = finder.findRequiredView(source, 2131427442, "field 'mTag'");
+    target.mTag = finder.castView(view, 2131427442, "field 'mTag'");
+    view = finder.findRequiredView(source, 2131427445, "field 'mContent'");
+    target.mContent = finder.castView(view, 2131427445, "field 'mContent'");
   }
 
   @Override public void reset(T target) {

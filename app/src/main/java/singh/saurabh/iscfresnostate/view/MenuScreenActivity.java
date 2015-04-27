@@ -17,7 +17,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,6 +37,7 @@ import org.json.JSONException;
 
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
+import singh.saurabh.iscfresnostate.model.BuySell;
 import singh.saurabh.iscfresnostate.model.DiscussionForum;
 import singh.saurabh.iscfresnostate.model.Forms;
 import singh.saurabh.iscfresnostate.model.Gallery;
@@ -74,6 +74,7 @@ public class MenuScreenActivity extends ActionBarActivity
     // Class objects for fragments
     private static DiscussionForum mDiscussionForum = null;
     private static News mNews = null;
+    private static BuySell mBuySell = null;
     private static JobPost mJobPost = null;
     private static Forms mForms = null;
     private static Gallery mGallery = null;
@@ -115,11 +116,12 @@ public class MenuScreenActivity extends ActionBarActivity
     @Override
     protected void onResume() {
         super.onResume();
+
         if (ParseUser.getCurrentUser() == null) {
-            Intent i = new Intent(mContext, LoginActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
     }
 
@@ -235,9 +237,11 @@ public class MenuScreenActivity extends ActionBarActivity
                 // perform query here
                 if (SECTION_NUMBER == 1)
                     mDiscussionForum.searchPostTask(query, true);
+                else if (SECTION_NUMBER == 3)
+                    mBuySell.searchPostTask(query, true);
                 else if (SECTION_NUMBER == 4)
                     mJobPost.searchJobPostTask(query, true);
-                return true;
+                return false;
             }
 
             @Override
@@ -245,14 +249,17 @@ public class MenuScreenActivity extends ActionBarActivity
                 if (newText.length() > 2) {
                     if (SECTION_NUMBER == 1)
                         mDiscussionForum.searchPostTask(newText, false);
-                    else if (SECTION_NUMBER == 4) {
+                    else if (SECTION_NUMBER == 3)
+                        mBuySell.searchPostTask(newText, false);
+                    else if (SECTION_NUMBER == 4)
                         mJobPost.searchJobPostTask(newText, false);
-                    }
                     return true;
                 } else {
                     if (newText.length() == 0) {
                         if (SECTION_NUMBER == 1)
                             mDiscussionForum.startLoadCommentsTask();
+                        else if (SECTION_NUMBER == 3)
+                            mBuySell.startBuySellTask();
                         else if (SECTION_NUMBER == 4)
                             mJobPost.startJobPostTask();
                         return true;
@@ -267,6 +274,8 @@ public class MenuScreenActivity extends ActionBarActivity
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 if (SECTION_NUMBER == 1)
                     mDiscussionForum.startLoadCommentsTask();
+                else if (SECTION_NUMBER == 3)
+                    mBuySell.startBuySellTask();
                 else if (SECTION_NUMBER == 4)
                     mJobPost.startJobPostTask();
                 return true;
@@ -296,9 +305,11 @@ public class MenuScreenActivity extends ActionBarActivity
         }
 
         if (id == R.id.action_delete_post) {
-            mActionMode = startSupportActionMode(mDiscussionForum.ActionBarCallBack());
-            mDiscussionForum.deleteTask = true;
-            mDiscussionForum.deletePostTask();
+            if (SECTION_NUMBER == 1) {
+                mActionMode = startSupportActionMode(mDiscussionForum.ActionBarCallBack());
+                mDiscussionForum.deleteTask = true;
+                mDiscussionForum.deletePostTask();
+            }
             return true;
         }
 
@@ -407,7 +418,6 @@ public class MenuScreenActivity extends ActionBarActivity
                         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                             @Override
                             public void onRefresh() {
-                                Log.d(TAG, "post refreshing");
                                 mSwipeRefreshLayout.setRefreshing(true);
                                 new RefreshNewsList().execute();
                             }
@@ -428,7 +438,6 @@ public class MenuScreenActivity extends ActionBarActivity
                         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                             @Override
                             public void onRefresh() {
-                                Log.d(TAG, "news refreshing");
                                 mSwipeRefreshLayout.setRefreshing(true);
                                 new RefreshNewsList().execute();
                             }
@@ -440,6 +449,21 @@ public class MenuScreenActivity extends ActionBarActivity
                     // Buy/Sell
                     SECTION_NUMBER = 3;
                     rootView = inflater.inflate(R.layout.fragment_3_buy_sell, container, false);
+                    mBuySell = new BuySell(getActivity());
+                    mBuySell.startBuySellTask();
+                    if (!mDiscussionForum.deleteTask) {
+                        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.buy_sell_list_swipeRefreshLayout);
+                        mSwipeRefreshLayout.setColorScheme(
+                                R.color.swipe_color_1, R.color.swipe_color_2,
+                                R.color.swipe_color_3, R.color.swipe_color_4);
+                        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                mSwipeRefreshLayout.setRefreshing(true);
+                                new RefreshNewsList().execute();
+                            }
+                        });
+                    }
                     break;
 
                 case 4:
@@ -456,7 +480,6 @@ public class MenuScreenActivity extends ActionBarActivity
                         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                             @Override
                             public void onRefresh() {
-                                Log.d(TAG, "post refreshing");
                                 mSwipeRefreshLayout.setRefreshing(true);
                                 new RefreshNewsList().execute();
                             }
@@ -489,7 +512,6 @@ public class MenuScreenActivity extends ActionBarActivity
                 case 8:
                     // About us
                     SECTION_NUMBER = 8;
-                    String mCommitteeUrl = "http://www.iscfresnostate.com/committee/";
                     final ProgressDialog dialog = new ProgressDialog(mContextThemeWrapper);
                     dialog.setMessage(getString(R.string.loading_text));
                     dialog.setIndeterminate(false);
@@ -512,7 +534,7 @@ public class MenuScreenActivity extends ActionBarActivity
                                 mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.error_loading_data));
                             }
                         });
-                        mFormWebView.loadUrl(mCommitteeUrl);
+                        mFormWebView.loadUrl(ParseKeys.URL_COMMITTEE);
                     } else
                         mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.check_network));
                     break;
@@ -556,23 +578,32 @@ public class MenuScreenActivity extends ActionBarActivity
             if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing()) {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-            if (SECTION_NUMBER == 1 && !mDiscussionForum.deleteTask) {
-                mDiscussionForum.startLoadCommentsTask();
-            } else if (SECTION_NUMBER == 2 && !mDiscussionForum.deleteTask) {
-                mNews.startLoadNewsTask();
-            } else if (SECTION_NUMBER == 4 && !mDiscussionForum.deleteTask) {
-                mJobPost.startJobPostTask();
+            if (!mDiscussionForum.deleteTask) {
+                if (SECTION_NUMBER == 1) {
+                    mDiscussionForum.startLoadCommentsTask();
+                } else if (SECTION_NUMBER == 2) {
+                    mNews.startLoadNewsTask();
+                } else if (SECTION_NUMBER == 3) {
+                    mBuySell.startBuySellTask();
+                } else if (SECTION_NUMBER == 4) {
+                    mJobPost.startJobPostTask();
+                }
             }
         }
     }
 
-    public void addNewPost(View v) {
+    public void addNewDiscussionPost(View v) {
         Intent i = new Intent(mContext, AddNewPost.class);
         startActivity(i);
     }
 
     public void addNewJobPost(View v) {
         Intent i = new Intent(mContext, AddNewJobPost.class);
+        startActivity(i);
+    }
+
+    public void addNewBuySellPost(View v) {
+        Intent i = new Intent(mContext, AddNewBuySellPost.class);
         startActivity(i);
     }
 }

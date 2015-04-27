@@ -1,7 +1,10 @@
 package singh.saurabh.iscfresnostate.view;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -10,11 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,6 +43,7 @@ public class JobDescription extends ActionBarActivity {
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
     private static ContextThemeWrapper mContextThemeWrapper;
     private ProgressDialog mProgressDialog;
+    private String[] mTagsArray;
 
     @InjectView(R.id.singleJobPost_title_textView)
     TextView mTitle;
@@ -104,7 +112,7 @@ public class JobDescription extends ActionBarActivity {
                     SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy", Locale.US);
                     posted_on = sdf.format(d1);
 
-                    restoreActionBar(parseObject.get(ParseKeys.JOBPOST_TITLE).toString().toUpperCase().toUpperCase());
+                    restoreActionBar(parseObject.get(ParseKeys.JOBPOST_TITLE).toString().toUpperCase());
 
                     mTitle.setText(parseObject.get(ParseKeys.JOBPOST_TITLE).toString().toUpperCase());
                     mLocation.setText(parseObject.get(ParseKeys.JOBPOST_LOCATION).toString());
@@ -113,6 +121,15 @@ public class JobDescription extends ActionBarActivity {
                     mTag.setText("TAGS: " + parseObject.get(ParseKeys.JOBPOST_TAGS).toString());
                     mContent.setText(parseObject.get(ParseKeys.JOBPOST_CONTENT).toString());
 
+                    JSONArray jsonArray = parseObject.getJSONArray(ParseKeys.JOBPOST_TAGS);
+                    mTagsArray = new String[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        try {
+                            mTagsArray[i] = jsonArray.getString(i);
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
                 } else {
                     mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.post_not_available_text));
                 }
@@ -123,7 +140,7 @@ public class JobDescription extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.global, menu);
+        getMenuInflater().inflate(R.menu.menu_job_description, menu);
         return true;
     }
 
@@ -134,7 +151,89 @@ public class JobDescription extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_edit_post) {
+            ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseKeys.JOBPOST_CLASS);
+            query.getInBackground(objectId, new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    if (e == null) {
+                        if (parseObject.getParseObject(ParseKeys.POST_USER).getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
+                            Intent i = new Intent(mContext, EditJobPost.class);
+                            i.putExtra(ParseKeys.OBJECTID, objectId);
+                            i.putExtra(ParseKeys.JOBPOST_TITLE, mTitle.getText().toString());
+                            i.putExtra(ParseKeys.JOBPOST_LOCATION, mLocation.getText().toString());
+                            i.putExtra(ParseKeys.JOBPOST_CONTENT, mContent.getText().toString());
+                            i.putExtra(ParseKeys.JOBPOST_TAGS, mTagsArray);
+                            finish();
+                            startActivity(i);
+                        } else {
+                            mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.edit_not_authorized));
+                        }
+                    }
+                }
+            });
+            return true;
+        }
+
+        if (id == R.id.action_refresh) {
+            loadJobPost();
+            return true;
+        }
+
+        if (id == R.id.action_delete_post) {
+            final ProgressDialog dialog = new ProgressDialog(mContext);
+            dialog.setMessage("Deleting post...");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(true);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext, android.R.style.Theme_Holo_Dialog));
+            builder.setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle(getString(R.string.delete_title_text))
+                    .setMessage(getString(R.string.delete_message_text))
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface d, int id) {
+                            dialog.show();
+                            ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseKeys.JOBPOST_CLASS);
+                            query.whereEqualTo(ParseKeys.OBJECTID, objectId);
+                            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject parseObject, ParseException e) {
+                                    if (e == null) {
+                                        if (parseObject.getParseObject(ParseKeys.POST_USER).getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
+                                            parseObject.deleteInBackground(new DeleteCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    dialog.dismiss();
+                                                    if (e == null) {
+                                                        mMenuScreenActivity.new RefreshNewsList().execute();
+                                                        finish();
+                                                    } else {
+                                                        mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.some_error_occurred));
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            dialog.dismiss();
+                                            mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.delete_not_authorized));
+                                        }
+                                    } else {
+                                        dialog.dismiss();
+                                        mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.some_error_occurred));
+                                    }
+                                }
+                            });
+                        }
+                    });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            builder.show();
+
+            return true;
+        }
+
         if (id == R.id.action_sign_out) {
             ProgressDialog dialog;
             dialog = new ProgressDialog(mContextThemeWrapper);

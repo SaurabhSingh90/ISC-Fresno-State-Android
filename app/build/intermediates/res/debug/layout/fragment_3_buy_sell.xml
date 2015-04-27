@@ -1,11 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/list_bg"
+                android:orientation="vertical">
 
-    <GridView
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/no_post_empty_text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ff972020"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:visibility="gone"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/buy_sell_list_swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/gridView"/>
-</LinearLayout><!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/layout/fragment_3_buy_sell.xml -->
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/base_container"
+        android:layout_below="@android:id/empty"
+        android:background="@android:color/transparent">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/base_container"
+            android:layout_alignParentLeft="true"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/base_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#e3960606"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="#00960606"/>
+
+        <Button
+            style="?android:textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="#e3590303"
+            android:clickable="true"
+            android:onClick="addNewBuySellPost"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="@string/add_post"
+            android:textColor="@android:color/background_light"
+            android:typeface="serif"/>
+    </LinearLayout>
+</RelativeLayout><!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/layout/fragment_3_buy_sell.xml -->

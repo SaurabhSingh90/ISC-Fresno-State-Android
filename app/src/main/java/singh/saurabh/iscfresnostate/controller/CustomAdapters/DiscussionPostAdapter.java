@@ -53,8 +53,6 @@ public class DiscussionPostAdapter extends ArrayAdapter<HashMap<String, String>>
             holder.published_date = (TextView) convertView.findViewById(R.id.date_single_list_item);
             holder.postTags = (TextView) convertView.findViewById(R.id.tags_single_list_item);
             holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox_single_list_item);
-            holder.postTagContainer = convertView.findViewById(R.id.tags_container);
-            holder.postTagContainer.setVisibility(View.VISIBLE);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
