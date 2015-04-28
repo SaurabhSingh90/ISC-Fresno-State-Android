@@ -9,18 +9,18 @@
         <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/classes-44a6f4d831b6a411893534ed0389aa8f2e133f9c.jar" />
     </item>
     <item
-        jar="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="29fd6d3794b71491c2789708cd8d03c71feb8954">
-        <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/classes-c9d13ab35380e8e2da54c39490e47ca645ccd301.jar" />
-    </item>
-    <item
         jar="/Users/Saurabh/Documents/sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
         <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-aed0d279535794e71dcaaa488ff760795192dc1f.jar" />
+    </item>
+    <item
+        jar="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/7.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="29fd6d3794b71491c2789708cd8d03c71feb8954">
+        <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/classes-c9d13ab35380e8e2da54c39490e47ca645ccd301.jar" />
     </item>
     <item
         jar="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/7.0.0/classes.jar"
@@ -107,6 +107,13 @@
         <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/classes-f84b6a7fa6047653ed45e5647a30d479847d5085.jar" />
     </item>
     <item
+        jar="/Users/Saurabh/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/picasso-2.5.2-c3ceafc8f78fb516a914a18b3340513f95b61fa9.jar" />
+    </item>
+    <item
         jar="/Users/Saurabh/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/6.1.0/63735f48b82bcd24cdd33821342428252eb1ca5a/butterknife-6.1.0.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -128,6 +135,13 @@
         <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/classes-406708f1b254be588ebf8287457064d858ae755c.jar" />
     </item>
     <item
+        jar="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/libs/commons-io-2.4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
+        <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/commons-io-2.4-a7411d0624d7a8cfc0c88f119c05f8e6b12edd7c.jar" />
+    </item>
+    <item
         jar="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/libs/internal_impl-22.0.0.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -142,18 +156,18 @@
         <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/classes-102278846c5e7b0901084e879ddd4c3a52b12a3a.jar" />
     </item>
     <item
-        jar="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4c93d99d454c975536bbe3b42283eee847f03ea3">
-        <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/classes-00f1d3f261cd2a8b081013c338edcf5fefb9e7e2.jar" />
-    </item>
-    <item
         jar="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.0.0/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="e3d791b42eaa90416cd0b2d2e608092794a3baa4">
         <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/classes-283c77f8386e2096b67f92c5f9a1c87a77eaaa0d.jar" />
+    </item>
+    <item
+        jar="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4c93d99d454c975536bbe3b42283eee847f03ea3">
+        <dex dex="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/pre-dexed/debug/classes-00f1d3f261cd2a8b081013c338edcf5fefb9e7e2.jar" />
     </item>
     <item
         jar="/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.0.0/classes.jar"

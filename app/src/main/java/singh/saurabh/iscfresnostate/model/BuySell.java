@@ -27,7 +27,7 @@ import java.util.Locale;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomAdapters.BuySellAdapter;
 import singh.saurabh.iscfresnostate.controller.CustomNetworkErrorHandler;
-import singh.saurabh.iscfresnostate.view.PostDescription;
+import singh.saurabh.iscfresnostate.view.BuySellPostDescription;
 
 /**
  * Created by ${SAURBAH} on ${10/29/14}.
@@ -92,6 +92,7 @@ public class BuySell {
             obj = parseObjects.get(i);
 
             String firstName = obj.get(ParseKeys.BUY_SELL_FIRST_NAME).toString();
+            String price = obj.get(ParseKeys.BUY_SELL_PRICE).toString();
             String title = obj.get(ParseKeys.BUY_SELL_TITLE).toString();
             String tags = "TAGS: ";
             tags = tags.concat(obj.get(ParseKeys.BUY_SELL_TAGS).toString());
@@ -108,8 +109,9 @@ public class BuySell {
             SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy   h:mm a", Locale.US);
             posted_on = sdf.format(d1);
             HashMap<String, String> dataList = new HashMap<>();
-            dataList.put("author", firstName);
             dataList.put("title", title);
+            dataList.put("price", price);
+            dataList.put("author", firstName);
             dataList.put("createdAt", posted_on);
             dataList.put("tags", tags);
 
@@ -127,7 +129,7 @@ public class BuySell {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String objectId = parseObjects.get(position).getObjectId();
-                    Intent i = new Intent(mActivity, PostDescription.class);
+                    Intent i = new Intent(mActivity, BuySellPostDescription.class);
                     i.putExtra(ParseKeys.OBJECTID, objectId);
                     mActivity.startActivity(i);
                 }

@@ -47,5 +47,6 @@
     <string name="title_activity_add_new_job_post">Add New Job Post</string>
     <string name="title_activity_edit_job_post">Edit Job Post</string>
     <string name="title_activity_add_new_buy_sell_post">Add New Buy/Sell Post</string>
+    <string name="title_activity_buy_sell_post_description">--</string>
 
 </resources>

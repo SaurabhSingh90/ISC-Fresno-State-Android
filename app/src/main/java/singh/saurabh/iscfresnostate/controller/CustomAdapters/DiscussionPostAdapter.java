@@ -35,7 +35,6 @@ public class DiscussionPostAdapter extends ArrayAdapter<HashMap<String, String>>
 
 
     private static class ViewHolder {
-        protected View postTagContainer;
         protected TextView firstName, title, published_date, postTags;
         protected CheckBox checkbox;
     }
@@ -52,6 +51,7 @@ public class DiscussionPostAdapter extends ArrayAdapter<HashMap<String, String>>
             holder.firstName = (TextView) convertView.findViewById(R.id.author_name_single_list_item);
             holder.published_date = (TextView) convertView.findViewById(R.id.date_single_list_item);
             holder.postTags = (TextView) convertView.findViewById(R.id.tags_single_list_item);
+            holder.postTags.setVisibility(View.VISIBLE);
             holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox_single_list_item);
             convertView.setTag(holder);
         } else {

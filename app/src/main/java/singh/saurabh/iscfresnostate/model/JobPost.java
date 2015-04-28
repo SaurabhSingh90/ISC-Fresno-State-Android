@@ -92,20 +92,8 @@ public class JobPost {
             String firstName = obj.get(ParseKeys.JOBPOST_FIRST_NAME).toString();
             String location = obj.get(ParseKeys.JOBPOST_LOCATION).toString();
             String title = obj.get(ParseKeys.JOBPOST_TITLE).toString();
-            String tags = "TAGS: ";
+            String tags = "";
             tags = tags.concat(obj.get(ParseKeys.JOBPOST_TAGS).toString());
-
-//            Date createdAt = obj.getCreatedAt();
-//            String posted_on = createdAt.toString();
-//            SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzzz yyyy", Locale.US);
-//            Date d1 = null;
-//            try {
-//                d1 = sdf1.parse(posted_on);
-//            } catch (ParseException ee) {
-//                ee.printStackTrace();
-//            }
-//            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy", Locale.US);
-//            posted_on = sdf.format(d1);
 
             Date createdAt = obj.getCreatedAt();    //date 1
             Date systemDate = new Date();           //date 2
@@ -113,18 +101,18 @@ public class JobPost {
 
             long time_duration = systemDate.getTime() - createdAt.getTime();
             long time_difference_in_days = time_duration/one_day_in_milliseconds;
-            String posted_on = "Posted: ";
+            String posted_on = "";
             if (time_difference_in_days == 0)
-                posted_on = posted_on.concat(" Today");
+                posted_on = posted_on.concat("Today");
             else if (time_difference_in_days == 1)
-                posted_on = posted_on.concat(" Yesterday");
+                posted_on = posted_on.concat("Yesterday");
             else
                 posted_on = posted_on.concat(time_difference_in_days + " days ago");
 
             HashMap<String, String> dataList = new HashMap<>();
             dataList.put("title", title);
             dataList.put("location", location);
-            dataList.put("author", "Posted By: "+firstName);
+            dataList.put("author", firstName);
             dataList.put("createdAt", posted_on);
             dataList.put("tags", tags);
 

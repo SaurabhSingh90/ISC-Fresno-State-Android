@@ -30,7 +30,7 @@ public class BuySellAdapter extends ArrayAdapter<HashMap<String, String>> {
 
     private static class ViewHolder {
         protected ImageView mImageView;
-        protected TextView firstName, location, title, published_date, postTags;
+        protected TextView firstName, location, title, price, published_date, postTags;
     }
 
     @Override
@@ -43,6 +43,7 @@ public class BuySellAdapter extends ArrayAdapter<HashMap<String, String>> {
             holder = new ViewHolder();
             holder.mImageView = (ImageView) convertView.findViewById(R.id.buy_sell_list_item_imageView);
             holder.title = (TextView) convertView.findViewById(R.id.buy_sell_title);
+            holder.price = (TextView) convertView.findViewById(R.id.buy_sell_price);
             holder.location = (TextView) convertView.findViewById(R.id.buy_sell_location);
             holder.firstName = (TextView) convertView.findViewById(R.id.buy_sell_posted_by);
             holder.published_date = (TextView) convertView.findViewById(R.id.buy_sell_posted_date);
@@ -55,6 +56,7 @@ public class BuySellAdapter extends ArrayAdapter<HashMap<String, String>> {
         HashMap<String, String> listItem = mList.get(position);
 //        holder.mImageView.setImageResource();
         holder.title.setText(listItem.get("title"));
+        holder.price.setText(listItem.get("price"));
         holder.location.setText(listItem.get("location"));
         holder.firstName.setText(listItem.get("author"));
         holder.published_date.setText(listItem.get("createdAt"));

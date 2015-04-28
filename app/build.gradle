@@ -24,6 +24,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.android.support:support-v4:22.0.0'
     compile 'com.google.android.gms:play-services:7.0.0'
+    compile fileTree(dir: 'libs', include: 'commons-io-2.4.jar')
 
     // Parse Dependencies
     compile 'com.parse.bolts:bolts-android:1.2.0'
@@ -31,6 +32,9 @@ dependencies {
 
     // Butter-Knife Dependency
     compile 'com.jakewharton:butterknife:6.1.0'
+
+    // Picasso Dependency
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
 //    // Mail dependencies
 //    compile files('libs/activation.jar')

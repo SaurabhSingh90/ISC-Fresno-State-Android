@@ -8,12 +8,12 @@ import butterknife.ButterKnife.Injector;
 public class EditPost$$ViewInjector<T extends singh.saurabh.iscfresnostate.view.EditPost> implements Injector<T> {
   @Override public void inject(final Finder finder, final T target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131427431, "field 'mTitleEditText'");
-    target.mTitleEditText = finder.castView(view, 2131427431, "field 'mTitleEditText'");
-    view = finder.findRequiredView(source, 2131427432, "field 'mContentEditText'");
-    target.mContentEditText = finder.castView(view, 2131427432, "field 'mContentEditText'");
-    view = finder.findRequiredView(source, 2131427433, "field 'mTagEditText'");
-    target.mTagEditText = finder.castView(view, 2131427433, "field 'mTagEditText'");
+    view = finder.findRequiredView(source, 2131427444, "field 'mTitleEditText'");
+    target.mTitleEditText = finder.castView(view, 2131427444, "field 'mTitleEditText'");
+    view = finder.findRequiredView(source, 2131427445, "field 'mContentEditText'");
+    target.mContentEditText = finder.castView(view, 2131427445, "field 'mContentEditText'");
+    view = finder.findRequiredView(source, 2131427446, "field 'mTagEditText'");
+    target.mTagEditText = finder.castView(view, 2131427446, "field 'mTagEditText'");
   }
 
   @Override public void reset(T target) {

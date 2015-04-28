@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import singh.saurabh.iscfresnostate.R;
+import singh.saurabh.iscfresnostate.view.BuySellPostDescription;
 import singh.saurabh.iscfresnostate.view.JobDescription;
 import singh.saurabh.iscfresnostate.view.MenuScreenActivity;
 import singh.saurabh.iscfresnostate.view.PostDescription;
@@ -85,6 +86,8 @@ public class CustomPushNotificationReceiver extends ParsePushBroadcastReceiver {
 
         if (mSection.equals("1"))
             resultIntent = new Intent(context, PostDescription.class);
+        else if (mSection.equals("3"))
+            resultIntent = new Intent(context, BuySellPostDescription.class);
         else if (mSection.equals("4"))
             resultIntent = new Intent(context, JobDescription.class);
         else

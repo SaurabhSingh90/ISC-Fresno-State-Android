@@ -7,8 +7,8 @@
     <item
         android:id="@+id/action_camera"
         android:orderInCategory="1"
+        android:icon="@mipmap/ic_action_camera"
         android:title="@string/action_camera"
-        app:showAsAction="always"
-        android:icon="@mipmap/ic_action_overflow"/>
+        app:showAsAction="always"/>
 </menu>
 <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/menu/menu_add_new_buy_sell_post.xml -->

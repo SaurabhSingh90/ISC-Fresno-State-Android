@@ -116,11 +116,11 @@ public class DiscussionForum {
             obj = parseObjects.get(i);
             String firstName = obj.get(ParseKeys.POST_FIRST_NAME).toString();
             String title = obj.get(ParseKeys.POST_TITLE).toString();
-            String tags = "TAGS: ";
+            String tags = "";
             tags = tags.concat(obj.get(ParseKeys.POST_TAGS).toString());
 
             Date createdAt = obj.getCreatedAt();
-            String posted_on = "Posted: "+createdAt.toString();
+            String posted_on = createdAt.toString();
             SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzzz yyyy", Locale.US);
             Date d1 = null;
             try {
@@ -250,7 +250,7 @@ public class DiscussionForum {
             ParseObject obj = parseObjects.get(i);
             String firstName = obj.get(ParseKeys.POST_FIRST_NAME).toString();
             String title = obj.get(ParseKeys.POST_TITLE).toString();
-            String tags = "TAGS: ";
+            String tags = "";
             tags = tags.concat(obj.get(ParseKeys.POST_TAGS).toString());
 
             Date createdAt = obj.getCreatedAt();

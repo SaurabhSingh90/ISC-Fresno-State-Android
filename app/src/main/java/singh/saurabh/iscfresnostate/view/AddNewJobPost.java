@@ -126,7 +126,7 @@ public class AddNewJobPost extends ActionBarActivity {
             tag = tag.toLowerCase().trim();
             post.addUnique(ParseKeys.JOBPOST_TAGS, tag);
         }
-        post.put(ParseKeys.POST_USER, mCurrentUser);
+        post.put(ParseKeys.USER, mCurrentUser);
         post.put(ParseKeys.JOBPOST_FIRST_NAME, firstName);
         post.saveEventually(new SaveCallback() {
             @Override

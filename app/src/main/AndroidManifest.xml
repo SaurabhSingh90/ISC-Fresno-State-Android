@@ -14,6 +14,8 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.google.android.c2dm.permission.SEND" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!--
       IMPORTANT: Change "com.parse.tutorials.pushnotifications.permission.C2D_MESSAGE" in the lines below
       to match your app's package name + ".permission.C2D_MESSAGE".
@@ -82,6 +84,20 @@
             android:label="@string/title_activity_add_new_job_post"
             android:windowSoftInputMode="stateVisible" >
         </activity>
+        <activity
+            android:name=".view.EditJobPost"
+            android:label="@string/title_activity_edit_job_post"
+            android:windowSoftInputMode="stateVisible">
+        </activity>
+        <activity
+            android:name=".view.AddNewBuySellPost"
+            android:label="@string/title_activity_add_new_buy_sell_post"
+            android:windowSoftInputMode="stateVisible">
+        </activity>
+        <activity
+            android:name=".view.BuySellPostDescription"
+            android:label="@string/title_activity_buy_sell_post_description" >
+        </activity>
 
         <!-- Permissions required for parse.com notifications -->
         <service android:name="com.parse.PushService" />
@@ -117,14 +133,6 @@
             android:name="com.parse.push.notification_icon"
             android:resource="@drawable/push_icon" />
         <!-- End parse.com requirements -->
-        <activity
-            android:name=".view.EditJobPost"
-            android:label="@string/title_activity_edit_job_post" >
-        </activity>
-        <activity
-            android:name=".view.AddNewBuySellPost"
-            android:label="@string/title_activity_add_new_buy_sell_post" >
-        </activity>
     </application>
 
 </manifest>

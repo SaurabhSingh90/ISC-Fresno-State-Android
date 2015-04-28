@@ -382,7 +382,7 @@ public class PostDescription extends ActionBarActivity {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
                     if (e == null) {
-                        if (parseObject.getParseObject(ParseKeys.POST_USER).getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
+                        if (parseObject.getParseObject(ParseKeys.USER).getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
                             Intent i = new Intent(mContext, EditPost.class);
                             i.putExtra(ParseKeys.OBJECTID, objectId);
                             i.putExtra(ParseKeys.POST_TITLE, mTitle.getText().toString());
@@ -620,7 +620,6 @@ public class PostDescription extends ActionBarActivity {
                 holder.title = (TextView) convertView.findViewById(R.id.title_single_list_item);
                 holder.firstName = (TextView) convertView.findViewById(R.id.author_name_single_list_item);
                 holder.published_date = (TextView) convertView.findViewById(R.id.date_single_list_item);
-                holder.postTags = (TextView) convertView.findViewById(R.id.tags_single_list_item);
                 holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox_single_list_item);
                 convertView.setTag(holder);
             } else {

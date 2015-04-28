@@ -157,7 +157,7 @@ public class JobDescription extends ActionBarActivity {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
                     if (e == null) {
-                        if (parseObject.getParseObject(ParseKeys.POST_USER).getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
+                        if (parseObject.getParseObject(ParseKeys.USER).getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
                             Intent i = new Intent(mContext, EditJobPost.class);
                             i.putExtra(ParseKeys.OBJECTID, objectId);
                             i.putExtra(ParseKeys.JOBPOST_TITLE, mTitle.getText().toString());
@@ -199,7 +199,7 @@ public class JobDescription extends ActionBarActivity {
                                 @Override
                                 public void done(ParseObject parseObject, ParseException e) {
                                     if (e == null) {
-                                        if (parseObject.getParseObject(ParseKeys.POST_USER).getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
+                                        if (parseObject.getParseObject(ParseKeys.USER).getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
                                             parseObject.deleteInBackground(new DeleteCallback() {
                                                 @Override
                                                 public void done(ParseException e) {

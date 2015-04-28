@@ -3,7 +3,7 @@
     <string name="job_title">Job Title</string>
     <string name="job_location">Job Location</string>
     <string name="job_description">Job Description</string>
-    <string name="post_job">Post Job</string>
+    <string name="post_job">POST JOB</string>
     <string name="action_notify_me">Notify Me</string>
     <string name="notify_me_alert_title">Notify me</string>
     <string name="unsubscribe_alert_title">Un-Subscribe</string>

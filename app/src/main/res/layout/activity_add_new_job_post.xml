@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_post_tags_editText"
-                android:imeActionId="@+id/action_add_post"
+                android:imeActionId="@+id/action_add_job_post"
                 android:imeActionLabel="@string/action_submit_post_short"
                 android:imeOptions="actionDone"
                 android:singleLine="true"

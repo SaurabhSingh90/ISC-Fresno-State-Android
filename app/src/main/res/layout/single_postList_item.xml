@@ -46,21 +46,56 @@
                 android:textAppearance="?android:attr/textAppearanceSmall">
             </TextView>
 
-            <TextView
-                android:id="@+id/date_single_list_item"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:typeface="serif"
-                android:textStyle="bold|normal"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tags_single_list_item"
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:typeface="serif"
+                    android:textStyle="bold|normal"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Posted on:"
+                    android:layout_marginRight="5dp"
+                    />
+
+                <TextView
+                    android:id="@+id/date_single_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:typeface="serif"
+                    android:textStyle="normal"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:typeface="serif"
-                android:textStyle="bold|normal"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:typeface="serif"
+                    android:textStyle="bold|normal"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Tags:"
+                    android:layout_marginRight="5dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tags_single_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:typeface="serif"
+                    android:textStyle="normal"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
 

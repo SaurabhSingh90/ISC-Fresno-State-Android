@@ -12,10 +12,11 @@ public class ParseKeys {
     public static String OBJECTID = "objectId";
     public static String TITLE = "title";
     public static String JOB_POSTING_CHANNEL = "JobPost_Channel";
+    public static String BUY_SELL_CHANNEL = "BuySell_Channel";
+    public static String USER = "user";
 
     // Parse Discussion Post Column Names
     public static String POST_CLASS = "Post";
-    public static String POST_USER = "user";
     public static String POST_TITLE = "postTitle";
     public static String POST_CONTENT = "postContent";
     public static String POST_FIRST_NAME = "firstName";
@@ -31,12 +32,15 @@ public class ParseKeys {
 
     // Parse Buy Sell Column names
     public static String BUY_SELL_CLASS = "buySell";
-    public static String BUY_SELL_TITLE_IMAGE = "titleImage";
-    public static String BUY_SELL_TITLE = "jobPostTitle";
-    public static String BUY_SELL_LOCATION = "jobPostLocation";
+    public static String BUY_SELL_TITLE_IMAGE = "buySellTitleImage";
+    public static String BUY_SELL_TITLE = "buySellTitle";
+    public static String BUY_SELL_PRICE = "buySellPrice";
+    public static String BUY_SELL_LOCATION = "buySellLocation";
     public static String BUY_SELL_FIRST_NAME = "firstName";
-    public static String BUY_SELL_TAGS = "jobPostTags";
-    public static String BUY_SELL_CONTENT = "jobPostContent";
+    public static String BUY_SELL_TAGS = "buySellTags";
+    public static String BUY_SELL_CONTENT = "buySellContent";
+    public static String TYPE_IMAGE = "image";
+    public static String BUY_SELL_FILE = "imageFile";
 
     public static String PAGE_LINK = "page_link";
     public static String PAGE_TITLE = "page_title";

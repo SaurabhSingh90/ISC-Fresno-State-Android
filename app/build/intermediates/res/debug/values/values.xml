@@ -445,7 +445,7 @@ available. Please contact the developer for assistance.</string>
     <string name="post_added_text">Post added successfully</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_job_post.xml -->
     <eat-comment/>
-    <string name="post_job">Post Job</string>
+    <string name="post_job">POST JOB</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_single_post_display.xml -->
     <eat-comment/>
     <string name="post_not_available_text">Post is not available anymore</string>
@@ -491,6 +491,7 @@ available. Please contact the developer for assistance.</string>
     <string name="title_activity_add_new_buy_sell_post">Add New Buy/Sell Post</string>
     <string name="title_activity_add_new_job_post">Add New Job Post</string>
     <string name="title_activity_add_new_post">Add New Post</string>
+    <string name="title_activity_buy_sell_post_description">--</string>
     <string name="title_activity_edit_job_post">Edit Job Post</string>
     <string name="title_activity_edit_post">Edit Post</string>
     <string name="title_activity_form_view">Form View</string>

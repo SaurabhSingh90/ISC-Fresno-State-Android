@@ -41,6 +41,36 @@
                 android:textStyle="bold|normal"
                 android:typeface="serif"/>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/custom_title_blue_color"
+                    android:textIsSelectable="false"
+                    android:textStyle="bold|normal"
+                    android:typeface="serif"
+                    android:text="Price:$"
+                    />
+
+                <TextView
+                    android:id="@+id/buy_sell_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/custom_title_blue_color"
+                    android:textIsSelectable="false"
+                    android:textStyle="bold|normal"
+                    android:typeface="serif"/>
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/buy_sell_location"
                 android:layout_width="match_parent"
@@ -52,23 +82,53 @@
                 android:textStyle="bold|normal"
                 android:typeface="serif"/>
 
-            <TextView
-                android:id="@+id/buy_sell_posted_by"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textStyle="bold|normal"
-                android:typeface="serif">
-            </TextView>
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/buy_sell_posted_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textStyle="bold|normal"
-                android:typeface="serif"/>
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textStyle="bold|normal"
+                    android:typeface="serif"
+                    android:text="Posted:"
+                    />
+
+                <TextView
+                    android:id="@+id/buy_sell_posted_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textStyle="bold|normal"
+                    android:typeface="serif"
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textStyle="bold|normal"
+                    android:typeface="serif"
+                    android:text="By:"
+                    />
+
+                <TextView
+                    android:id="@+id/buy_sell_posted_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textStyle="bold|normal"
+                    android:typeface="serif">
+                </TextView>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/buy_sell_tags"
