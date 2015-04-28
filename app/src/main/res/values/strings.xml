@@ -3,7 +3,7 @@
 
     <string name="title_section1">Discussion Forum</string>
     <string name="title_section2">Top News</string>
-    <string name="title_section3">Buy/Sell</string>
+    <string name="title_section3">Sell Stuff</string>
     <string name="title_section4">Job Postings</string>
     <string name="title_section5">Gallery</string>
     <string name="title_section6">Things you need</string>
@@ -44,9 +44,11 @@
     // Progress bar strings
     <string name="loading_text">Loading…</string>
     <string name="please_wait">Please wait…</string>
+
+    // Activities Titles
     <string name="title_activity_add_new_job_post">Add New Job Post</string>
     <string name="title_activity_edit_job_post">Edit Job Post</string>
-    <string name="title_activity_add_new_buy_sell_post">Add New Buy/Sell Post</string>
+    <string name="title_activity_add_new_buy_sell_post">Post Item</string>
     <string name="title_activity_buy_sell_post_description">--</string>
 
 </resources>

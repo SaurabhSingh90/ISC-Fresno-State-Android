@@ -54,6 +54,7 @@
     <color name="custom_button_red">#e3960606</color>
     <color name="custom_flag_green">#ff3bc301</color>
     <color name="custom_flag_saffron">#ffff8407</color>
+    <color name="custom_money_green_color">#ff159534</color>
     <color name="custom_text_orange">@android:color/holo_orange_dark</color>
     <color name="custom_title_blue_color">#FF100D54</color>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
@@ -488,7 +489,7 @@ available. Please contact the developer for assistance.</string>
     <string name="submit_post_button_text">SUBMIT POST</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="title_activity_add_new_buy_sell_post">Add New Buy/Sell Post</string>
+    <string name="title_activity_add_new_buy_sell_post">Post Item</string>
     <string name="title_activity_add_new_job_post">Add New Job Post</string>
     <string name="title_activity_add_new_post">Add New Post</string>
     <string name="title_activity_buy_sell_post_description">--</string>
@@ -509,7 +510,7 @@ available. Please contact the developer for assistance.</string>
     <string name="title_for_delete">Select to delete</string>
     <string name="title_section1">Discussion Forum</string>
     <string name="title_section2">Top News</string>
-    <string name="title_section3">Buy/Sell</string>
+    <string name="title_section3">Sell Stuff</string>
     <string name="title_section4">Job Postings</string>
     <string name="title_section5">Gallery</string>
     <string name="title_section6">Things you need</string>

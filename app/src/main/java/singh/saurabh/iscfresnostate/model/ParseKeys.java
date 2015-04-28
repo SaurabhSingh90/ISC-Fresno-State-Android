@@ -40,6 +40,7 @@ public class ParseKeys {
     public static String BUY_SELL_TAGS = "buySellTags";
     public static String BUY_SELL_CONTENT = "buySellContent";
     public static String TYPE_IMAGE = "image";
+    public static String IMAGE_NAME = "uploaded_file.png";
     public static String BUY_SELL_FILE = "imageFile";
 
     public static String PAGE_LINK = "page_link";

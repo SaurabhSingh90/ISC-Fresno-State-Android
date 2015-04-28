@@ -16,13 +16,14 @@ import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.controller.CustomAdapters.BuySellAdapter;
@@ -87,30 +88,48 @@ public class BuySell {
             postList = new ArrayList<>();
         else
             postList = null;
-        ParseObject obj = null;
+        ParseObject obj;
         for (int i = 0; i < length; i++) {
             obj = parseObjects.get(i);
 
-            String firstName = obj.get(ParseKeys.BUY_SELL_FIRST_NAME).toString();
-            String price = obj.get(ParseKeys.BUY_SELL_PRICE).toString();
+            String imageUrl = "";
+            JSONObject jsonObject;
+            JSONArray jsonArray = obj.getJSONArray(ParseKeys.BUY_SELL_FILE);
+            if (jsonArray != null) {
+                try {
+                    jsonObject = jsonArray.getJSONObject(0);
+                    imageUrl = jsonObject.get("url").toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
             String title = obj.get(ParseKeys.BUY_SELL_TITLE).toString();
-            String tags = "TAGS: ";
+            String price = obj.get(ParseKeys.BUY_SELL_PRICE).toString();
+            String location = obj.get(ParseKeys.BUY_SELL_LOCATION).toString();
+            String firstName = obj.get(ParseKeys.BUY_SELL_FIRST_NAME).toString();
+            String tags = "";
             tags = tags.concat(obj.get(ParseKeys.BUY_SELL_TAGS).toString());
 
-            Date createdAt = obj.getCreatedAt();
-            String posted_on = createdAt.toString();
-            SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzzz yyyy", Locale.US);
-            Date d1 = null;
-            try {
-                d1 = sdf1.parse(posted_on);
-            } catch (ParseException ee) {
-                ee.printStackTrace();
-            }
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy   h:mm a", Locale.US);
-            posted_on = sdf.format(d1);
+            Date createdAt = obj.getCreatedAt();    //date 1
+            Date systemDate = new Date();           //date 2
+            long one_day_in_milliseconds = 1000 * 86400;     // 24 hrs in milliseconds
+
+            long time_duration = systemDate.getTime() - createdAt.getTime();
+            long time_difference_in_days = time_duration/one_day_in_milliseconds;
+            String posted_on = "";
+            if (time_difference_in_days == 0)
+                posted_on = posted_on.concat("Today");
+            else if (time_difference_in_days == 1)
+                posted_on = posted_on.concat("Yesterday");
+            else
+                posted_on = posted_on.concat(time_difference_in_days + " days ago");
+
             HashMap<String, String> dataList = new HashMap<>();
+            dataList.put("imageUrl", imageUrl);
             dataList.put("title", title);
-            dataList.put("price", price);
+            dataList.put("price", "$" + price);
+            dataList.put("location", location);
             dataList.put("author", firstName);
             dataList.put("createdAt", posted_on);
             dataList.put("tags", tags);

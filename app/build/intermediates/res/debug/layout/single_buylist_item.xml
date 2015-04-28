@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
@@ -14,68 +14,75 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/box_gradient">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical|left"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical">
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/images_container">
 
             <ImageView
                 android:id="@+id/buy_sell_list_item_imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="fitXY"/>
-
-            <TextView
-                android:id="@+id/buy_sell_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|left"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/custom_title_blue_color"
-                android:textIsSelectable="false"
-                android:textStyle="bold|normal"
-                android:typeface="serif"/>
+                android:scaleType="fitXY"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:adjustViewBounds="true"
+                android:visibility="gone"
+                />
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/textView23"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|left"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/custom_title_blue_color"
-                    android:textIsSelectable="false"
-                    android:textStyle="bold|normal"
-                    android:typeface="serif"
-                    android:text="Price:$"
-                    />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/money_tag"
+                android:id="@+id/tag_container"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                >
 
                 <TextView
                     android:id="@+id/buy_sell_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|left"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/custom_title_blue_color"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/background_light"
                     android:textIsSelectable="false"
                     android:textStyle="bold|normal"
-                    android:typeface="serif"/>
+                    android:typeface="serif"
+                    android:layout_gravity="center"
+                    android:paddingRight="13dp"
+                    android:paddingLeft="10dp"/>
             </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|left"
+            android:orientation="vertical"
+            android:id="@+id/details_container"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/images_container">
+
+            <TextView
+                android:id="@+id/buy_sell_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/custom_title_blue_color"
+                android:textIsSelectable="false"
+                android:textStyle="bold|normal"
+                android:typeface="serif"/>
 
             <TextView
                 android:id="@+id/buy_sell_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/custom_author_name_red_color"
                 android:textIsSelectable="false"
@@ -91,7 +98,6 @@
                     android:id="@+id/textView22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textStyle="bold|normal"
                     android:typeface="serif"
@@ -103,15 +109,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold|normal"
+                    android:textStyle="normal"
                     android:typeface="serif"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"/>
 
                 <TextView
                     android:id="@+id/textView21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textStyle="bold|normal"
                     android:typeface="serif"
@@ -124,21 +130,38 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold|normal"
-                    android:typeface="serif">
+                    android:textStyle="normal"
+                    android:typeface="serif"
+                    android:layout_marginLeft="5dp">
                 </TextView>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/buy_sell_tags"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textStyle="bold|normal"
-                android:typeface="serif"/>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textStyle="bold|normal"
+                    android:typeface="serif"
+                    android:text="Tags:"/>
+
+                <TextView
+                    android:id="@+id/buy_sell_tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textStyle="normal"
+                    android:typeface="serif"/>
+            </LinearLayout>
 
         </LinearLayout>
 
     </RelativeLayout>
+
 </LinearLayout><!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/layout/single_buylist_item.xml -->

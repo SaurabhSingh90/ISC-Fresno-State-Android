@@ -8,6 +8,7 @@
     <color name="custom_text_orange">@android:color/holo_orange_dark</color>
     <color name="custom_title_blue_color">#FF100D54</color>
     <color name="custom_author_name_red_color">#e3590303</color>
+    <color name="custom_money_green_color">#ff159534</color>
 
     // SwipeRefresh colors
     // SwipeRefresh colors

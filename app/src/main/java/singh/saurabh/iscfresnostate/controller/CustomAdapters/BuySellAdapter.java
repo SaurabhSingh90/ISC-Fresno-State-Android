@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,7 +31,7 @@ public class BuySellAdapter extends ArrayAdapter<HashMap<String, String>> {
 
 
     private static class ViewHolder {
-        protected ImageView mImageView;
+        protected ImageView mImageView, moneyTag;
         protected TextView firstName, location, title, price, published_date, postTags;
     }
 
@@ -42,6 +44,7 @@ public class BuySellAdapter extends ArrayAdapter<HashMap<String, String>> {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.single_buylist_item, null);
             holder = new ViewHolder();
             holder.mImageView = (ImageView) convertView.findViewById(R.id.buy_sell_list_item_imageView);
+//            holder.moneyTag = (ImageView) convertView.findViewById(R.id.money_tag_imageView);
             holder.title = (TextView) convertView.findViewById(R.id.buy_sell_title);
             holder.price = (TextView) convertView.findViewById(R.id.buy_sell_price);
             holder.location = (TextView) convertView.findViewById(R.id.buy_sell_location);
@@ -54,7 +57,15 @@ public class BuySellAdapter extends ArrayAdapter<HashMap<String, String>> {
         }
 
         HashMap<String, String> listItem = mList.get(position);
-//        holder.mImageView.setImageResource();
+        if (!listItem.get("imageUrl").equals("")) {
+            holder.mImageView.setVisibility(View.VISIBLE);
+//            holder.moneyTag.setVisibility(View.VISIBLE);
+            Picasso.with(mContext).load(listItem.get("imageUrl")).into(holder.mImageView);
+        } else {
+            holder.mImageView.setVisibility(View.GONE);
+//            holder.moneyTag.setVisibility(View.GONE);
+        }
+
         holder.title.setText(listItem.get("title"));
         holder.price.setText(listItem.get("price"));
         holder.location.setText(listItem.get("location"));

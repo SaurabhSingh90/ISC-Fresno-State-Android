@@ -82,24 +82,24 @@ public class FileHelper {
 	}
 
 	public static String getFileName(Context context, Uri uri, String fileType) {
-		String fileName = "uploaded_file.";
+		String fileName = ParseKeys.IMAGE_NAME;
 		
-		if (fileType.equals(ParseKeys.TYPE_IMAGE)) {
-			fileName += "png";
-		}
-		else {
-			// For video, we want to get the actual file extension
-			if (uri.getScheme().equals("content")) {
-				// do it using the mime type
-				String mimeType = context.getContentResolver().getType(uri);
-				int slashIndex = mimeType.indexOf("/");
-				String fileExtension = mimeType.substring(slashIndex + 1);
-				fileName += fileExtension;
-			}
-			else {
-				fileName = uri.getLastPathSegment();
-			}
-		}
+//		if (fileType.equals(ParseKeys.TYPE_IMAGE)) {
+//			fileName += "png";
+//		}
+//		else {
+//			// For video, we want to get the actual file extension
+//			if (uri.getScheme().equals("content")) {
+//				// do it using the mime type
+//				String mimeType = context.getContentResolver().getType(uri);
+//				int slashIndex = mimeType.indexOf("/");
+//				String fileExtension = mimeType.substring(slashIndex + 1);
+//				fileName += fileExtension;
+//			}
+//			else {
+//				fileName = uri.getLastPathSegment();
+//			}
+//		}
 		
 		return fileName;
 	}
