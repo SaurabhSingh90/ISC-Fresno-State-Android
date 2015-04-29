@@ -35,6 +35,7 @@ public class DiscussionPostAdapter extends ArrayAdapter<HashMap<String, String>>
 
 
     private static class ViewHolder {
+        protected View tagsContainer;
         protected TextView firstName, title, published_date, postTags;
         protected CheckBox checkbox;
     }
@@ -51,7 +52,7 @@ public class DiscussionPostAdapter extends ArrayAdapter<HashMap<String, String>>
             holder.firstName = (TextView) convertView.findViewById(R.id.author_name_single_list_item);
             holder.published_date = (TextView) convertView.findViewById(R.id.date_single_list_item);
             holder.postTags = (TextView) convertView.findViewById(R.id.tags_single_list_item);
-            holder.postTags.setVisibility(View.VISIBLE);
+            holder.tagsContainer = convertView.findViewById(R.id.tags_container);
             holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox_single_list_item);
             convertView.setTag(holder);
         } else {
@@ -82,7 +83,12 @@ public class DiscussionPostAdapter extends ArrayAdapter<HashMap<String, String>>
         holder.firstName.setText(listItem.get("author"));
         holder.title.setText(listItem.get("title"));
         holder.published_date.setText(listItem.get("createdAt"));
-        holder.postTags.setText(listItem.get("tags"));
+        if (!listItem.get("tags").equals("")) {
+            holder.tagsContainer.setVisibility(View.VISIBLE);
+            holder.postTags.setText(listItem.get("tags"));
+        } else {
+            holder.tagsContainer.setVisibility(View.INVISIBLE);
+        }
 
         return convertView;
     }

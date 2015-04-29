@@ -361,18 +361,20 @@ public class DiscussionForum {
 
             if (id == R.id.mark_all) {
                 ListView lv = (ListView)mActivity.findViewById(android.R.id.list);
-                deleteList_adapter = new DiscussionPostAdapter(mActivity, mPostListForDelete, true);
+                if (mPostListForDelete != null) {
+                    deleteList_adapter = new DiscussionPostAdapter(mActivity, mPostListForDelete, true);
 
-                if (item.isChecked()) {
-                    item.setChecked(false);
-                    item.setIcon(android.R.drawable.checkbox_off_background);
-                    DiscussionPostAdapter.unMarkAll();
-                    lv.setAdapter(deleteList_adapter);
-                } else {
-                    item.setChecked(true);
-                    item.setIcon(android.R.drawable.checkbox_on_background);
-                    DiscussionPostAdapter.markAll();
-                    lv.setAdapter(deleteList_adapter);
+                    if (item.isChecked()) {
+                        item.setChecked(false);
+                        item.setIcon(android.R.drawable.checkbox_off_background);
+                        DiscussionPostAdapter.unMarkAll();
+                        lv.setAdapter(deleteList_adapter);
+                    } else {
+                        item.setChecked(true);
+                        item.setIcon(android.R.drawable.checkbox_on_background);
+                        DiscussionPostAdapter.markAll();
+                        lv.setAdapter(deleteList_adapter);
+                    }
                 }
                 return true;
             }

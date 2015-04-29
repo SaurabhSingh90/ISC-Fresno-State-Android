@@ -105,7 +105,7 @@ public class AddNewPost extends ActionBarActivity {
         String tagsString = mPostTagsEditText.getText().toString().trim();
 
         // Make a new post
-        final ParseObject post = new ParseObject("Post");
+        final ParseObject post = new ParseObject(ParseKeys.POST_CLASS);
         post.put(ParseKeys.POST_TITLE, titleString);
         post.put(ParseKeys.POST_CONTENT, messageString);
         String[] tagsArray = tagsString.split(",");

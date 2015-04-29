@@ -74,7 +74,9 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/tags_container"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView19"

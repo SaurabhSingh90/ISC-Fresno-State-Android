@@ -199,15 +199,17 @@ public class MenuScreenActivity extends ActionBarActivity
                 searchViewInitializing(menu);
                 MenuItem menuItem = menu.getItem(1);
                 JSONArray channels = pi.getJSONArray("channels");
-                for (int i = 0; i < channels.length(); i++) {
-                    try {
-                        if (channels.getString(i).equals(ParseKeys.JOBPOST_CHANNEL)) {
-                            menuItem.setIcon(R.mipmap.ic_action_important_marked);
-                            menuItem.setChecked(true);
-                            break;
+                if (channels != null) {
+                    for (int i = 0; i < channels.length(); i++) {
+                        try {
+                            if (channels.getString(i).equals(ParseKeys.JOBPOST_CHANNEL)) {
+                                menuItem.setIcon(R.mipmap.ic_action_important_marked);
+                                menuItem.setChecked(true);
+                                break;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                 }
             } else if (SECTION_NUMBER == 5) {
