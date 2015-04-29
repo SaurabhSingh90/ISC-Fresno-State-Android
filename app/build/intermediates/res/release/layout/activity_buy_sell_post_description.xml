@@ -1,0 +1,114 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="singh.saurabh.iscfresnostate.view.BuySellPostDescription">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView7"
+        >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/images_horizontalScrollView"
+                android:layout_weight="1"
+                >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/images_LinearLayout"
+                    android:gravity="center"
+                    android:padding="5dp">
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="--"
+                    android:id="@+id/sell_title"
+                    android:padding="5dp"
+                    android:textColor="@color/custom_title_blue_color"
+                    android:textIsSelectable="true"
+                    android:textStyle="bold|normal"
+                    android:typeface="serif"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="--"
+                    android:id="@+id/sell_price"
+                    android:typeface="serif"
+                    android:textColor="@color/custom_money_green_color"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="--"
+                    android:id="@+id/sell_location"
+                    android:typeface="serif"
+                    android:padding="5dp"
+                    android:textColor="@color/custom_author_name_red_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="--"
+                    android:id="@+id/sell_by"
+                    android:typeface="serif"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="--"
+                    android:id="@+id/sell_date"
+                    android:typeface="serif"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="--"
+                    android:id="@+id/sell_tags"
+                    android:typeface="serif"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="--"
+                    android:id="@+id/sell_description"
+                    android:typeface="serif"
+                    android:textColor="@android:color/background_dark"
+                    android:textIsSelectable="true"
+                    android:padding="5dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
+<!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/layout/activity_buy_sell_post_description.xml -->

@@ -1,0 +1,75 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/list_bg"
+    tools:context="singh.saurabh.iscfresnostate.view.AddNewPost">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/add_new_post_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/box_gradient"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/title_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_title_editText"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/darker_gray"
+                android:typeface="serif"/>
+
+            <EditText
+                android:id="@+id/postContent_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:ems="10"
+                android:hint="@string/hint_post_content_editText"
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/darker_gray"
+                android:typeface="serif"/>
+
+            <EditText
+                android:id="@+id/post_tags_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_post_tags_editText"
+                android:imeActionId="@+id/action_add_post"
+                android:imeActionLabel="@string/action_submit_post_short"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/darker_gray"
+                android:typeface="serif"/>
+
+            <Button
+                android:id="@+id/submit_post_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/custom_button_red"
+                android:text="@string/submit_post_button_text"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:typeface="serif"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+<!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/layout/activity_add_new_post.xml -->

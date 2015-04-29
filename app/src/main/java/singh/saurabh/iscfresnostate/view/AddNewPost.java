@@ -122,7 +122,7 @@ public class AddNewPost extends ActionBarActivity {
                 if (e == null) {
                     postChannel = postChannel.concat(post.getObjectId());
                     ParsePush.subscribeInBackground(postChannel);
-                    mMenuScreenActivity.new RefreshNewsList().execute();
+                    new MenuScreenActivity.RefreshNewsList().execute();
                     finish();
                     Toast.makeText(mContext, getString(R.string.post_added_text), Toast.LENGTH_SHORT).show();
                 } else {

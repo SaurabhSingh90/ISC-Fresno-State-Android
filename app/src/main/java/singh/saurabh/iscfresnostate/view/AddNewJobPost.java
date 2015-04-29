@@ -138,7 +138,7 @@ public class AddNewJobPost extends ActionBarActivity {
                     pi.saveEventually();
                     String piObjectId = pi.getObjectId();
                     sendJobNotificationWithQuery(firstName, piObjectId);
-                    mMenuScreenActivity.new RefreshNewsList().execute();
+                    new MenuScreenActivity.RefreshNewsList().execute();
                     finish();
                     Toast.makeText(mContext, getString(R.string.job_posted), Toast.LENGTH_SHORT).show();
                 } else {

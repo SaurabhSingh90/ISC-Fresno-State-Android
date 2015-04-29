@@ -425,7 +425,7 @@ public class PostDescription extends ActionBarActivity {
                                         dialog.dismiss();
                                         if (e == null) {
                                             ParsePush.unsubscribeInBackground(postChannel);
-                                            mMenuScreenActivity.new RefreshNewsList().execute();
+                                            new MenuScreenActivity.RefreshNewsList().execute();
                                             finish();
                                         } else {
                                             mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.some_error_occurred));

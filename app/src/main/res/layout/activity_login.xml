@@ -24,9 +24,9 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/login_form"
-            android:layout_gravity="center_horizontal|bottom"
+            android:layout_gravity="center"
             android:padding="5dp">
 
             <ScrollView
@@ -47,7 +47,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_gravity="center_horizontal|top"
-                        android:id="@+id/ISC_titleView">
+                        android:id="@+id/ISC_titleView"
+                        android:visibility="invisible">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -66,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/imageView"
-                        android:src="@drawable/bulldog_image"
+                        android:src="@drawable/isc_logo_3"
                         android:scaleType="fitXY"
                         android:layout_gravity="center_horizontal|top"
                         android:adjustViewBounds="true" />

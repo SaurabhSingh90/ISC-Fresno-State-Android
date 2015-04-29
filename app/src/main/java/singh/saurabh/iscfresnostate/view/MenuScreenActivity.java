@@ -68,8 +68,8 @@ public class MenuScreenActivity extends ActionBarActivity
     private static int SECTION_NUMBER = 0;
 
     private static ContextThemeWrapper mContextThemeWrapper;
-    private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
-    private SwipeRefreshLayout mSwipeRefreshLayout = null;
+    private static CustomNetworkErrorHandler mCustomNetworkErrorHandler;
+    private static SwipeRefreshLayout mSwipeRefreshLayout = null;
 
     // Class objects for fragments
     private static DiscussionForum mDiscussionForum = null;
@@ -376,7 +376,7 @@ public class MenuScreenActivity extends ActionBarActivity
     /**
      * A placeholder fragment containing a simple view.
      */
-    public class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -523,7 +523,7 @@ public class MenuScreenActivity extends ActionBarActivity
                         dialog.show();
                         mFormWebView.setWebChromeClient(new WebChromeClient() {
                             public void onProgressChanged(WebView view, int progress) {
-                                setProgress(progress * 100);
+//                                setProgress(progress * 100);
                                 if(progress == 100) {
                                     if (dialog.isShowing())
                                         dialog.dismiss();
@@ -557,7 +557,7 @@ public class MenuScreenActivity extends ActionBarActivity
         }
     }
 
-    public class RefreshNewsList extends AsyncTask<Void, Void, Void> {
+    public static class RefreshNewsList extends AsyncTask<Void, Void, Void> {
 
         static final int TASK_DURATION = 3 * 1000; // 3 seconds
 

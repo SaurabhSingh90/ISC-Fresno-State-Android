@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_edit_post"
+        android:title="@string/edit_post_text"
+        android:orderInCategory="1"/>
+
+    <item
+        android:id="@+id/action_refresh"
+        android:title="@string/action_refresh"
+        android:orderInCategory="2" />
+
+    <item
+        android:id="@+id/action_delete_post"
+        android:orderInCategory="3"
+        android:title="@string/action_delete_post"/>
+
+    <item
+        android:id="@+id/action_sign_out"
+        android:title="@string/action_log_out"
+        android:orderInCategory="4"/>
+
+</menu><!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/menu/menu_job_description.xml -->

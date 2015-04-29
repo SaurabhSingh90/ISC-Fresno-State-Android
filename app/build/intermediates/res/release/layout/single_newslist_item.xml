@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical|left"
+        android:background="@drawable/box_gradient"
+        android:padding="5dp"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/title_single_newslist_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:textStyle="bold"
+            android:textColor="@color/custom_title_blue_color"
+            android:typeface="serif"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/date_single_newslist_item"
+            android:typeface="serif"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginTop="5dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/description_single_newslist_item"
+            android:typeface="serif"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/background_light"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginBottom="5dp"/>
+
+    </LinearLayout>
+</LinearLayout><!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/layout/single_newslist_item.xml -->

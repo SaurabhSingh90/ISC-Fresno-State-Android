@@ -205,7 +205,7 @@ public class JobDescription extends ActionBarActivity {
                                                 public void done(ParseException e) {
                                                     dialog.dismiss();
                                                     if (e == null) {
-                                                        mMenuScreenActivity.new RefreshNewsList().execute();
+                                                        new MenuScreenActivity.RefreshNewsList().execute();
                                                         finish();
                                                     } else {
                                                         mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.some_error_occurred));
