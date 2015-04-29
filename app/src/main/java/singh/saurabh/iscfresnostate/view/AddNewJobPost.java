@@ -150,7 +150,7 @@ public class AddNewJobPost extends ActionBarActivity {
 
     private void sendJobNotificationWithQuery(String name, String piObjectId) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("channel", ParseKeys.JOB_POSTING_CHANNEL);
+        map.put("channel", ParseKeys.JOBPOST_CHANNEL);
         map.put("firstName", name);
         map.put("piObjectId", piObjectId);
         map.put("objectId", objectId);

@@ -11,8 +11,6 @@ public class ParseKeys {
 
     public static String OBJECTID = "objectId";
     public static String TITLE = "title";
-    public static String JOB_POSTING_CHANNEL = "JobPost_Channel";
-    public static String BUY_SELL_CHANNEL = "BuySell_Channel";
     public static String USER = "user";
 
     // Parse Discussion Post Column Names
@@ -24,6 +22,7 @@ public class ParseKeys {
 
     // Parse Job Post Column Names
     public static String JOBPOST_CLASS = "JobPost";
+    public static String JOBPOST_CHANNEL = "JobPost_Channel";
     public static String JOBPOST_TITLE = "jobPostTitle";
     public static String JOBPOST_LOCATION = "jobPostLocation";
     public static String JOBPOST_FIRST_NAME = "firstName";
@@ -32,6 +31,7 @@ public class ParseKeys {
 
     // Parse Buy Sell Column names
     public static String BUY_SELL_CLASS = "buySell";
+    public static String BUY_SELL_CHANNEL = "Sell_Channel";
     public static String BUY_SELL_TITLE_IMAGE = "buySellTitleImage";
     public static String BUY_SELL_TITLE = "buySellTitle";
     public static String BUY_SELL_PRICE = "buySellPrice";

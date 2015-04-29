@@ -3,8 +3,8 @@
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_buy_sell.xml -->
     <eat-comment/>
     <string-array name="camera_choices">
-        <item>Take Picture</item>
-        <item>Choose Picture</item>
+        <item>Take a new picture</item>
+        <item>Choose from library</item>
     </string-array>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
@@ -252,8 +252,10 @@
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_buy_sell.xml -->
     <eat-comment/>
     <string name="action_camera">Camera</string>
+    <string name="action_contact_seller">Contact Seller</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="action_delete_post">Delete</string>
     <string name="action_log_out">Sign out</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_job_post.xml -->
     <eat-comment/>
@@ -328,9 +330,6 @@ available. Please contact the developer for assistance.</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_single_post_display.xml -->
     <eat-comment/>
     <string name="delete_not_authorized">You are not authorized to delete this post</string>
-    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings.xml -->
-    <eat-comment/>
-    <string name="delete_post">Delete</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_fragment_1.xml -->
     <eat-comment/>
     <string name="delete_post_text">Delete post(s)</string>
@@ -495,8 +494,10 @@ available. Please contact the developer for assistance.</string>
     <string name="title_activity_buy_sell_post_description">--</string>
     <string name="title_activity_edit_job_post">Edit Job Post</string>
     <string name="title_activity_edit_post">Edit Post</string>
+    <string name="title_activity_edit_sell_post">Edit Sell Post</string>
     <string name="title_activity_form_view">Form View</string>
     <string name="title_activity_gallery_view">Gallery View</string>
+    <string name="title_activity_item_image_view">ItemImageView</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="title_activity_login">Sign in</string>

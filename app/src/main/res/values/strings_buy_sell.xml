@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="camera_choices">
-        <item>Take Picture</item>
-        <item>Choose Picture</item>
+        <item>Take a new picture</item>
+        <item>Choose from library</item>
     </string-array>
     <string name="action_camera">Camera</string>
+    <string name="action_contact_seller">Contact Seller</string>
 </resources>

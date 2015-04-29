@@ -418,36 +418,24 @@ public class PostDescription extends ActionBarActivity {
                     .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface d, int id) {
                             dialog.show();
-                            ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseKeys.POST_CLASS);
-                            query.whereEqualTo("objectId", objectId);
-                            query.getFirstInBackground(new GetCallback<ParseObject>() {
-                                @Override
-                                public void done(ParseObject parseObject, ParseException e) {
-                                    if (e == null) {
-                                        if (parseObject.getParseObject("user").getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
-                                            parseObject.deleteInBackground(new DeleteCallback() {
-                                                @Override
-                                                public void done(ParseException e) {
-                                                    dialog.dismiss();
-                                                    if (e == null) {
-                                                        ParsePush.unsubscribeInBackground(postChannel);
-                                                        mMenuScreenActivity.new RefreshNewsList().execute();
-                                                        finish();
-                                                    } else {
-                                                        mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.some_error_occurred));
-                                                    }
-                                                }
-                                            });
-                                        } else {
-                                            dialog.dismiss();
-                                            mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.delete_not_authorized));
-                                        }
-                                    } else {
+                            if (postObject.getParseObject("user").getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) == 0) {
+                                postObject.deleteInBackground(new DeleteCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
                                         dialog.dismiss();
-                                        mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.some_error_occurred));
+                                        if (e == null) {
+                                            ParsePush.unsubscribeInBackground(postChannel);
+                                            mMenuScreenActivity.new RefreshNewsList().execute();
+                                            finish();
+                                        } else {
+                                            mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.some_error_occurred));
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else {
+                                dialog.dismiss();
+                                mCustomNetworkErrorHandler.errorDialogDisplay(getString(R.string.error_oops), getString(R.string.delete_not_authorized));
+                            }
                         }
                     });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

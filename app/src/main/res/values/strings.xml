@@ -34,7 +34,7 @@
     <string name="some_error_occurred">Err! Some error occurred</string>
     <string name="title_for_delete">Select to delete</string>
     <string name="mark_all">Mark all</string>
-    <string name="delete_post">Delete</string>
+    <string name="action_delete_post">Delete</string>
     <string name="title_activity_edit_post">Edit Post</string>
     <string name="delete_message_text">Once you hit delete there\'s no coming back.</string>
     <string name="delete_title_text">Are you sure?</string>
@@ -50,5 +50,7 @@
     <string name="title_activity_edit_job_post">Edit Job Post</string>
     <string name="title_activity_add_new_buy_sell_post">Post Item</string>
     <string name="title_activity_buy_sell_post_description">--</string>
+    <string name="title_activity_item_image_view">ItemImageView</string>
+    <string name="title_activity_edit_sell_post">Edit Sell Post</string>
 
 </resources>

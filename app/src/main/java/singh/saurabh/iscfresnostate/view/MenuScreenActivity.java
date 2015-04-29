@@ -193,6 +193,7 @@ public class MenuScreenActivity extends ActionBarActivity
                 getMenuInflater().inflate(R.menu.menu_fragment_2, menu);
             } else if (SECTION_NUMBER == 3) {
                 getMenuInflater().inflate(R.menu.menu_fragment_3, menu);
+                searchViewInitializing(menu);
             } else if (SECTION_NUMBER == 4) {
                 getMenuInflater().inflate(R.menu.menu_fragment_4, menu);
                 searchViewInitializing(menu);
@@ -200,7 +201,7 @@ public class MenuScreenActivity extends ActionBarActivity
                 JSONArray channels = pi.getJSONArray("channels");
                 for (int i = 0; i < channels.length(); i++) {
                     try {
-                        if (channels.getString(i).equals(ParseKeys.JOB_POSTING_CHANNEL)) {
+                        if (channels.getString(i).equals(ParseKeys.JOBPOST_CHANNEL)) {
                             menuItem.setIcon(R.mipmap.ic_action_important_marked);
                             menuItem.setChecked(true);
                             break;
@@ -324,7 +325,7 @@ public class MenuScreenActivity extends ActionBarActivity
                             public void onClick(DialogInterface dialog, int id) {
                                 item.setChecked(false);
                                 item.setIcon(R.mipmap.ic_action_important_unmarked);
-                                ParsePush.unsubscribeInBackground(ParseKeys.JOB_POSTING_CHANNEL);
+                                ParsePush.unsubscribeInBackground(ParseKeys.JOBPOST_CHANNEL);
                                 pi.saveEventually();
                             }
                         })
@@ -343,7 +344,7 @@ public class MenuScreenActivity extends ActionBarActivity
                             public void onClick(DialogInterface dialog, int id) {
                                 item.setChecked(true);
                                 item.setIcon(R.mipmap.ic_action_important_marked);
-                                ParsePush.subscribeInBackground(ParseKeys.JOB_POSTING_CHANNEL);
+                                ParsePush.subscribeInBackground(ParseKeys.JOBPOST_CHANNEL);
                                 pi.saveEventually();
                             }
                         })

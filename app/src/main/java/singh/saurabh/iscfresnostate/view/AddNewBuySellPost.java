@@ -64,6 +64,8 @@ public class AddNewBuySellPost extends ActionBarActivity {
     private ProgressDialog mProgressDialog;
     private MenuScreenActivity mMenuScreenActivity = new MenuScreenActivity();
 
+    private int mCount = 0;
+
     @InjectView(R.id.buy_sell_title_editText)
     EditText mTitleEditText;
     @InjectView(R.id.buy_sell_price_editText)
@@ -169,7 +171,6 @@ public class AddNewBuySellPost extends ActionBarActivity {
     }
 
     private void submitPost() {
-        mProgressDialog.show();
         String titleString = mTitleEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String locationString = mLocationEditText.getText().toString().trim();
@@ -190,14 +191,38 @@ public class AddNewBuySellPost extends ActionBarActivity {
         post.put(ParseKeys.USER, mCurrentUser);
         post.put(ParseKeys.BUY_SELL_FIRST_NAME, firstName);
 
+        final Boolean[] booleanUploadData = {false};
         for (int i = 0; i < 6; i++) {
             if (file[i] == null) {
-                uploadData(post);
-                break;
-            } else {
-                post.add(ParseKeys.BUY_SELL_FILE, file[i]);
+                if (i == 0) {
 
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContextThemeWrapper);
+                    builder.setTitle("No pictures :(")
+                            .setMessage("Are you sure you want to post without any picture?")
+                            .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    booleanUploadData[0] = true;
+                                    mProgressDialog.show();
+                                    uploadData(post);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            } else {
+                booleanUploadData[0] = true;
+                post.add(ParseKeys.BUY_SELL_FILE, file[i]);
             }
+        }
+        if (booleanUploadData[0]) {
+            mProgressDialog.show();
+            uploadData(post);
         }
     }
 
@@ -247,34 +272,38 @@ public class AddNewBuySellPost extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_camera) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContextThemeWrapper);
-            builder.setItems(R.array.camera_choices, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            if (mCount < 6) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContextThemeWrapper);
+                builder.setItems(R.array.camera_choices, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                    switch (which) {
-                        case 0:
-                            // take picture
-                            Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            mMediaUri[mImageIdIndex] = getOutPutMediaFileUri();
-                            if (mMediaUri[mImageIdIndex] == null)
-                                Toast.makeText(mContext, "Error Accessing Storage", Toast.LENGTH_SHORT).show();
-                            else {
-                                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri[mImageIdIndex]);
-                                startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
-                            }
-                            break;
-                        case 1:
-                            //choose picture
-                            Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                            choosePhotoIntent.setType("image/*");
-                            startActivityForResult(choosePhotoIntent, PICK_PHOTO_REQUEST);
-                            break;
+                        switch (which) {
+                            case 0:
+                                // take picture
+                                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                mMediaUri[mImageIdIndex] = getOutPutMediaFileUri();
+                                if (mMediaUri[mImageIdIndex] == null)
+                                    Toast.makeText(mContext, "Error Accessing Storage", Toast.LENGTH_SHORT).show();
+                                else {
+                                    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri[mImageIdIndex]);
+                                    startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                                }
+                                break;
+                            case 1:
+                                //choose picture
+                                Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                                choosePhotoIntent.setType("image/*");
+                                startActivityForResult(choosePhotoIntent, PICK_PHOTO_REQUEST);
+                                break;
+                        }
                     }
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+                });
+                AlertDialog dialog = builder.create();
+                dialog.setTitle("Add an image (" + (6 - mCount) + " remaining)");
+                dialog.show();
+            } else
+                mCustomNetworkErrorHandler.errorDialogDisplay("Maximum image count", "Sorry! You cannot add anymore picture");
             return true;
         }
 
@@ -320,7 +349,7 @@ public class AddNewBuySellPost extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        mCount++;
         mImageView = new ImageView(mContext);
         mImageView.setId(mImageIdIndex);
         mImageView.setLayoutParams(layoutParams);
@@ -347,7 +376,7 @@ public class AddNewBuySellPost extends ActionBarActivity {
             InputStream inputStream = null;
             try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 4;
+                options.inSampleSize = 8;
 
                 inputStream = null;
                 inputStream = getContentResolver().openInputStream(selectedImage);
