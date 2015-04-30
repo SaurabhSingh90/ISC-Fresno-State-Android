@@ -27,7 +27,7 @@
 <resources>
 
     <style name="Theme.Isc_fresnostate" parent="@style/Theme.AppCompat.Light">
-        <item name="android:windowActionModeOverlay">true</item>
+        <!--<item name="windowActionModeOverlay">true</item>-->
         <item name="actionBarItemBackground">@drawable/selectable_background_isc_fresnostate</item>
         <item name="popupMenuStyle">@style/PopupMenu.Isc_fresnostate</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Isc_fresnostate</item>
@@ -37,7 +37,11 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_isc_fresnostate</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_isc_fresnostate</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Isc_fresnostate</item>
-
+        <item name="actionOverflowButtonStyle">@style/Widget.ActionButton.Overflow.Isc_fresnostate</item>
+    </style>
+    
+    <style name="Widget.ActionButton.Overflow.Isc_fresnostate" parent="@style/Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:src">@mipmap/ic_action_overflow</item>
     </style>
 
     <style name="ActionBar.Solid.Isc_fresnostate" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">

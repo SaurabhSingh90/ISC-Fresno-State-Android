@@ -1699,7 +1699,7 @@ available. Please contact the developer for assistance.</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="Theme.Isc_fresnostate" parent="@style/Theme.AppCompat.Light">
-        <item name="android:windowActionModeOverlay">true</item>
+        <!--<item name="windowActionModeOverlay">true</item>-->
         <item name="actionBarItemBackground">@drawable/selectable_background_isc_fresnostate</item>
         <item name="popupMenuStyle">@style/PopupMenu.Isc_fresnostate</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Isc_fresnostate</item>
@@ -1709,7 +1709,7 @@ available. Please contact the developer for assistance.</string>
         <item name="android:actionModeBackground">@drawable/cab_background_top_isc_fresnostate</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_isc_fresnostate</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Isc_fresnostate</item>
-
+        <item name="actionOverflowButtonStyle">@style/Widget.ActionButton.Overflow.Isc_fresnostate</item>
     </style>
     <style name="Theme.Isc_fresnostate.Widget" parent="@style/Theme.AppCompat">
         <item name="popupMenuStyle">@style/PopupMenu.Isc_fresnostate</item>
@@ -1755,6 +1755,11 @@ available. Please contact the developer for assistance.</string>
         <item name="maskedWalletDetailsButtonTextAppearance">@style/WalletFragmentDefaultButtonTextAppearance</item>
         <item name="maskedWalletDetailsLogoTextColor">@color/wallet_bright_foreground_holo_dark</item>
         <item name="maskedWalletDetailsLogoImageType">classic</item>
+    </style>
+    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="Widget.ActionButton.Overflow.Isc_fresnostate" parent="@style/Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:src">@mipmap/ic_action_overflow</item>
     </style>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
