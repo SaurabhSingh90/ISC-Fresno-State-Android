@@ -114,7 +114,7 @@ public class DiscussionForum {
         ParseObject obj = null;
         for (int i = 0; i < length; i++) {
             obj = parseObjects.get(i);
-            String firstName = obj.get(ParseKeys.POST_FIRST_NAME).toString();
+            String firstName = obj.get(ParseKeys.POST_FULL_NAME).toString();
             String title = obj.get(ParseKeys.POST_TITLE).toString();
             String tags = "";
             tags = tags.concat(obj.get(ParseKeys.POST_TAGS).toString());
@@ -173,7 +173,7 @@ public class DiscussionForum {
             query1.whereMatches(ParseKeys.POST_TITLE, query, "im");
 
             ParseQuery<ParseObject> query2 = ParseQuery.getQuery(ParseKeys.POST_CLASS);
-            query2.whereMatches(ParseKeys.POST_FIRST_NAME, query, "im");
+            query2.whereMatches(ParseKeys.POST_FULL_NAME, query, "im");
 
             ParseQuery<ParseObject> query3 = ParseQuery.getQuery(ParseKeys.POST_CLASS);
             query3.whereEqualTo(ParseKeys.POST_TAGS, query);
@@ -248,7 +248,7 @@ public class DiscussionForum {
 
         for (int i = 0; i < length; i++) {
             ParseObject obj = parseObjects.get(i);
-            String firstName = obj.get(ParseKeys.POST_FIRST_NAME).toString();
+            String firstName = obj.get(ParseKeys.POST_FULL_NAME).toString();
             String title = obj.get(ParseKeys.POST_TITLE).toString();
             String tags = "";
             tags = tags.concat(obj.get(ParseKeys.POST_TAGS).toString());

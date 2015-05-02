@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.ParseAnalytics;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -67,6 +68,10 @@ public class PostDescription extends ActionBarActivity {
     public ActionMode mActionMode;
     private ArrayAdapter<HashMap<String, String>> mReplyListArrayAdapter;
     private String[] mTagsArray;
+    private static ParseUser mCurrentUser = new LoginActivity().mCurrentUser;
+    private static String firstName = mCurrentUser.getString("firstName");
+    private static String lastName = mCurrentUser.getString("lastName");
+    private static String fullName = firstName.concat(" " + lastName);
 
     // Channels for notification system
     private String postChannel;
@@ -173,7 +178,7 @@ public class PostDescription extends ActionBarActivity {
                     restoreActionBar(parseObject.get(ParseKeys.POST_TITLE).toString().toUpperCase());
 
                     mTitle.setText(parseObject.get(ParseKeys.POST_TITLE).toString());
-                    mFirstName.setText(parseObject.get(ParseKeys.POST_FIRST_NAME).toString());
+                    mFirstName.setText(parseObject.get(ParseKeys.POST_FULL_NAME).toString());
                     mDate.setText(posted_on);
                     mTag.setText("TAGS: " + parseObject.get(ParseKeys.POST_TAGS).toString());
                     mContent.setText(parseObject.get(ParseKeys.POST_CONTENT).toString());
@@ -205,9 +210,8 @@ public class PostDescription extends ActionBarActivity {
 
             final ParseUser currentUser = ParseUser.getCurrentUser();
             String message = mReplyEditText.getText().toString();
-            final String firstName = currentUser.get("firstName").toString();
             final ParseObject replyPostObject = new ParseObject("Replies");
-            replyPostObject.put("firstName", currentUser.get("firstName").toString());
+            replyPostObject.put("firstName", fullName);
             replyPostObject.put("replyMessage", message);
             replyPostObject.put("replyUser", currentUser);
             replyPostObject.put("parent", objectId);
@@ -218,7 +222,7 @@ public class PostDescription extends ActionBarActivity {
                         Toast.makeText(mContext, "Reply successfully added", Toast.LENGTH_SHORT).show();
                         if (postObject.getParseObject("user").getObjectId().compareTo(ParseUser.getCurrentUser().getObjectId()) != 0) {
                             ParseInstallation pi = ParseInstallation.getCurrentInstallation();
-                            pi.put("firstName", currentUser.get("firstName").toString());
+                            pi.put("firstName", fullName);
                             ParsePush.subscribeInBackground(replyChannel, new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -230,10 +234,10 @@ public class PostDescription extends ActionBarActivity {
                             });
                             pi.saveEventually();
                             String piObjectId = pi.getObjectId();
-                            sendNotification(postChannel, firstName);
-                            sendNotificationWithQuery(replyChannel, firstName, piObjectId);
+                            sendNotification(postChannel, fullName);
+                            sendNotificationWithQuery(replyChannel, fullName, piObjectId);
                         } else {
-                            sendNotificationWithQuery(replyChannel, firstName, "0");
+                            sendNotificationWithQuery(replyChannel, fullName, "0");
                         }
 
                         Intent i = new Intent(mContext, PostDescription.class);

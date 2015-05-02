@@ -34,8 +34,10 @@ public class AddNewJobPost extends ActionBarActivity {
     private static String TAG = AddNewPost.class.getSimpleName();
     private Activity mContext = this;
     private String objectId;
-    private static ParseUser mCurrentUser = ParseUser.getCurrentUser();
+    private static ParseUser mCurrentUser = new LoginActivity().mCurrentUser;
     private static String firstName = mCurrentUser.getString("firstName");
+    private static String lastName = mCurrentUser.getString("lastName");
+    private static String fullName = firstName.concat(" " + lastName);
     private View focusView = null;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
     private ContextThemeWrapper mContextThemeWrapper;
@@ -127,7 +129,7 @@ public class AddNewJobPost extends ActionBarActivity {
             post.addUnique(ParseKeys.JOBPOST_TAGS, tag);
         }
         post.put(ParseKeys.USER, mCurrentUser);
-        post.put(ParseKeys.JOBPOST_FIRST_NAME, firstName);
+        post.put(ParseKeys.JOBPOST_FULL_NAME, fullName);
         post.saveEventually(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -137,7 +139,7 @@ public class AddNewJobPost extends ActionBarActivity {
                     ParseInstallation pi = ParseInstallation.getCurrentInstallation();
                     pi.saveEventually();
                     String piObjectId = pi.getObjectId();
-                    sendJobNotificationWithQuery(firstName, piObjectId);
+                    sendJobNotificationWithQuery(fullName, piObjectId);
                     new MenuScreenActivity.RefreshNewsList().execute();
                     finish();
                     Toast.makeText(mContext, getString(R.string.job_posted), Toast.LENGTH_SHORT).show();

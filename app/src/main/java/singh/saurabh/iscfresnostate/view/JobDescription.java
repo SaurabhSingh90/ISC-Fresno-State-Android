@@ -116,7 +116,7 @@ public class JobDescription extends ActionBarActivity {
 
                     mTitle.setText(parseObject.get(ParseKeys.JOBPOST_TITLE).toString().toUpperCase());
                     mLocation.setText(parseObject.get(ParseKeys.JOBPOST_LOCATION).toString());
-                    mFirstName.setText("Posted By: " + parseObject.get(ParseKeys.JOBPOST_FIRST_NAME).toString());
+                    mFirstName.setText("Posted By: " + parseObject.get(ParseKeys.JOBPOST_FULL_NAME).toString());
                     mDate.setText("on: " + posted_on);
                     mTag.setText("TAGS: " + parseObject.get(ParseKeys.JOBPOST_TAGS).toString());
                     mContent.setText(parseObject.get(ParseKeys.JOBPOST_CONTENT).toString());

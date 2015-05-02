@@ -125,7 +125,7 @@ public class LoginActivity extends Activity {
     private void showResetPasswordDialog() {
         reset_password_dialog_layout = View.inflate(mContext, R.layout.activity_forgot_password, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(mContextThemeWrapper);
-        builder.setPositiveButton(getString(R.string.send_verification_link).toUpperCase(), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.send_password_reset_link).toUpperCase(), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
             }
@@ -138,7 +138,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                final EditText email_for_verification_link = ((EditText) reset_password_dialog_layout.findViewById(R.id.forgot_password_editText));
+                final EditText email_for_verification_link = ((EditText) reset_password_dialog_layout.findViewById(R.id.forgot_password_email_editText));
                 email_for_verification_link.setError(null);
                 final String email = email_for_verification_link.getText().toString().trim();
 

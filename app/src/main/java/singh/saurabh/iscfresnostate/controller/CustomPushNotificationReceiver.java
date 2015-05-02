@@ -11,7 +11,9 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.parse.ParseAnalytics;
+import com.parse.ParseException;
 import com.parse.ParsePushBroadcastReceiver;
+import com.parse.SaveCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +46,6 @@ public class CustomPushNotificationReceiver extends ParsePushBroadcastReceiver {
         super.onPushReceive(context, intent);
         mContext = context;
         mIntent = intent;
-        Log.d(TAG, "onPushReceive");
 
         try {
             if (intent == null)
@@ -80,9 +81,9 @@ public class CustomPushNotificationReceiver extends ParsePushBroadcastReceiver {
     }
 
     @Override
-    protected void onPushOpen(Context context, Intent intent) {
+    protected void onPushOpen(Context context, final Intent intent) {
 //        super.onPushOpen(context, intent);
-        ParseAnalytics.trackAppOpened(intent);
+        ParseAnalytics.trackAppOpenedInBackground(mIntent);
 
         if (mSection.equals("1"))
             resultIntent = new Intent(context, PostDescription.class);

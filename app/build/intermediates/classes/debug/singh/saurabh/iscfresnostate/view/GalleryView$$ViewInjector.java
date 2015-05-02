@@ -8,8 +8,8 @@ import butterknife.ButterKnife.Injector;
 public class GalleryView$$ViewInjector<T extends singh.saurabh.iscfresnostate.view.GalleryView> implements Injector<T> {
   @Override public void inject(final Finder finder, final T target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131427460, "field 'mGalleryWebView'");
-    target.mGalleryWebView = finder.castView(view, 2131427460, "field 'mGalleryWebView'");
+    view = finder.findRequiredView(source, 2131427461, "field 'mGalleryWebView'");
+    target.mGalleryWebView = finder.castView(view, 2131427461, "field 'mGalleryWebView'");
   }
 
   @Override public void reset(T target) {

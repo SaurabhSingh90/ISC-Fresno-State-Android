@@ -89,7 +89,7 @@ public class JobPost {
         ParseObject obj = null;
         for (int i = 0; i < length; i++) {
             obj = parseObjects.get(i);
-            String firstName = obj.get(ParseKeys.JOBPOST_FIRST_NAME).toString();
+            String firstName = obj.get(ParseKeys.JOBPOST_FULL_NAME).toString();
             String location = obj.get(ParseKeys.JOBPOST_LOCATION).toString();
             String title = obj.get(ParseKeys.JOBPOST_TITLE).toString();
             String tags = "";
@@ -154,7 +154,7 @@ public class JobPost {
             query1.whereMatches(ParseKeys.JOBPOST_TITLE, query, "im");
 
             ParseQuery<ParseObject> query2 = ParseQuery.getQuery(ParseKeys.JOBPOST_CLASS);
-            query2.whereMatches(ParseKeys.JOBPOST_FIRST_NAME, query, "im");
+            query2.whereMatches(ParseKeys.JOBPOST_FULL_NAME, query, "im");
 
             ParseQuery<ParseObject> query3 = ParseQuery.getQuery(ParseKeys.JOBPOST_CLASS);
             query3.whereEqualTo(ParseKeys.JOBPOST_TAGS, query);

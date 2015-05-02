@@ -17,7 +17,7 @@ public class ParseKeys {
     public static String POST_CLASS = "Post";
     public static String POST_TITLE = "postTitle";
     public static String POST_CONTENT = "postContent";
-    public static String POST_FIRST_NAME = "firstName";
+    public static String POST_FULL_NAME = "firstName";
     public static String POST_TAGS = "postTags";
 
     // Parse Job Post Column Names
@@ -25,7 +25,7 @@ public class ParseKeys {
     public static String JOBPOST_CHANNEL = "JobPost_Channel";
     public static String JOBPOST_TITLE = "jobPostTitle";
     public static String JOBPOST_LOCATION = "jobPostLocation";
-    public static String JOBPOST_FIRST_NAME = "firstName";
+    public static String JOBPOST_FULL_NAME = "firstName";
     public static String JOBPOST_TAGS = "jobPostTags";
     public static String JOBPOST_CONTENT = "jobPostContent";
 

@@ -56,8 +56,10 @@ public class AddNewBuySellPost extends ActionBarActivity {
     private static String TAG = AddNewBuySellPost.class.getSimpleName();
     private Activity mContext = this;
     private String objectId;
-    private static ParseUser mCurrentUser = ParseUser.getCurrentUser();
+    private static ParseUser mCurrentUser = new LoginActivity().mCurrentUser;
     private static String firstName = mCurrentUser.getString("firstName");
+    private static String lastName = mCurrentUser.getString("lastName");
+    private static String fullName = firstName.concat(" " + lastName);
     private View focusView = null;
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
     private ContextThemeWrapper mContextThemeWrapper;
@@ -189,7 +191,7 @@ public class AddNewBuySellPost extends ActionBarActivity {
             post.addUnique(ParseKeys.BUY_SELL_TAGS, tag);
         }
         post.put(ParseKeys.USER, mCurrentUser);
-        post.put(ParseKeys.BUY_SELL_FIRST_NAME, firstName);
+        post.put(ParseKeys.BUY_SELL_FIRST_NAME, fullName);
 
         final Boolean[] booleanUploadData = {false};
         for (int i = 0; i < 6; i++) {
@@ -235,8 +237,6 @@ public class AddNewBuySellPost extends ActionBarActivity {
                     objectId = post.getObjectId();
                     ParseInstallation pi = ParseInstallation.getCurrentInstallation();
                     pi.saveEventually();
-//                    String piObjectId = pi.getObjectId();
-//                    sendJobNotificationWithQuery(firstName, piObjectId);
                     new MenuScreenActivity.RefreshNewsList().execute();
                     finish();
                     Toast.makeText(mContext, getString(R.string.job_posted), Toast.LENGTH_SHORT).show();

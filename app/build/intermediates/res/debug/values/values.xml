@@ -454,14 +454,15 @@ available. Please contact the developer for assistance.</string>
     <string name="post_updated_text">Post updated successfully</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+    <string name="prompt_email">Enter Email</string>
+    <string name="prompt_password">Enter Password</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_single_post_display.xml -->
     <eat-comment/>
     <string name="reply_text">Submit</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
-    <string name="send_verification_link">Send Verification Link</string>
+    <string name="reset_password_text">Reset Password</string>
+    <string name="send_password_reset_link">Send Password Reset Link</string>
     <string name="sending_mail_text">Sending mail…</string>
     <string name="signUp_textView">Sign Up</string>
     <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values/strings_activity_sign_up.xml -->

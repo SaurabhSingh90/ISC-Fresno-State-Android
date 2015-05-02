@@ -32,6 +32,8 @@ public class AddNewPost extends ActionBarActivity {
     private Activity mContext = this;
     private static ParseUser mCurrentUser = new LoginActivity().mCurrentUser;
     private static String firstName = mCurrentUser.getString("firstName");
+    private static String lastName = mCurrentUser.getString("lastName");
+    private static String fullName = firstName.concat(" " + lastName);
     private View focusView = null;
     private String postChannel = "Post_";
     private CustomNetworkErrorHandler mCustomNetworkErrorHandler;
@@ -114,7 +116,7 @@ public class AddNewPost extends ActionBarActivity {
             post.addUnique(ParseKeys.POST_TAGS, tag);
         }
         post.put(ParseKeys.USER, mCurrentUser);
-        post.put(ParseKeys.POST_FIRST_NAME, firstName);
+        post.put(ParseKeys.POST_FULL_NAME, fullName);
         post.saveEventually(new SaveCallback() {
             @Override
             public void done(ParseException e) {
