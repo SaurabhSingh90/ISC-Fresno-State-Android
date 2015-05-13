@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/src/main/res/values-v14/styles.xml -->
+    <!-- From: file:/Users/SinghSaab/Documents/Android%20Projects/ISCFresnoState/app/src/main/res/values-v14/styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="android:windowActionModeOverlay">true</item>
         <!-- Customize your theme here. -->
     </style>
-    <!-- From: file:/Users/Saurabh/Documents/Android_Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values-v14/values.xml -->
+    <!-- From: file:/Users/SinghSaab/Documents/Android%20Projects/ISCFresnoState/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values-v14/values.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat.Button">
         <item name="android:textSize">@dimen/abc_text_size_button_material</item>
