@@ -6,4 +6,4 @@
         android:startColor="#80000000"
         android:endColor="#80000000"/>
     <corners android:radius="10dp" />
-</shape><!-- From: file:/Users/SinghSaab/Documents/Android%20Projects/ISCFresnoState/app/src/main/res/drawable/box_gradient.xml -->
+</shape><!-- From: file:/Users/saurabhsingh/Documents/ISC%20Fresno%20State/app/src/main/res/drawable/box_gradient.xml -->

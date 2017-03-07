@@ -9,4 +9,4 @@
         android:layout_height="match_parent"
         android:id="@+id/gallery_webView"/>
 </RelativeLayout>
-<!-- From: file:/Users/SinghSaab/Documents/Android%20Projects/ISCFresnoState/app/src/main/res/layout/activity_gallery_view.xml -->
+<!-- From: file:/Users/saurabhsingh/Documents/ISC%20Fresno%20State/app/src/main/res/layout/activity_gallery_view.xml -->
