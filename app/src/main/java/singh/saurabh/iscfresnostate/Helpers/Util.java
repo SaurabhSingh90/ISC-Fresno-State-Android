@@ -3,6 +3,9 @@ package singh.saurabh.iscfresnostate.Helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.facebook.AccessToken;
+
 import singh.saurabh.iscfresnostate.R;
 
 /**
@@ -17,13 +20,13 @@ public class Util {
 
     public static boolean isUserLoggedIn(Activity activity) {
         SharedPreferences preferences = activity.getPreferences(Context.MODE_PRIVATE);
-        return preferences.contains(getKey(activity, R.string.login_key));
+        return preferences.contains(getKey(activity, R.string.login_key)) || AccessToken.getCurrentAccessToken() != null;
     }
 
     public static void setLoginPrefrence(Activity activity) {
         SharedPreferences preferences = activity.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(getKey(activity, R.string.login_key), true);
-        editor.commit();
+        editor.apply();
     }
 }
