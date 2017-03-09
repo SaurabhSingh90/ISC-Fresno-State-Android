@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "987819745866",
+    "firebase_url": "https://isc-fresno-state.firebaseio.com",
+    "project_id": "isc-fresno-state",
+    "storage_bucket": "isc-fresno-state.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987819745866:android:6e22732d64b39b33",
+        "android_client_info": {
+          "package_name": "singh.saurabh.iscfresnostate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987819745866-i0956gqivd3b8b43epj4873bhpgmm8cv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "singh.saurabh.iscfresnostate",
+            "certificate_hash": "1b49d28c668d3110ae2426a966b5f80797a43684"
+          }
+        },
+        {
+          "client_id": "987819745866-770vsr04cqc8mlooicnn6ab4fvc54q7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUZopUdZvDSLwp-DFXp4UtEUKZnIeJ7_g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987819745866-770vsr04cqc8mlooicnn6ab4fvc54q7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
