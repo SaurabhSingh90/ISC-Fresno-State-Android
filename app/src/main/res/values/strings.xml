@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ISC Fresno State</string>
+    <string name="facebook_app_id">420634764936424</string>
+    <string name="fb_login_protocol_scheme">fb420634764936424</string>
+</resources>
