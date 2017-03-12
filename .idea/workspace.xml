@@ -10,22 +10,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57995937-9afd-40a9-931d-a225aee06f60" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jackson_core_2_5_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/logansquare_1_3_6.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/singh/saurabh/iscfresnostate/Constants/Konst.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/singh/saurabh/iscfresnostate/FeedModel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/singh/saurabh/iscfresnostate/Views/FeedActivity.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/singh/saurabh/iscfresnostate/Views/MainActivity.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/proguard-rules.pro" afterPath="$PROJECT_DIR$/app/proguard-rules.pro" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/singh/saurabh/iscfresnostate/Helpers/Util.java" afterPath="$PROJECT_DIR$/app/src/main/java/singh/saurabh/iscfresnostate/Helpers/Util.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/singh/saurabh/iscfresnostate/Views/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/singh/saurabh/iscfresnostate/Views/LoginActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/singh/saurabh/iscfresnostate/Views/SplashActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/singh/saurabh/iscfresnostate/Views/SplashActivity.java" />
-    </list>
+    <list default="true" id="57995937-9afd-40a9-931d-a225aee06f60" name="Default" comment="" />
     <ignored path="ISC Fresno State.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/build/classes/" />
