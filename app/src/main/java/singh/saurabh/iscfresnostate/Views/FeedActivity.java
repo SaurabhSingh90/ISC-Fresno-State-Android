@@ -2,6 +2,8 @@ package singh.saurabh.iscfresnostate.Views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.facebook.AccessToken;
@@ -11,6 +13,7 @@ import com.facebook.GraphResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import singh.saurabh.iscfresnostate.Adapters.FeedAdapter;
 import singh.saurabh.iscfresnostate.Constants.Konst;
 import singh.saurabh.iscfresnostate.FeedModel;
 import singh.saurabh.iscfresnostate.R;
@@ -42,15 +45,30 @@ public class FeedActivity extends AppCompatActivity {
 //            }
 //            return feedItemType;
 
-    private FeedModel feedModel;
-    private List<FeedModel.FeedItem> feedItems;
+    private FeedModel mFeedModel;
+//    private List<FeedModel.FeedItem> mFeedItems;
+
+    private RecyclerView mFeedRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-        feedItems = new ArrayList<>();
+//        mFeedItems = new ArrayList<>();
+
+        mFeedRecyclerView = (RecyclerView) findViewById(R.id.feed_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        // mFeedRecyclerView.setHasFixedSize(true);     // in our content it does change the layout size
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mFeedRecyclerView.setLayoutManager(mLayoutManager);
+
 
         getGraphResponse();
     }
@@ -63,25 +81,29 @@ public class FeedActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(GraphResponse response) {
                         try {
-                            feedModel = LoganSquare.parse(response.getRawResponse(), FeedModel.class);
+                            mFeedModel = LoganSquare.parse(
+                                    response.getRawResponse(),
+                                    FeedModel.class
+                            );
 
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
 
-                        if (feedModel != null) {
-                            feedItems = feedModel.getFeedItems();
-//                            FeedModel.FeedItem item = feedItems.get(0);
-//                            String name = item.getFromUser().getName();
-//                            String y = name;
-                            // update adapter
+                        if (mFeedModel != null) {
+//                            mFeedItems = mFeedModel.getFeedItems();
 
+                            // specify an adapter
+                            mAdapter = new FeedAdapter(mFeedModel.getFeedItems());
+                            mFeedRecyclerView.setAdapter(mAdapter);
                         }
                     }
                 });
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "from,message,story,link,picture,name,description,type,object_id,created_time,updated_time,is_hidden,subscribed,is_expired");
+        parameters.putString(
+                Konst.getFacebookEndpointFieldsKey(),
+                Konst.getFacebookEndpointFieldsValue());
         request.setParameters(parameters);
         request.executeAsync();
     }

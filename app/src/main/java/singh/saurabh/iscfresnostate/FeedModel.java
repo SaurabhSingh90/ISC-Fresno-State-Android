@@ -68,6 +68,17 @@ public class FeedModel {
         }
 
         @JsonField
+        private String description;
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        @JsonField
         private String link;
         public String getLink() {
             return link;
