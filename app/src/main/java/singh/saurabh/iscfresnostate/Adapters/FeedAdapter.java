@@ -1,7 +1,6 @@
 package singh.saurabh.iscfresnostate.Adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import singh.saurabh.iscfresnostate.FeedModel;
@@ -79,7 +76,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
 
         holder.fromUsername.setText(feedItem.getFromUser().getName());
-        holder.createdAtTextView.setText(Util.getDate(context, feedItem.getCreatedTime()));
+        holder.createdAtTextView.setText(Util.formatTimeForEvent(feedItem.getCreatedTime()));
         if (feedItem.getMessage() == null || feedItem.getMessage().isEmpty()) {
             holder.descriptionTextView.setText(feedItem.getStory());
         } else {

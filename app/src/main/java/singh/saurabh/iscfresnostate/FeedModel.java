@@ -129,12 +129,12 @@ public class FeedModel {
         }
 
         @JsonField(name = "created_time")
-        private String createdTime;
-        public String getCreatedTime() {
+        private long createdTime;
+        public long getCreatedTime() {
             return createdTime;
         }
 
-        public void setCreatedTime(String createdTime) {
+        public void setCreatedTime(long createdTime) {
             this.createdTime = createdTime;
         }
 

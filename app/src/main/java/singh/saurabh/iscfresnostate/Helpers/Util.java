@@ -6,9 +6,11 @@ import android.content.Context;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DateFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by saurabhsingh on 3/7/17.
@@ -32,25 +34,9 @@ public class Util {
 //        editor.apply();
 //    }
 
-    public static String getDate(Context context, String createdTime) {
-//        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
-//        try {
-//            Date date = dateFormat.parse(createdTime);
-//            return date.toString();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-
-
-        SimpleDateFormat formatter = new SimpleDateFormat("MM dd HH:mm", Locale.getDefault());
-        try {
-            return formatter.format(formatter.parse(createdTime));
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return createdTime;
-
+    public static String formatTimeForEvent(long pacificTime) {
+        Date date = new Date(pacificTime * 1000);
+        DateFormat format = new SimpleDateFormat("d MMM h:mm a", Locale.getDefault());
+        return format.format(date);
     }
 }

@@ -102,6 +102,9 @@ public class FeedActivity extends AppCompatActivity {
 
         Bundle parameters = new Bundle();
         parameters.putString(
+                Konst.getFacebookEndpointDateFormatKey(),
+                Konst.getFacebookEndpointDateFormatValue());
+        parameters.putString(
                 Konst.getFacebookEndpointFieldsKey(),
                 Konst.getFacebookEndpointFieldsValue());
         request.setParameters(parameters);

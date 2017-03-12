@@ -10,6 +10,16 @@ public class Konst {
         return FACEBOOK_GROUP_FEED_ENDPOINT;
     }
 
+    private static  final String FACEBOOK_ENDPOINT_DATE_FORMAT_KEY = "date_format";
+    public static String getFacebookEndpointDateFormatKey() {
+        return FACEBOOK_ENDPOINT_DATE_FORMAT_KEY;
+    }
+
+    private static  final String FACEBOOK_ENDPOINT_DATE_FORMAT_VALUE = "U";
+    public static String getFacebookEndpointDateFormatValue() {
+        return FACEBOOK_ENDPOINT_DATE_FORMAT_VALUE;
+    }
+
     private static  final String FACEBOOK_ENDPOINT_FIELDS_KEY = "fields";
     public static String getFacebookEndpointFieldsKey() {
         return FACEBOOK_ENDPOINT_FIELDS_KEY;
