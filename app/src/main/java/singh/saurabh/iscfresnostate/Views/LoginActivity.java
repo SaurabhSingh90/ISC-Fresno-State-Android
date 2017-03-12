@@ -1,6 +1,5 @@
 package singh.saurabh.iscfresnostate.Views;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -21,11 +20,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 import singh.saurabh.iscfresnostate.R;
 
@@ -71,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
         mCallbackManager = CallbackManager.Factory.create();
 
         mLoginButton = (LoginButton) findViewById(R.id.facebook_login_button);
-        mLoginButton.setReadPermissions("email", "public_profile");
         mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -79,20 +72,16 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancel() {
-
-            }
+            public void onCancel() {}
 
             @Override
-            public void onError(FacebookException error) {
-
-            }
+            public void onError(FacebookException error) {}
         });
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken: " + token);
-
+        Log.d("FBAccessToken", "access token: " + AccessToken.getCurrentAccessToken());
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -110,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
 
                             finish();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, FeedActivity.class));
                         }
                     }
                 });
