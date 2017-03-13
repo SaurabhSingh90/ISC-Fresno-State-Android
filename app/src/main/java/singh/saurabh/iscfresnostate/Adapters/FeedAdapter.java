@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import singh.saurabh.iscfresnostate.Constants.Konst;
 import singh.saurabh.iscfresnostate.FeedModel;
 import singh.saurabh.iscfresnostate.Helpers.Util;
 import singh.saurabh.iscfresnostate.R;
@@ -117,7 +118,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 textSize = 15;
                 break;
             case "status":
-                if (holder.descriptionTextView.getText().length() > 85) {
+                if (holder.descriptionTextView.getText().length() > Konst.getMaxStatusLength()) {
                     textSize = 15;
                 } else {
                     textSize += 4;
@@ -125,8 +126,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 break;
         }
         holder.descriptionTextView.setTextSize(textSize);
-        float x = holder.descriptionTextView.getTextSize();
-        Log.d("TAG", x+"");
     }
 
     @Override

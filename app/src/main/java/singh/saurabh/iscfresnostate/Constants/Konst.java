@@ -5,6 +5,10 @@ package singh.saurabh.iscfresnostate.Constants;
  */
 
 public class Konst {
+    private static final int MAX_STATUS_LENGTH = 100;
+    public static int getMaxStatusLength() {
+        return MAX_STATUS_LENGTH;
+    }
     private static final String FACEBOOK_GROUP_FEED_ENDPOINT = "/490680074276717/feed";
     public static String getFacebookGroupFeedEndpoint() {
         return FACEBOOK_GROUP_FEED_ENDPOINT;
