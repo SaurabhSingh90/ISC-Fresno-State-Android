@@ -1,6 +1,9 @@
 package singh.saurabh.iscfresnostate.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.util.List;
 
@@ -18,6 +22,8 @@ import singh.saurabh.iscfresnostate.Constants.Konst;
 import singh.saurabh.iscfresnostate.FeedModel;
 import singh.saurabh.iscfresnostate.Helpers.Util;
 import singh.saurabh.iscfresnostate.R;
+
+import static singh.saurabh.iscfresnostate.R.id.imageView;
 
 /**
  * Created by saurabhsingh on 3/11/17.
@@ -33,6 +39,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         ImageView itemImageView;
+        ImageView profilePictureImageView;
         TextView fromUsername;
         TextView createdAtTextView;
         TextView descriptionTextView;
@@ -44,6 +51,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public ViewHolder(View v) {
             super(v);
             itemImageView = (ImageView)v.findViewById(R.id.feed_item_imageView);
+            profilePictureImageView = (ImageView)v.findViewById(R.id.feed_profile_picture_imageView);
             fromUsername = (TextView)v.findViewById(R.id.feed_username_textView);
             createdAtTextView = (TextView)v.findViewById(R.id.feed_created_at_textView);
             descriptionTextView = (TextView)v.findViewById(R.id.feed_description_textView);
@@ -72,7 +80,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         FeedModel.FeedItem feedItem = mFeedItems.get(position);
 
         if (feedItem.getPictureUrl() == null || feedItem.getPictureUrl().isEmpty()) {
@@ -84,6 +92,19 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                     .centerCrop()
                     .into(holder.itemImageView);
         }
+
+        Glide.with(context)
+                .load(feedItem.getFromUser().getUserProfilePicture().getData().getProfilePictureUrl())
+                .asBitmap()
+                .into(new BitmapImageViewTarget(holder.profilePictureImageView) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        holder.profilePictureImageView.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
 
         holder.fromUsername.setText(feedItem.getFromUser().getName());
         holder.createdAtTextView.setText(Util.formatTimeForEvent(feedItem.getCreatedTime()));

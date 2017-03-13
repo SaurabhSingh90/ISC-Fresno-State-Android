@@ -45,6 +45,38 @@ public class FeedModel {
             public void setName(String name) {
                 this.name = name;
             }
+
+            @JsonField(name = "picture")
+            private Picture userProfilePicture;
+            public Picture getUserProfilePicture() {
+                return userProfilePicture;
+            }
+            public void setUserProfilePicture(Picture picture) {
+                this.userProfilePicture = picture;
+            }
+
+            @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
+            public static class Picture {
+                @JsonField(name = "data")
+                private Data data;
+                public Data getData() {
+                    return data;
+                }
+                public void setData(Data data) {
+                    this.data = data;
+                }
+                @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
+                public static class Data {
+                    @JsonField(name = "url")
+                    private String profilePictureUrl;
+                    public String getProfilePictureUrl() {
+                        return profilePictureUrl;
+                    }
+                    public void setProfilePictureUrl(String pictureUrl) {
+                        this.profilePictureUrl = pictureUrl;
+                    }
+                }
+            }
         }
 
         @JsonField
