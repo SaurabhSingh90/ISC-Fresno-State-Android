@@ -12,6 +12,17 @@ import java.util.List;
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
 public class FeedModel {
 
+    @JsonField(name = "responseCode")
+    private int responseCode;
+
+    public int getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
+    }
+
     @JsonField(name = "data")
     private List<FeedItem> feedItems;
 
@@ -218,6 +229,31 @@ public class FeedModel {
 
         public void setId(String id) {
             this.id = id;
+        }
+    }
+
+    @JsonField(name = "paging")
+    private Pager pager;
+
+    public Pager getPager() {
+        return pager;
+    }
+
+    public void setPager(Pager pager) {
+        this.pager = pager;
+    }
+
+    @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
+    public static class Pager {
+        @JsonField(name = "next")
+        private String nextPageUrl;
+
+        public String getNextPageUrl() {
+            return nextPageUrl;
+        }
+
+        public void setNextPageUrl(String nextPageUrl) {
+            this.nextPageUrl = nextPageUrl;
         }
     }
 }

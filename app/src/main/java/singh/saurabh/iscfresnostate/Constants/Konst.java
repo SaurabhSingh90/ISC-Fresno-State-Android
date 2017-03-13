@@ -14,7 +14,7 @@ public class Konst {
         return FACEBOOK_GROUP_FEED_ENDPOINT;
     }
 
-    private static  final String FACEBOOK_ENDPOINT_DATE_FORMAT_KEY = "date_format";
+    private static  final String FACEBOOK_ENDPOINT_DATE_FORMAT_KEY = "date_format=";
     public static String getFacebookEndpointDateFormatKey() {
         return FACEBOOK_ENDPOINT_DATE_FORMAT_KEY;
     }
@@ -24,12 +24,12 @@ public class Konst {
         return FACEBOOK_ENDPOINT_DATE_FORMAT_VALUE;
     }
 
-    private static  final String FACEBOOK_ENDPOINT_FIELDS_KEY = "fields";
+    private static  final String FACEBOOK_ENDPOINT_FIELDS_KEY = "fields=";
     public static String getFacebookEndpointFieldsKey() {
         return FACEBOOK_ENDPOINT_FIELDS_KEY;
     }
 
-    private static  final String FACEBOOK_ENDPOINT_FIELDS_VALUE = "from{picture,name},message,story,link,full_picture,name,description,type,object_id,created_time,updated_time,is_hidden,subscribed,is_expired";
+    private static  final String FACEBOOK_ENDPOINT_FIELDS_VALUE = "from%7Bpicture,name%7D,message,story,link,full_picture,name,description,type,object_id,created_time,updated_time,is_hidden,subscribed,is_expired";
     public static String getFacebookEndpointFieldsValue() {
         return FACEBOOK_ENDPOINT_FIELDS_VALUE;
     }

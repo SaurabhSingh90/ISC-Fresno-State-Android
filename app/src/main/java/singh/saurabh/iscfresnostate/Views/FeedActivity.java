@@ -10,9 +10,6 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import singh.saurabh.iscfresnostate.Adapters.FeedAdapter;
 import singh.saurabh.iscfresnostate.Constants.Konst;
 import singh.saurabh.iscfresnostate.FeedModel;
@@ -20,37 +17,15 @@ import singh.saurabh.iscfresnostate.R;
 
 public class FeedActivity extends AppCompatActivity {
 
-    public enum FeedItemType {
-        Event,
-        Status,
-        Link,
-        Photo,
-        None
-    }
-
-//            FeedItemType feedItemType= FeedItemType.None;
-//            switch (type) {
-//                case "event":
-//                    feedItemType = FeedItemType.Event;
-//                    break;
-//                case "status":
-//                    feedItemType = FeedItemType.Status;
-//                    break;
-//                case "link":
-//                    feedItemType = FeedItemType.Link;
-//                    break;
-//                case "photo":
-//                    feedItemType = FeedItemType.Photo;
-//                    break;
-//            }
-//            return feedItemType;
-
+    private int mIndexOfFeedEndpoint;
+    private boolean lastPage;
     private FeedModel mFeedModel;
-//    private List<FeedModel.FeedItem> mFeedItems;
 
     private RecyclerView mFeedRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private FeedAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private String nextPageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +44,33 @@ public class FeedActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mFeedRecyclerView.setLayoutManager(mLayoutManager);
 
+        // specify an adapter
+        mAdapter = new FeedAdapter(this);
+        mFeedRecyclerView.setAdapter(mAdapter);
 
-        getGraphResponse();
+        nextPageUrl = Konst.getFacebookGroupFeedEndpoint()
+                +"?"
+                +Konst.getFacebookEndpointFieldsKey()
+                +Konst.getFacebookEndpointFieldsValue()
+                +"&"
+                +Konst.getFacebookEndpointDateFormatKey()
+                +Konst.getFacebookEndpointDateFormatValue();
+
+        loadFeedPage();
     }
 
-    private void getGraphResponse() {
-        GraphRequest request = GraphRequest.newGraphPathRequest(
+    public void loadFeedPage() {
+
+        if (lastPage) return;
+
+        GraphRequest.newGraphPathRequest(
                 AccessToken.getCurrentAccessToken(),
-                Konst.getFacebookGroupFeedEndpoint(),
+                nextPageUrl,
                 new GraphRequest.Callback() {
                     @Override
                     public void onCompleted(GraphResponse response) {
+                        if (response == null || response.getRawResponse().length() == 0) return;
+
                         try {
                             mFeedModel = LoganSquare.parse(
                                     response.getRawResponse(),
@@ -90,24 +81,23 @@ public class FeedActivity extends AppCompatActivity {
                             ex.printStackTrace();
                         }
 
-                        if (mFeedModel != null) {
-//                            mFeedItems = mFeedModel.getFeedItems();
-
-                            // specify an adapter
-                            mAdapter = new FeedAdapter(mFeedModel.getFeedItems());
-                            mFeedRecyclerView.setAdapter(mAdapter);
-                        }
+                        updateAdapter();
                     }
-                });
+                }).executeAsync();
+    }
 
-        Bundle parameters = new Bundle();
-        parameters.putString(
-                Konst.getFacebookEndpointDateFormatKey(),
-                Konst.getFacebookEndpointDateFormatValue());
-        parameters.putString(
-                Konst.getFacebookEndpointFieldsKey(),
-                Konst.getFacebookEndpointFieldsValue());
-        request.setParameters(parameters);
-        request.executeAsync();
+    private void updateAdapter() {
+        if (mFeedModel != null) {
+
+            // Update adapter
+            mAdapter.updateFeedList(mFeedModel.getFeedItems());
+            if (mFeedModel.getPager() != null) {
+                nextPageUrl = mFeedModel.getPager().getNextPageUrl();
+                mIndexOfFeedEndpoint = nextPageUrl.indexOf(Konst.getFacebookGroupFeedEndpoint());
+                nextPageUrl = nextPageUrl.substring(mIndexOfFeedEndpoint);
+            } else {
+                lastPage = true;
+            }
+        }
     }
 }

@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +15,21 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import singh.saurabh.iscfresnostate.Constants.Konst;
 import singh.saurabh.iscfresnostate.FeedModel;
 import singh.saurabh.iscfresnostate.Helpers.Util;
 import singh.saurabh.iscfresnostate.R;
-
-import static singh.saurabh.iscfresnostate.R.id.imageView;
+import singh.saurabh.iscfresnostate.Views.FeedActivity;
 
 /**
  * Created by saurabhsingh on 3/11/17.
  */
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
+    private FeedActivity parentActivity;
     private Context context;
     private List<FeedModel.FeedItem> mFeedItems;
 
@@ -62,8 +62,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
     }
 
-    public FeedAdapter(List<FeedModel.FeedItem> feedItems) {
-        this.mFeedItems = feedItems;
+    public FeedAdapter(FeedActivity parentActivity) {
+        this.parentActivity = parentActivity;
+        mFeedItems = new ArrayList<>();
+    }
+
+    public void updateFeedList(List<FeedModel.FeedItem> feedItems) {
+        this.mFeedItems.addAll(feedItems);
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -89,7 +95,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             holder.itemImageView.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(feedItem.getPictureUrl())
-                    .centerCrop()
                     .into(holder.itemImageView);
         }
 
@@ -147,6 +152,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 break;
         }
         holder.descriptionTextView.setTextSize(textSize);
+
+        if (position == mFeedItems.size()-1) {
+            parentActivity.loadFeedPage();
+        }
     }
 
     @Override
