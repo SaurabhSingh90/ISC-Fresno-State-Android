@@ -1,13 +1,18 @@
 package singh.saurabh.iscfresnostate.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,7 +42,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
+
         ImageView itemImageView;
         ImageView profilePictureImageView;
         TextView fromUsername;
@@ -76,7 +81,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         // create a new view
-        View v = (View) LayoutInflater.from(context)
+        View v = LayoutInflater.from(context)
                 .inflate(R.layout.feed_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
@@ -86,7 +91,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         FeedModel.FeedItem feedItem = mFeedItems.get(position);
 
         if (feedItem.getPictureUrl() == null || feedItem.getPictureUrl().isEmpty()) {
@@ -95,6 +100,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             holder.itemImageView.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(feedItem.getPictureUrl())
+                    .error(R.drawable.placeholder)
                     .into(holder.itemImageView);
         }
 
@@ -153,9 +159,24 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
         holder.descriptionTextView.setTextSize(textSize);
 
-        if (position == mFeedItems.size()-1) {
+        if (position >= mFeedItems.size()/2) {
             parentActivity.loadFeedPage();
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = mFeedItems.get(position).getLink();
+                Log.d("TAG", "url: " + url);
+                if (url == null || url.length() == 0) return;
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                context.startActivity(browserIntent);
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+//                builder.setToolbarColor(colorInt);
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(context, Uri.parse(url));
+            }
+        });
     }
 
     @Override
@@ -167,4 +188,5 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
+
 }

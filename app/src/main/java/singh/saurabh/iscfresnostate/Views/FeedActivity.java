@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.facebook.AccessToken;
@@ -19,11 +20,13 @@ public class FeedActivity extends AppCompatActivity {
 
     private int mIndexOfFeedEndpoint;
     private boolean lastPage;
+    private boolean isLoading;
     private FeedModel mFeedModel;
 
     private RecyclerView mFeedRecyclerView;
     private FeedAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private View footerView;
 
     private String nextPageUrl;
 
@@ -61,7 +64,9 @@ public class FeedActivity extends AppCompatActivity {
 
     public void loadFeedPage() {
 
-        if (lastPage) return;
+        if (lastPage || isLoading) return;
+
+        isLoading = true;
 
         GraphRequest.newGraphPathRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -69,6 +74,9 @@ public class FeedActivity extends AppCompatActivity {
                 new GraphRequest.Callback() {
                     @Override
                     public void onCompleted(GraphResponse response) {
+
+                        isLoading = false;
+
                         if (response == null || response.getRawResponse().length() == 0) return;
 
                         try {

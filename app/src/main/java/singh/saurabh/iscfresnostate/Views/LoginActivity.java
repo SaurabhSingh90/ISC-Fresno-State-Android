@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton mLoginButton;
     private CallbackManager mCallbackManager;
 
+    RelativeLayout mRelativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +54,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in: " + user.getUid());
-                    Toast.makeText(LoginActivity.this, "Welcome: " + user.getDisplayName()
-                            , Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(LoginActivity.this, "Welcome: " + user.getDisplayName()
+//                            , Toast.LENGTH_SHORT).show();
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -68,6 +70,8 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                mLoginButton.setAlpha(0);
+                mRelativeLayout.setAlpha(0.7f);
                 handleFacebookAccessToken(AccessToken.getCurrentAccessToken());
             }
 
@@ -77,6 +81,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(FacebookException error) {}
         });
+
+        mRelativeLayout = (RelativeLayout)findViewById(R.id.login_progress_layout);
+        mRelativeLayout.setAlpha(0);
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
@@ -94,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.e(TAG, "signInWithCredential: ex: " + task.getException());
+
                             Toast.makeText(LoginActivity.this, "Authentication failed."
                                     , Toast.LENGTH_SHORT).show();
                         } else {

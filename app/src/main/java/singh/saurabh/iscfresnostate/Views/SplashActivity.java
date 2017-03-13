@@ -16,7 +16,6 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         if (Util.isUserLoggedIn(this)) {
-            Toast.makeText(this, "Logged In", Toast.LENGTH_LONG).show();
             // Go to main page
             startActivity(new Intent(this, FeedActivity.class));
         } else {
