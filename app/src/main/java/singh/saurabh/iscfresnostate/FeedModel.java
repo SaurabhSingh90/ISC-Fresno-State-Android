@@ -88,7 +88,7 @@ public class FeedModel {
             this.link = link;
         }
 
-        @JsonField(name = "picture")
+        @JsonField(name = "full_picture")
         private String pictureUrl;
         public String getPictureUrl() {
             return pictureUrl;
@@ -139,12 +139,12 @@ public class FeedModel {
         }
 
         @JsonField(name = "updated_time")
-        private String updatedTime;
-        public String getUpdatedTime() {
+        private long updatedTime;
+        public long getUpdatedTime() {
             return updatedTime;
         }
 
-        public void setUpdatedTime(String updatedTime) {
+        public void setUpdatedTime(long updatedTime) {
             this.updatedTime = updatedTime;
         }
 

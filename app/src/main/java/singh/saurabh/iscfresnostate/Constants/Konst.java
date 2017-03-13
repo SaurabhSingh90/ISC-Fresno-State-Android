@@ -25,7 +25,7 @@ public class Konst {
         return FACEBOOK_ENDPOINT_FIELDS_KEY;
     }
 
-    private static  final String FACEBOOK_ENDPOINT_FIELDS_VALUE = "from,message,story,link,picture,name,description,type,object_id,created_time,updated_time,is_hidden,subscribed,is_expired";
+    private static  final String FACEBOOK_ENDPOINT_FIELDS_VALUE = "from,message,story,link,full_picture,name,description,type,object_id,created_time,updated_time,is_hidden,subscribed,is_expired";
     public static String getFacebookEndpointFieldsValue() {
         return FACEBOOK_ENDPOINT_FIELDS_VALUE;
     }

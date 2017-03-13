@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +35,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         TextView fromUsername;
         TextView createdAtTextView;
         TextView descriptionTextView;
+        LinearLayout linkContainer;
+        TextView linkNameTexView;
+        TextView linkDescriptionTexView;
+        TextView linkUrlTexView;
 
         public ViewHolder(View v) {
             super(v);
@@ -41,6 +46,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             fromUsername = (TextView)v.findViewById(R.id.feed_username_textView);
             createdAtTextView = (TextView)v.findViewById(R.id.feed_created_at_textView);
             descriptionTextView = (TextView)v.findViewById(R.id.feed_description_textView);
+            linkContainer = (LinearLayout)v.findViewById(R.id.feed_link_container);
+            linkNameTexView = (TextView)v.findViewById(R.id.feed_link_name_textView);
+            linkDescriptionTexView = (TextView)v.findViewById(R.id.feed_link_description_textView);
+            linkUrlTexView = (TextView)v.findViewById(R.id.feed_link_url_textView);
         }
     }
 
@@ -82,20 +91,37 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         } else {
             holder.descriptionTextView.setText(feedItem.getMessage());
         }
+        if (feedItem.getType().equals("link")) {
+            holder.linkContainer.setVisibility(View.VISIBLE);
+            holder.linkNameTexView.setText(feedItem.getPostName());
+            holder.linkDescriptionTexView.setText(feedItem.getDescription());
+            String url = feedItem.getLink();
+            url = url.replace("http://", "").toUpperCase();
+            url = url.replace("/", "");
+            holder.linkUrlTexView.setText(url);
+        } else {
+            holder.linkContainer.setVisibility(View.GONE);
+        }
+
 
         float textSize = 15;
+        /*
+        enum { link, status, photo, video, offer }
+        */
         switch (feedItem.getType()) {
             case "event":
-
+            case "link":
+            case "photo":
+            case "video":
+            case "offer":
+                textSize = 15;
                 break;
             case "status":
-                textSize = 22;
-                break;
-            case "link":
-
-                break;
-            case "photo":
-
+                if (holder.descriptionTextView.getText().length() > 85) {
+                    textSize = 15;
+                } else {
+                    textSize += 4;
+                }
                 break;
         }
         holder.descriptionTextView.setTextSize(textSize);
