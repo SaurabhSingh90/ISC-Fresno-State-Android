@@ -1,9 +1,15 @@
 package singh.saurabh.iscfresnostate.Views;
 
+import android.content.ComponentName;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.bluelinelabs.logansquare.LoganSquare;
@@ -26,16 +32,37 @@ public class FeedActivity extends AppCompatActivity {
     private RecyclerView mFeedRecyclerView;
     private FeedAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private View footerView;
 
     private String nextPageUrl;
+
+    // Package name for the Chrome channel the client wants to connect to. This
+    // depends on the channel name.
+    // Stable = com.android.chrome
+    // Beta = com.chrome.beta
+    // Dev = com.chrome.dev
+    public static final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";  // Change when in stable
+
+    CustomTabsClient mCustomTabsClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-//        mFeedItems = new ArrayList<>();
+        // for warming up custom chrome tab
+        CustomTabsServiceConnection connection = new CustomTabsServiceConnection() {
+            @Override
+            public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
+                mCustomTabsClient = client;
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+        boolean ok = CustomTabsClient.bindCustomTabsService(this, CUSTOM_TAB_PACKAGE_NAME, connection);
+        Log.d("TAG", "ok: " + ok);
 
         mFeedRecyclerView = (RecyclerView) findViewById(R.id.feed_recycler_view);
 
@@ -48,7 +75,12 @@ public class FeedActivity extends AppCompatActivity {
         mFeedRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter
-        mAdapter = new FeedAdapter(this);
+        mAdapter = new FeedAdapter(this, new FeedAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(FeedModel.FeedItem item) {
+                itemClick(item);
+            }
+        });
         mFeedRecyclerView.setAdapter(mAdapter);
 
         nextPageUrl = Konst.getFacebookGroupFeedEndpoint()
@@ -60,6 +92,24 @@ public class FeedActivity extends AppCompatActivity {
                 +Konst.getFacebookEndpointDateFormatValue();
 
         loadFeedPage();
+    }
+
+    void itemClick(FeedModel.FeedItem item) {
+        String url = item.getLink();
+
+        if (url == null || url.length() == 0) {
+            String[] idParts = item.getId().split("_");
+            url = "https://www.facebook.com/groups/" + idParts[0] + "?view=permalink&id=" + idParts[1];
+        }
+
+        Log.d("TAG", "url: " + url);
+
+        //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        //mContext.startActivity(browserIntent);
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        //builder.setToolbarColor(colorInt);
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 
     public void loadFeedPage() {

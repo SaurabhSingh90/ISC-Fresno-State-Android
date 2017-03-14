@@ -74,10 +74,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:autoLink="all"
+            android:clickable="false"
             android:fontFamily="sans-serif-condensed"
-
             android:textColor="@android:color/black"
-            android:textColorLink="@android:color/holo_blue_dark" />
+            android:textColorLink="@android:color/holo_blue_dark"
+            android:textIsSelectable="true" />
 
         <LinearLayout
             android:id="@+id/feed_link_container"

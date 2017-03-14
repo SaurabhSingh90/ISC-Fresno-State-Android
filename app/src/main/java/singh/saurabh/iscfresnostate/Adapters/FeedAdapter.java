@@ -1,18 +1,13 @@
 package singh.saurabh.iscfresnostate.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,9 +29,15 @@ import singh.saurabh.iscfresnostate.Views.FeedActivity;
  */
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
-    private FeedActivity parentActivity;
-    private Context context;
+
+    public interface OnItemClickListener {
+        void onItemClick(FeedModel.FeedItem item);
+    }
+
+    private FeedActivity mFeedActivity;
+    private Context mContext;
     private List<FeedModel.FeedItem> mFeedItems;
+    private OnItemClickListener mItemClickListener;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -65,11 +66,21 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             linkDescriptionTexView = (TextView)v.findViewById(R.id.feed_link_description_textView);
             linkUrlTexView = (TextView)v.findViewById(R.id.feed_link_url_textView);
         }
+
+        public void bind(final FeedModel.FeedItem item, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(item);
+                }
+            });
+        }
     }
 
-    public FeedAdapter(FeedActivity parentActivity) {
-        this.parentActivity = parentActivity;
+    public FeedAdapter(FeedActivity feedActivity, OnItemClickListener mItemClickListener) {
+        this.mFeedActivity = feedActivity;
         mFeedItems = new ArrayList<>();
+        this.mItemClickListener = mItemClickListener;
     }
 
     public void updateFeedList(List<FeedModel.FeedItem> feedItems) {
@@ -79,9 +90,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
+        mContext = parent.getContext();
         // create a new view
-        View v = LayoutInflater.from(context)
+        View v = LayoutInflater.from(mContext)
                 .inflate(R.layout.feed_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
@@ -98,20 +109,20 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             holder.itemImageView.setVisibility(View.GONE);
         } else {
             holder.itemImageView.setVisibility(View.VISIBLE);
-            Glide.with(context)
+            Glide.with(mContext)
                     .load(feedItem.getPictureUrl())
                     .error(R.drawable.placeholder)
                     .into(holder.itemImageView);
         }
 
-        Glide.with(context)
+        Glide.with(mContext)
                 .load(feedItem.getFromUser().getUserProfilePicture().getData().getProfilePictureUrl())
                 .asBitmap()
                 .into(new BitmapImageViewTarget(holder.profilePictureImageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                                RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
                         circularBitmapDrawable.setCircular(true);
                         holder.profilePictureImageView.setImageDrawable(circularBitmapDrawable);
                     }
@@ -160,23 +171,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.descriptionTextView.setTextSize(textSize);
 
         if (position >= mFeedItems.size()/2) {
-            parentActivity.loadFeedPage();
+            mFeedActivity.loadFeedPage();
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = mFeedItems.get(position).getLink();
-                Log.d("TAG", "url: " + url);
-                if (url == null || url.length() == 0) return;
-//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                context.startActivity(browserIntent);
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-//                builder.setToolbarColor(colorInt);
-                CustomTabsIntent customTabsIntent = builder.build();
-                customTabsIntent.launchUrl(context, Uri.parse(url));
-            }
-        });
+        holder.bind(mFeedItems.get(position), mItemClickListener);
     }
 
     @Override
