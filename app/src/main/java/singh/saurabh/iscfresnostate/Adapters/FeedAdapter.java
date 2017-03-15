@@ -111,7 +111,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             holder.itemImageView.setVisibility(View.VISIBLE);
             Glide.with(mContext)
                     .load(feedItem.getPictureUrl())
-                    .error(R.drawable.placeholder)
+                    .error(R.drawable.error_image)
                     .into(holder.itemImageView);
         }
 
