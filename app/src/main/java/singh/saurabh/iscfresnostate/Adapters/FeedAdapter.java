@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,19 +31,14 @@ import singh.saurabh.iscfresnostate.Views.FeedActivity;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
-    public interface OnItemClickListener {
-        void onItemClick(FeedModel.FeedItem item);
-    }
-
     private FeedActivity mFeedActivity;
     private Context mContext;
     private List<FeedModel.FeedItem> mFeedItems;
-    private OnItemClickListener mItemClickListener;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView itemImageView;
         ImageView profilePictureImageView;
@@ -66,21 +62,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             linkDescriptionTexView = (TextView)v.findViewById(R.id.feed_link_description_textView);
             linkUrlTexView = (TextView)v.findViewById(R.id.feed_link_url_textView);
         }
-
-        public void bind(final FeedModel.FeedItem item, final OnItemClickListener listener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onItemClick(item);
-                }
-            });
-        }
     }
 
-    public FeedAdapter(FeedActivity feedActivity, OnItemClickListener mItemClickListener) {
+    public FeedAdapter(FeedActivity feedActivity) {
         this.mFeedActivity = feedActivity;
         mFeedItems = new ArrayList<>();
-        this.mItemClickListener = mItemClickListener;
     }
 
     public void updateFeedList(List<FeedModel.FeedItem> feedItems) {
@@ -92,9 +78,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         // create a new view
-        View v = LayoutInflater.from(mContext)
-                .inflate(R.layout.feed_item, parent, false);
-        // set the view's size, margins, paddings and layout parameters
+        View v = LayoutInflater.from(mContext).inflate(R.layout.feed_item, parent, false);
+        // set the view's size, margins, padding and layout parameters
 
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -170,11 +155,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
         holder.descriptionTextView.setTextSize(textSize);
 
-        if (position >= mFeedItems.size()/2) {
+        if (position == mFeedItems.size()-1) {
             mFeedActivity.loadFeedPage();
         }
-
-        holder.bind(mFeedItems.get(position), mItemClickListener);
     }
 
     @Override
