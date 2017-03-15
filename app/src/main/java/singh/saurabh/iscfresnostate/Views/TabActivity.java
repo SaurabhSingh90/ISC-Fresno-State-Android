@@ -1,41 +1,37 @@
 package singh.saurabh.iscfresnostate.Views;
 
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsServiceConnection;
+import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
+import singh.saurabh.iscfresnostate.Fragments.BoardFragment;
+import singh.saurabh.iscfresnostate.Fragments.FeedFragment;
+import singh.saurabh.iscfresnostate.Fragments.NewsFragment;
 import singh.saurabh.iscfresnostate.R;
+import singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection;
+
+import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.CUSTOM_TAB_PACKAGE_NAME;
+import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.mCustomTabsServiceConnection;
 
 public class TabActivity extends AppCompatActivity {
-
-    private TextView mTextMessage;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_board:
-//                    mTextMessage.setText(R.string.title_board);
-                    return true;
-                case R.id.navigation_feed:
-//                    mTextMessage.setText(R.string.title_feed);
-                    return true;
-                case R.id.navigation_store:
-//                    mTextMessage.setText(R.string.title_store);
-                    return true;
-                case R.id.navigation_news:
-//                    mTextMessage.setText(R.string.title_line);
-                    return true;
-                case R.id.navigation_notifications:
-//                    mTextMessage.setText(R.string.title_store);
-                    return true;
-            }
-            return false;
+            selectFragment(item);
+            return true;
         }
 
     };
@@ -45,9 +41,64 @@ public class TabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        ChromeCustomTabsServiceConnection.Init();
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        selectFragment(navigation.getMenu().getItem(0));
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        CustomTabsClient.bindCustomTabsService(
+                this,
+                CUSTOM_TAB_PACKAGE_NAME,
+                mCustomTabsServiceConnection
+        );
+    }
+
+    private void selectFragment(MenuItem item) {
+
+        Fragment frag = null;
+        switch (item.getItemId()) {
+            case R.id.navigation_board:
+                frag = BoardFragment.newInstance();
+                break;
+            case R.id.navigation_feed:
+                frag = FeedFragment.newInstance();
+                break;
+            case R.id.navigation_news:
+                frag = NewsFragment.newInstance();
+                break;
+            case R.id.navigation_notifications:
+                break;
+            case R.id.navigation_store:
+                break;
+        }
+
+        updateToolbarText(item.getTitle());
+
+        if (frag != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content, frag, frag.getTag());
+            ft.commit();
+        }
+    }
+
+    private void updateToolbarText(CharSequence text) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(text);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.unbindService(mCustomTabsServiceConnection);
+    }
 }

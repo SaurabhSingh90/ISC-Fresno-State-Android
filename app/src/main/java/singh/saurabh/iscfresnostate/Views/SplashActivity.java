@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
 
         if (Util.isUserLoggedIn(this)) {
             // Go to main page
-            startActivity(new Intent(this, FeedActivity.class));
+            startActivity(new Intent(this, TabActivity.class));
         } else {
             // Go to Login page
             startActivity(new Intent(this, LoginActivity.class));

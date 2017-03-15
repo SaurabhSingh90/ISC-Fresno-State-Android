@@ -1,11 +1,11 @@
 package singh.saurabh.iscfresnostate.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +21,7 @@ import java.util.List;
 
 import singh.saurabh.iscfresnostate.Constants.Konst;
 import singh.saurabh.iscfresnostate.FeedModel;
+import singh.saurabh.iscfresnostate.Fragments.FeedFragment;
 import singh.saurabh.iscfresnostate.Helpers.Util;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.Views.FeedActivity;
@@ -31,7 +32,7 @@ import singh.saurabh.iscfresnostate.Views.FeedActivity;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
-    private FeedActivity mFeedActivity;
+    private FeedFragment mFeedFragment;
     private Context mContext;
     private List<FeedModel.FeedItem> mFeedItems;
 
@@ -64,8 +65,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
     }
 
-    public FeedAdapter(FeedActivity feedActivity) {
-        this.mFeedActivity = feedActivity;
+    public FeedAdapter(FeedFragment feedFragment) {
+        this.mFeedFragment = feedFragment;
         mFeedItems = new ArrayList<>();
     }
 
@@ -156,7 +157,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.descriptionTextView.setTextSize(textSize);
 
         if (position == mFeedItems.size()-1) {
-            mFeedActivity.loadFeedPage();
+            mFeedFragment.loadFeedPage();
         }
     }
 
