@@ -2,6 +2,7 @@ package singh.saurabh.iscfresnostate.Services;
 
 import android.content.ComponentName;
 import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 
@@ -21,6 +22,7 @@ public class ChromeCustomTabsServiceConnection {
     public static CustomTabsClient mCustomTabsClient;
     public static CustomTabsSession mCustomTabsSession;
     public static CustomTabsServiceConnection mCustomTabsServiceConnection;
+    public static CustomTabsIntent mCustomTabsIntent;
 
     public static void Init() {
         // for warming up custom chrome tab
@@ -37,5 +39,12 @@ public class ChromeCustomTabsServiceConnection {
                 mCustomTabsClient = null;
             }
         };
+
+        mCustomTabsIntent = new CustomTabsIntent
+                .Builder(mCustomTabsSession)
+                .setShowTitle(true)
+                //.setToolbarColor(colorInt)
+                .setInstantAppsEnabled(true)
+                .build();
     }
 }

@@ -21,7 +21,6 @@
         <activity
             android:name=".Views.LoginActivity"
             android:theme="@style/SplashTheme" />
-        <activity android:name=".Views.FeedActivity" />
         <activity android:name=".Views.TabActivity"/>
 
         // facebook meta for initializing facebook sdk

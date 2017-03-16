@@ -36,7 +36,7 @@ public class Util {
 
     public static String formatTimeForEvent(long pacificTime) {
         Date date = new Date(pacificTime * 1000);
-        DateFormat format = new SimpleDateFormat("d MMM h:mm a", Locale.getDefault());
+        DateFormat format = new SimpleDateFormat("MMM d, yyyy  h:mm a", Locale.getDefault());
         return format.format(date);
     }
 }

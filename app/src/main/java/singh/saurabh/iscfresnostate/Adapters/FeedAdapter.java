@@ -1,6 +1,5 @@
 package singh.saurabh.iscfresnostate.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -21,10 +20,9 @@ import java.util.List;
 
 import singh.saurabh.iscfresnostate.Constants.Konst;
 import singh.saurabh.iscfresnostate.FeedModel;
-import singh.saurabh.iscfresnostate.Fragments.FeedFragment;
+import singh.saurabh.iscfresnostate.Fragments.GroupFeedFragment;
 import singh.saurabh.iscfresnostate.Helpers.Util;
 import singh.saurabh.iscfresnostate.R;
-import singh.saurabh.iscfresnostate.Views.FeedActivity;
 
 /**
  * Created by saurabhsingh on 3/11/17.
@@ -32,7 +30,7 @@ import singh.saurabh.iscfresnostate.Views.FeedActivity;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
-    private FeedFragment mFeedFragment;
+    private GroupFeedFragment mFeedFragment;
     private Context mContext;
     private List<FeedModel.FeedItem> mFeedItems;
 
@@ -65,7 +63,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
     }
 
-    public FeedAdapter(FeedFragment feedFragment) {
+    public FeedAdapter(GroupFeedFragment feedFragment) {
         this.mFeedFragment = feedFragment;
         mFeedItems = new ArrayList<>();
     }
@@ -79,7 +77,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         // create a new view
-        View v = LayoutInflater.from(mContext).inflate(R.layout.feed_item, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.group_feed_item, parent, false);
         // set the view's size, margins, padding and layout parameters
 
         ViewHolder vh = new ViewHolder(v);

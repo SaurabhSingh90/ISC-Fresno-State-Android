@@ -1,12 +1,8 @@
 package singh.saurabh.iscfresnostate.Views;
 
-import android.content.ComponentName;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsClient;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.customtabs.CustomTabsServiceConnection;
-import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import singh.saurabh.iscfresnostate.Fragments.BoardFragment;
-import singh.saurabh.iscfresnostate.Fragments.FeedFragment;
+import singh.saurabh.iscfresnostate.Fragments.GroupFeedFragment;
 import singh.saurabh.iscfresnostate.Fragments.NewsFragment;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection;
@@ -69,7 +65,7 @@ public class TabActivity extends AppCompatActivity {
                 frag = BoardFragment.newInstance();
                 break;
             case R.id.navigation_feed:
-                frag = FeedFragment.newInstance();
+                frag = GroupFeedFragment.newInstance();
                 break;
             case R.id.navigation_news:
                 frag = NewsFragment.newInstance();

@@ -1,12 +1,8 @@
 package singh.saurabh.iscfresnostate.Fragments;
 
-import android.content.ComponentName;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.customtabs.CustomTabsServiceConnection;
-import android.support.customtabs.CustomTabsSession;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,13 +25,14 @@ import singh.saurabh.iscfresnostate.FeedModel;
 import singh.saurabh.iscfresnostate.Helpers.RecyclerItemClickListener;
 import singh.saurabh.iscfresnostate.R;
 
+import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.mCustomTabsIntent;
 import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.mCustomTabsSession;
 
 /**
  * Created by saurabhsingh on 3/15/17.
  */
 
-public class FeedFragment extends Fragment {
+public class GroupFeedFragment extends Fragment {
 
     private int mIndexOfFeedEndpoint;
     private boolean lastPage;
@@ -48,17 +45,15 @@ public class FeedFragment extends Fragment {
     private List<FeedModel.FeedItem> mFeedItems;
     private String nextPageUrl;
 
-    CustomTabsIntent mCustomTabsIntent;
-
-    public FeedFragment() {
+    public GroupFeedFragment() {
         // Required empty public constructor
     }
 
-    public static FeedFragment newInstance() {
+    public static GroupFeedFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        FeedFragment fragment = new FeedFragment();
+        GroupFeedFragment fragment = new GroupFeedFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,13 +65,6 @@ public class FeedFragment extends Fragment {
             //mParam1 = getArguments().getString(ARG_PARAM1);
             //mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        mCustomTabsIntent = new CustomTabsIntent
-                .Builder(mCustomTabsSession)
-                .setShowTitle(true)
-                //.setToolbarColor(colorInt)
-                .setInstantAppsEnabled(true)
-                .build();
     }
 
     @Override
