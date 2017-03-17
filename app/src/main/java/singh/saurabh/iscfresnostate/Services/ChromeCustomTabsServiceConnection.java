@@ -19,29 +19,29 @@ public class ChromeCustomTabsServiceConnection {
     // Dev = com.chrome.dev
     public static final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
 
-    public static CustomTabsClient mCustomTabsClient;
-    public static CustomTabsSession mCustomTabsSession;
-    public static CustomTabsServiceConnection mCustomTabsServiceConnection;
-    public static CustomTabsIntent mCustomTabsIntent;
+    public static CustomTabsClient customTabsClient;
+    public static CustomTabsSession customTabsSession;
+    public static CustomTabsServiceConnection customTabsServiceConnection;
+    public static CustomTabsIntent customTabsIntent;
 
     public static void Init() {
         // for warming up custom chrome tab
-        mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
+        customTabsServiceConnection = new CustomTabsServiceConnection() {
             @Override
             public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
-                mCustomTabsClient = client;
-                mCustomTabsClient.warmup(0);
-                mCustomTabsSession = mCustomTabsClient.newSession(null);
+                customTabsClient = client;
+                customTabsClient.warmup(0);
+                customTabsSession = customTabsClient.newSession(null);
             }
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                mCustomTabsClient = null;
+                customTabsClient = null;
             }
         };
 
-        mCustomTabsIntent = new CustomTabsIntent
-                .Builder(mCustomTabsSession)
+        customTabsIntent = new CustomTabsIntent
+                .Builder(customTabsSession)
                 .setShowTitle(true)
                 //.setToolbarColor(colorInt)
                 .setInstantAppsEnabled(true)

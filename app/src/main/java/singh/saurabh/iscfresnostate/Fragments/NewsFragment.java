@@ -21,16 +21,16 @@ import singh.saurabh.iscfresnostate.NewsFeedParser.Message;
 import singh.saurabh.iscfresnostate.NewsFeedParser.MessageList;
 import singh.saurabh.iscfresnostate.R;
 
-import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.mCustomTabsIntent;
+import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.customTabsIntent;
 
 public class NewsFragment extends Fragment {
 
-    ListView mNewsFeedListView;
+    ListView listView;
 
     // Variables for News Class
     private List<Message> messages;
-    private ArrayList<HashMap<String, String>> mNewsList = new ArrayList<>();
-    private MessageList mMessageObject = new MessageList();
+    private ArrayList<HashMap<String, String>> newList;
+    private MessageList messageList;
 
     //Tags for TextViews of listView
     private static final String NEWS_TITLE = "title";
@@ -55,6 +55,10 @@ public class NewsFragment extends Fragment {
             //mParam1 = getArguments().getString(ARG_PARAM1);
             //mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        messageList = new MessageList();
+        newList = new ArrayList<>();
+
         new LoadNews().execute();
     }
 
@@ -69,17 +73,17 @@ public class NewsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mNewsFeedListView = (ListView) view.findViewById(R.id.news_feed_listView);
+        listView = (ListView) view.findViewById(R.id.news_feed_listView);
     }
 
     /**
      * Retrieves recent news from the fresno state rss feed url.
      */
     public boolean updateNews() {
-        mNewsList = mMessageObject.startFunction();
-        messages = mMessageObject.mMessages;
+        newList = messageList.startFunction();
+        messages = messageList.messages;
 
-        if (mNewsList == null)
+        if (newList == null)
             return false;
         else
             return true;
@@ -102,18 +106,18 @@ public class NewsFragment extends Fragment {
                 R.id.description_single_newslist_item
         };
 
-        SimpleAdapter news_adapter = new SimpleAdapter(this.getActivity(), mNewsList, R.layout.news_feed_item, keys, ids);
+        SimpleAdapter news_adapter = new SimpleAdapter(this.getActivity(), newList, R.layout.news_feed_item, keys, ids);
 
-        if (mNewsList != null) {
+        if (newList != null) {
 
             if (this.getView() == null) return;
 
-            if (mNewsFeedListView == null) {
-                mNewsFeedListView = (ListView) this.getView().findViewById(R.id.news_feed_listView);
+            if (listView == null) {
+                listView = (ListView) this.getView().findViewById(R.id.news_feed_listView);
             }
-            mNewsFeedListView.setAdapter(news_adapter);
+            listView.setAdapter(news_adapter);
 
-            mNewsFeedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
@@ -133,7 +137,7 @@ public class NewsFragment extends Fragment {
 
         Log.d("TAG", "opening url: " + url);
 
-        mCustomTabsIntent.launchUrl(this.getActivity(), Uri.parse(url));
+        customTabsIntent.launchUrl(this.getActivity(), Uri.parse(url));
     }
 
     public class LoadNews extends AsyncTask<Void, Void, Boolean> {

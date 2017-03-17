@@ -2,7 +2,6 @@ package singh.saurabh.iscfresnostate.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,8 +24,7 @@ import singh.saurabh.iscfresnostate.FeedModel;
 import singh.saurabh.iscfresnostate.Helpers.RecyclerItemClickListener;
 import singh.saurabh.iscfresnostate.R;
 
-import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.mCustomTabsIntent;
-import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.mCustomTabsSession;
+import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.customTabsIntent;
 
 /**
  * Created by saurabhsingh on 3/15/17.
@@ -34,15 +32,15 @@ import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConne
 
 public class GroupFeedFragment extends Fragment {
 
-    private int mIndexOfFeedEndpoint;
-    private boolean lastPage;
+    private int indexOfFeedEndpoint;
+    private boolean isLastPage;
     private boolean isLoading;
-    private FeedModel mFeedModel;
+    private FeedModel feedModel;
 
-    private RecyclerView mFeedRecyclerView;
-    private FeedAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private List<FeedModel.FeedItem> mFeedItems;
+    private RecyclerView recyclerView;
+    private FeedAdapter feedAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private List<FeedModel.FeedItem> feedItems;
     private String nextPageUrl;
 
     public GroupFeedFragment() {
@@ -76,24 +74,24 @@ public class GroupFeedFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mFeedRecyclerView = (RecyclerView) view.findViewById(R.id.feed_recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.feed_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        // mFeedRecyclerView.setHasFixedSize(true);     // in our content it does change the layout size
+        // recyclerView.setHasFixedSize(true);     // in our content it does change the layout size
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this.getActivity());
-        mFeedRecyclerView.setLayoutManager(mLayoutManager);
+        layoutManager = new LinearLayoutManager(this.getActivity());
+        recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter
-        mAdapter = new FeedAdapter(this);
-        mFeedRecyclerView.setAdapter(mAdapter);
-        mFeedRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
+        feedAdapter = new FeedAdapter(this);
+        recyclerView.setAdapter(feedAdapter);
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
                 this.getActivity(),
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        itemClick(mFeedItems.get(position));
+                        itemClick(feedItems.get(position));
                     }
                 })
         );
@@ -107,7 +105,7 @@ public class GroupFeedFragment extends Fragment {
                 +Konst.getFacebookEndpointDateFormatKey()
                 +Konst.getFacebookEndpointDateFormatValue();
 
-        mFeedItems = new ArrayList<>();
+        feedItems = new ArrayList<>();
         loadFeedPage();
     }
 
@@ -126,12 +124,12 @@ public class GroupFeedFragment extends Fragment {
 
         Log.d("TAG", "opening url: " + url);
 
-        mCustomTabsIntent.launchUrl(this.getActivity(), Uri.parse(url));
+        customTabsIntent.launchUrl(this.getActivity(), Uri.parse(url));
     }
 
     public void loadFeedPage() {
 
-        if (lastPage || isLoading) return;
+        if (isLastPage || isLoading) return;
 
         isLoading = true;
 
@@ -147,7 +145,7 @@ public class GroupFeedFragment extends Fragment {
                         if (response == null || response.getRawResponse().length() == 0) return;
 
                         try {
-                            mFeedModel = LoganSquare.parse(
+                            feedModel = LoganSquare.parse(
                                     response.getRawResponse(),
                                     FeedModel.class
                             );
@@ -162,17 +160,17 @@ public class GroupFeedFragment extends Fragment {
     }
 
     private void updateAdapter() {
-        if (mFeedModel != null) {
+        if (feedModel != null) {
 
             // Update adapter
-            mFeedItems.addAll(mFeedModel.getFeedItems());
-            mAdapter.updateFeedList(mFeedModel.getFeedItems());
-            if (mFeedModel.getPager() != null) {
-                nextPageUrl = mFeedModel.getPager().getNextPageUrl();
-                mIndexOfFeedEndpoint = nextPageUrl.indexOf(Konst.getFacebookGroupFeedEndpoint());
-                nextPageUrl = nextPageUrl.substring(mIndexOfFeedEndpoint);
+            feedItems.addAll(feedModel.getFeedItems());
+            feedAdapter.updateFeedList(feedModel.getFeedItems());
+            if (feedModel.getPager() != null) {
+                nextPageUrl = feedModel.getPager().getNextPageUrl();
+                indexOfFeedEndpoint = nextPageUrl.indexOf(Konst.getFacebookGroupFeedEndpoint());
+                nextPageUrl = nextPageUrl.substring(indexOfFeedEndpoint);
             } else {
-                lastPage = true;
+                isLastPage = true;
             }
         }
     }

@@ -30,9 +30,9 @@ import singh.saurabh.iscfresnostate.R;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
-    private GroupFeedFragment mFeedFragment;
-    private Context mContext;
-    private List<FeedModel.FeedItem> mFeedItems;
+    private GroupFeedFragment groupFeedFragment;
+    private Context context;
+    private List<FeedModel.FeedItem> feedItems;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -64,20 +64,20 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     }
 
     public FeedAdapter(GroupFeedFragment feedFragment) {
-        this.mFeedFragment = feedFragment;
-        mFeedItems = new ArrayList<>();
+        this.groupFeedFragment = feedFragment;
+        feedItems = new ArrayList<>();
     }
 
     public void updateFeedList(List<FeedModel.FeedItem> feedItems) {
-        this.mFeedItems.addAll(feedItems);
+        this.feedItems.addAll(feedItems);
         this.notifyDataSetChanged();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
+        context = parent.getContext();
         // create a new view
-        View v = LayoutInflater.from(mContext).inflate(R.layout.group_feed_item, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.group_feed_item, parent, false);
         // set the view's size, margins, padding and layout parameters
 
         ViewHolder vh = new ViewHolder(v);
@@ -87,26 +87,26 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        FeedModel.FeedItem feedItem = mFeedItems.get(position);
+        FeedModel.FeedItem feedItem = feedItems.get(position);
 
         if (feedItem.getPictureUrl() == null || feedItem.getPictureUrl().isEmpty()) {
             holder.itemImageView.setVisibility(View.GONE);
         } else {
             holder.itemImageView.setVisibility(View.VISIBLE);
-            Glide.with(mContext)
+            Glide.with(context)
                     .load(feedItem.getPictureUrl())
                     .error(R.drawable.error_image)
                     .into(holder.itemImageView);
         }
 
-        Glide.with(mContext)
+        Glide.with(context)
                 .load(feedItem.getFromUser().getUserProfilePicture().getData().getProfilePictureUrl())
                 .asBitmap()
                 .into(new BitmapImageViewTarget(holder.profilePictureImageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
+                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
                         circularBitmapDrawable.setCircular(true);
                         holder.profilePictureImageView.setImageDrawable(circularBitmapDrawable);
                     }
@@ -154,14 +154,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
         holder.descriptionTextView.setTextSize(textSize);
 
-        if (position == mFeedItems.size()-1) {
-            mFeedFragment.loadFeedPage();
+        if (position == feedItems.size()-1) {
+            groupFeedFragment.loadFeedPage();
         }
     }
 
     @Override
     public int getItemCount() {
-        return mFeedItems.size();
+        return feedItems.size();
     }
 
     @Override

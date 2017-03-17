@@ -13,11 +13,13 @@ import android.view.MenuItem;
 import singh.saurabh.iscfresnostate.Fragments.BoardFragment;
 import singh.saurabh.iscfresnostate.Fragments.GroupFeedFragment;
 import singh.saurabh.iscfresnostate.Fragments.NewsFragment;
+import singh.saurabh.iscfresnostate.Fragments.NotificationFragment;
+import singh.saurabh.iscfresnostate.Fragments.StoreFragment;
 import singh.saurabh.iscfresnostate.R;
 import singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection;
 
 import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.CUSTOM_TAB_PACKAGE_NAME;
-import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.mCustomTabsServiceConnection;
+import static singh.saurabh.iscfresnostate.Services.ChromeCustomTabsServiceConnection.customTabsServiceConnection;
 
 public class TabActivity extends AppCompatActivity {
 
@@ -49,11 +51,10 @@ public class TabActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-
         CustomTabsClient.bindCustomTabsService(
                 this,
                 CUSTOM_TAB_PACKAGE_NAME,
-                mCustomTabsServiceConnection
+                customTabsServiceConnection
         );
     }
 
@@ -71,8 +72,10 @@ public class TabActivity extends AppCompatActivity {
                 frag = NewsFragment.newInstance();
                 break;
             case R.id.navigation_notifications:
+                frag = NotificationFragment.newInstance();
                 break;
             case R.id.navigation_store:
+                frag = StoreFragment.newInstance();
                 break;
         }
 
@@ -95,6 +98,6 @@ public class TabActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        this.unbindService(mCustomTabsServiceConnection);
+        this.unbindService(customTabsServiceConnection);
     }
 }

@@ -29,14 +29,14 @@ public class LoginActivity extends AppCompatActivity {
     private String TAG;
 
     // Firebase
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mFirebaseAuthListener;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
 
     // Facebook
-    private LoginButton mLoginButton;
-    private CallbackManager mCallbackManager;
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
 
-    RelativeLayout mRelativeLayout;
+    RelativeLayout progressRelativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         TAG = this.getLocalClassName();
 
         // Initialize Firebase auth
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseAuthListener = new FirebaseAuth.AuthStateListener() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -64,14 +64,14 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         // Initialize Facebook callback manager
-        mCallbackManager = CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
 
-        mLoginButton = (LoginButton) findViewById(R.id.facebook_login_button);
-        mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+        loginButton = (LoginButton) findViewById(R.id.facebook_login_button);
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                mLoginButton.setAlpha(0);
-                mRelativeLayout.setAlpha(0.7f);
+                loginButton.setAlpha(0);
+                progressRelativeLayout.setAlpha(0.7f);
                 handleFacebookAccessToken(AccessToken.getCurrentAccessToken());
             }
 
@@ -82,15 +82,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onError(FacebookException error) {}
         });
 
-        mRelativeLayout = (RelativeLayout)findViewById(R.id.login_progress_layout);
-        mRelativeLayout.setAlpha(0);
+        progressRelativeLayout = (RelativeLayout)findViewById(R.id.login_progress_layout);
+        progressRelativeLayout.setAlpha(0);
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken: " + token);
         Log.d("FBAccessToken", "access token: " + AccessToken.getCurrentAccessToken());
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mFirebaseAuth.signInWithCredential(credential)
+        firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -116,20 +116,20 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mFirebaseAuth.addAuthStateListener(mFirebaseAuthListener);
+        firebaseAuth.addAuthStateListener(authStateListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mFirebaseAuthListener != null) {
-            mFirebaseAuth.removeAuthStateListener(mFirebaseAuthListener);
+        if (authStateListener != null) {
+            firebaseAuth.removeAuthStateListener(authStateListener);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

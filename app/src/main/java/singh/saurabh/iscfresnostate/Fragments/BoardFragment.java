@@ -1,10 +1,14 @@
 package singh.saurabh.iscfresnostate.Fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import singh.saurabh.iscfresnostate.R;
 
@@ -13,6 +17,9 @@ import singh.saurabh.iscfresnostate.R;
  */
 
 public class BoardFragment extends Fragment {
+
+    private DatabaseReference databaseReference;
+    private FloatingActionButton floatingActionButton;
 
     public BoardFragment() {
         // Required empty public constructor
@@ -34,6 +41,7 @@ public class BoardFragment extends Fragment {
             //mParam1 = getArguments().getString(ARG_PARAM1);
             //mParam2 = getArguments().getString(ARG_PARAM2);
         }
+//        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -44,6 +52,7 @@ public class BoardFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override

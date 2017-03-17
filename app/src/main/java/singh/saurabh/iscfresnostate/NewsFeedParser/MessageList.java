@@ -12,7 +12,7 @@ import java.util.Locale;
 
 public class MessageList {
 	
-	public List<Message> mMessages;
+	public List<Message> messages;
 
     public ArrayList<HashMap<String, String>> startFunction() {
         return loadFeed(ParserType.ANDROID_SAX);
@@ -24,14 +24,14 @@ public class MessageList {
 	    	FeedParser parser = FeedParserFactory.getParser(type);
 
 			assert parser != null;
-			mMessages = parser.parse();
+			messages = parser.parse();
 
 	    	ArrayList<HashMap<String, String>> titles =
-                    new ArrayList<HashMap<String, String>>(mMessages.size());
+                    new ArrayList<HashMap<String, String>>(messages.size());
 
             String posted_on;
 
-	    	for (Message msg : mMessages){
+	    	for (Message msg : messages){
 
 				HashMap<String, String> newsPost = new HashMap<String, String>();
 	    		newsPost.put("title", msg.getTitle());
@@ -66,8 +66,8 @@ public class MessageList {
 //			serializer.setOutput(writer);
 //			serializer.startDocument("UTF-8", true);
 //			serializer.startTag("", "messages");
-//			serializer.attribute("", "number", String.valueOf(mMessages.size()));
-//			for (Message msg: mMessages){
+//			serializer.attribute("", "number", String.valueOf(messages.size()));
+//			for (Message msg: messages){
 //				serializer.startTag("", "message");
 //				serializer.attribute("", "date", msg.getDate());
 //				serializer.startTag("", "title");
