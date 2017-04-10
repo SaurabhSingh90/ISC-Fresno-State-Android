@@ -18,6 +18,7 @@ import singh.saurabh.iscfresnostate.R;
 
 public class BoardFragment extends Fragment {
 
+    private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private FloatingActionButton floatingActionButton;
 
@@ -41,7 +42,10 @@ public class BoardFragment extends Fragment {
             //mParam1 = getArguments().getString(ARG_PARAM1);
             //mParam2 = getArguments().getString(ARG_PARAM2);
         }
-//        databaseReference = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("message");
+
+        databaseReference.setValue("Hello", "world");
     }
 
     @Override
